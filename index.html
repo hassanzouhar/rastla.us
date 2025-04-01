@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>[Hassan Zouhar] | IT Strategy & Change Leadership | rastla.us</title> 
+    <meta name="description" content="Seasoned technology leader leveraging AI, Agent Orchestration, and Data-Driven strategies to deliver quantifiable results, enhance operational efficiency, and architect intelligent systems."> 
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9E0hvQd6cLtMKMJCWQxDSIj0ZK+AnOvzZzzwHf/SzdQhmUyJPVxEurQ1rsKNvV4ngS+cvNRaKcWTVscgmDTA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js" integrity="sha512-SkmBfuA2hqjzEVpmnMt/LINRJeaDPRA4rZxYUydl6QFtm0CvZdFhiteNB+9fLo9vrN3DUebZAbJ/NViZZgsRxw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css" integrity="sha512-mIs9kKbaw6JZFfSuo6TRRnIytOpxTjdEcZEtjP8indexPathINFOyesCanSRMstripe/HpQEldEmh9gwjpAiLNnhZNWNvk/DCJRWpIZXrCS3LdVBDGOaAcHog==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css" /> -->
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js"></script> -->
+
+
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@300..900&display=swap" rel="stylesheet">
+
+    <style>
+        /* 1. CSS Variables & Base Styles - Further Refined */
+        :root {
+            /* Colors */
+            --bg-color: #08090b; /* Darkest yet */
+            --surface-1: rgba(16, 18, 22, 0.93); --surface-2: rgba(23, 26, 31, 0.96);
+            --surface-3: rgba(32, 36, 42, 0.97); --surface-4: rgba(40, 44, 52, 0.98); /* Added surface for subtle gradients/hovers */
+            --text-primary: #f5f7fa; --text-secondary: #ced4da; --text-tertiary: #adb5bd;
+            --accent-primary: #63e6be; /* Brighter Mint */
+            --accent-secondary: #4dabf7; /* Adjusted Blue */
+            --accent-glow: rgba(99, 230, 190, 0.6); /* Glow adjusted */
+            --border-color: rgba(173, 181, 189, 0.1); /* Even subtler base border */
+            --border-color-strong: rgba(173, 181, 189, 0.2);
+            --shadow-color-soft: rgba(0, 0, 0, 0.45); --shadow-color-strong: rgba(0, 0, 0, 0.65);
+            --error-color: #f06560; --focus-outline-color: var(--accent-primary);
+
+            /* Typography */
+            --font-heading: 'Inter', sans-serif; --font-body: 'Inter', sans-serif; --font-mono: 'IBM Plex Mono', monospace;
+            --font-weight-light: 350; --font-weight-regular: 425; /* Using variable weights */
+            --font-weight-medium: 550; --font-weight-semibold: 650;
+            --font-weight-bold: 750; --font-weight-extrabold: 850;
+
+            /* Sizing & Spacing */
+            --main-padding: clamp(2rem, 6vw, 4rem); --content-gap: clamp(2.2rem, 7.5vw, 4rem); --card-padding: clamp(1.5rem, 5.5vw, 2.5rem);
+
+            /* Borders, Shadows, Effects */
+            --main-radius: 14px; --card-radius: 10px; --button-radius: 8px;
+            --shadow-card: 0 6px 18px -4px var(--shadow-color-soft), 0 12px 30px -8px var(--shadow-color-strong);
+            --shadow-interactive: 0 4px 12px -2px rgba(99, 230, 190, 0.25);
+             /* Subtle gradient for edge effects instead of solid border */
+            --border-gradient-soft: linear-gradient(to bottom right, rgba(173, 181, 189, 0.15), rgba(173, 181, 189, 0.05));
+             --border-gradient-hover: linear-gradient(to bottom right, rgba(99, 230, 190, 0.4), rgba(99, 230, 190, 0.1));
+             --border-gradient-inset: linear-gradient(to top left, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.1)); /* For inputs */
+
+            /* Transitions */
+            --transition-speed-fast: 0.18s; --transition-speed-med: 0.3s; --transition-ease: cubic-bezier(0.4, 0, 0.2, 1); /* Material Ease */
+        }
+        /* --- Base Styles --- */
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        ::selection { background-color: var(--accent-primary); color: var(--bg-color); }
+        body {
+            font-family: var(--font-body); background-color: var(--bg-color); color: var(--text-primary); line-height: 1.75; /* Base Line height */
+            font-size: 16px; font-weight: var(--font-weight-regular); -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
+             /* Slightly more complex texture */
+             background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='6' height='6' viewBox='0 0 6 6'%3E%3Cpath fill='%23adb5bd' fill-opacity='0.025' d='M0 0h3v3H0zm3 3h3v3H3z'%3E%3C/path%3E%3C/svg%3E"),
+                               linear-gradient(175deg, rgba(23, 26, 31, 0.1) 0%, rgba(8, 9, 11, 0.4) 100%);
+             background-attachment: fixed; scroll-behavior: smooth;
+        }
+        /* --- End Base Styles --- */
+
+        /* --- Layout & Structure --- */
+        #p5-background { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; overflow: hidden; pointer-events: none; /* Ensure it doesn't block interaction */}
+        .site-header { padding: 1rem 5%; background-color: rgba(8, 9, 11, 0.8); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); position: sticky; top: 0; z-index: 10; border-bottom: 1px solid var(--border-color); }
+        .header-content { max-width: 1320px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; }
+        .logo a { text-decoration: none; display: inline-block; }
+        .logo h1 { font-size: clamp(1.8rem, 3.8vw, 2.4rem); font-weight: var(--font-weight-bold); color: var(--text-primary); margin: 0; letter-spacing: 0.3px; transition: color var(--transition-speed-med) var(--transition-ease), text-shadow var(--transition-speed-med) var(--transition-ease); text-shadow: 0 0 10px rgba(245, 247, 250, 0); }
+        .logo span { font-size: 0.8rem; color: var(--text-tertiary); letter-spacing: 0.5px; opacity: 0.9; margin-top: 2px; font-weight: var(--font-weight-light); }
+        .logo a:hover h1, .logo a:focus-visible h1 { color: var(--accent-primary); text-shadow: 0 0 12px var(--accent-glow); }
+        nav ul { list-style: none; display: flex; gap: clamp(1.2rem, 3.5vw, 2.2rem); }
+        nav a.nav-link { color: var(--text-secondary); text-decoration: none; font-weight: var(--font-weight-medium); padding: 0.4rem 0.2rem; position: relative; transition: color var(--transition-speed-med) var(--transition-ease), opacity var(--transition-speed-med) var(--transition-ease); border-radius: 3px; font-size: clamp(0.95rem, 2vw, 1.05rem); }
+        nav a.nav-link:not(.active) { opacity: 0.7; }
+        nav a.nav-link:hover, nav a.nav-link.active { color: var(--text-primary); opacity: 1; }
+        nav a.nav-link::after { content: ''; position: absolute; width: 0; height: 2px; bottom: -3px; left: 0; background-color: var(--accent-primary); transition: width var(--transition-speed-med) var(--transition-ease); box-shadow: 0 0 8px var(--accent-glow); }
+        nav a.nav-link:hover::after, nav a.nav-link.active::after { width: 100%; }
+        .content-wrapper { max-width: 980px; width: 90%; margin: var(--content-gap) auto; padding: var(--main-padding); position: relative; z-index: 1; background-color: var(--surface-1); background-image: var(--texture-noise), linear-gradient(rgba(255,255,255,0.02), rgba(255,255,255,0)); border-radius: var(--main-radius); box-shadow: 0 0 0 1px var(--border-color), var(--shadow-card); border: 1px solid transparent; min-height: 70vh; }
+        .site-footer { margin-top: calc(var(--content-gap) * 1.8); padding: 2.5rem 5%; border-top: 1px solid var(--border-color); font-size: 0.9rem; color: var(--text-tertiary); text-align: center; background-color: rgba(8, 9, 11, 0.9); }
+        .footer-links { margin-bottom: 1.5rem; display: flex; flex-wrap: wrap; justify-content: center; gap: 0.8rem 2rem;} .footer-links a { color: var(--text-secondary); transition: color var(--transition-speed-fast) var(--transition-ease);} .footer-links a:hover, .footer-links a:focus-visible { color: var(--accent-primary); }
+        /* --- End Layout --- */
+
+        /* --- View Switching & Common Elements --- */
+        .view { display: none; animation: fadeInComplex 0.7s var(--transition-ease) forwards; } .view.active { display: block; }
+        @keyframes fadeInComplex { /* Slightly more sophisticated fade */ 0% { opacity: 0; transform: translateY(20px) scale(0.98); } 60% { opacity: 0.8; } 100% { opacity: 1; transform: translateY(0) scale(1); } }
+        h1, h2, h3, h4, h5, h6 { font-feature-settings: 'liga' 1, 'calt' 1; font-weight: var(--font-weight-semibold); line-height: 1.3; }
+        h2 { font-size: clamp(2.1rem, 6vw, 2.9rem); margin-bottom: calc(var(--content-gap) * 1.1); color: var(--text-primary); font-weight: var(--font-weight-bold); border-bottom: 1px solid var(--border-color); padding-bottom: 0.8rem; display: inline-block; position: relative; }
+        h2::after { content: ''; position: absolute; left: 0; bottom: -1px; height: 2px; width: 55%; background: var(--accent-primary); box-shadow: 0 0 12px var(--accent-glow); transition: width var(--transition-speed-med) var(--transition-ease); transition-delay: 0.15s; }
+        h3 { font-size: clamp(1.6rem, 4.8vw, 2.1rem); margin-bottom: 1.8rem; margin-top: calc(var(--content-gap) * 1.3); color: var(--text-primary); font-weight: var(--font-weight-semibold); border-bottom: 1px solid var(--border-color); padding-bottom: 0.6rem; }
+        h4 { font-size: clamp(1.3rem, 4.2vw, 1.7rem); margin-bottom: 1rem; color: var(--text-primary); font-weight: var(--font-weight-medium); }
+        .view > h2:first-of-type, .view > h3:first-of-type { margin-top: 0; }
+        p { margin-bottom: 1.6rem; color: var(--text-secondary); line-height: 1.8; font-weight: var(--font-weight-regular); max-width: 72ch; }
+        a:not(.nav-link):not(.button) { color: var(--accent-primary); text-decoration: none; transition: color var(--transition-speed-med) var(--transition-ease), text-shadow var(--transition-speed-med) var(--transition-ease), background-color var(--transition-speed-fast) ease; text-shadow: 0 0 8px rgba(86, 209, 190, 0); border-radius: 3px; padding: 0.1em 0; margin: -0.1em 0; }
+        a:not(.nav-link):not(.button):hover, a:not(.nav-link):not(.button):focus-visible { color: var(--bg-color); background-color: var(--accent-primary); /* Highlight background on hover */ text-shadow: none; text-decoration: none; }
+        strong { font-weight: var(--font-weight-semibold); color: var(--text-primary); }
+        .button, button { display: inline-flex; align-items: center; justify-content: center; gap: 0.6em; background-image: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%); color: #00201a; padding: 12px 26px; border-radius: var(--button-radius); text-decoration: none; font-weight: var(--font-weight-semibold); font-family: var(--font-body); border: none; cursor: pointer; font-size: 1rem; letter-spacing: 0.5px; box-shadow: var(--shadow-interactive), inset 0 0 0 1px rgba(255, 255, 255, 0.1); transform: scale(1); transition: transform var(--transition-speed-fast) var(--transition-ease), box-shadow var(--transition-speed-med) var(--transition-ease), background-position var(--transition-speed-med) var(--transition-ease); background-size: 200% auto; background-position: 0% 0%; }
+        .button:hover, button:hover { transform: scale(1.03) translateY(-1px); box-shadow: 0 7px 18px -3px rgba(86, 209, 190, 0.35), inset 0 0 0 1px rgba(255, 255, 255, 0.15); background-position: 100% 0%; }
+        .button:active, button:active { transform: scale(0.99); box-shadow: var(--shadow-interactive), inset 0 2px 4px rgba(0,0,0,0.25); }
+        /* --- End Common Elements --- */
+
+        /* --- Specific View Styles --- */
+        /* Front Page - Signal Amplification */
+        .front-page-header { margin-bottom: var(--content-gap); text-align: left; }
+        .front-page-header h2 { font-size: clamp(2.8rem, 8vw, 4.5rem); font-weight: var(--font-weight-extrabold); margin-bottom: 0.6rem; border-bottom: none; padding-bottom: 0; display: block; line-height: 1.15; letter-spacing: -0.02em; }
+        .front-page-header h2::after { display: none; }
+        .front-page-header .sub-headline { font-size: clamp(1.3rem, 3.5vw, 1.8rem); font-weight: var(--font-weight-regular); color: var(--text-secondary); margin-bottom: 0.8rem; max-width: 60ch; line-height: 1.6; }
+        .front-page-header .tagline { font-size: 1rem; color: var(--text-tertiary); font-style: normal; opacity: 0.8; letter-spacing: 0.3px;}
+        .value-proposition { margin-top: calc(var(--content-gap) * 0.8); font-size: 1.15rem; line-height: 1.8; color: var(--text-primary); font-weight: var(--font-weight-light); max-width: 68ch; border-left: 3px solid var(--accent-primary); padding-left: 1.5rem; margin-left: -1.5rem; /* Indent effect */}
+
+        .front-page-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 360px), 1fr)); gap: var(--content-gap); margin-top: calc(var(--content-gap) * 1.5);}
+        .front-collection { background-color: var(--surface-2); padding: var(--card-padding); border-radius: var(--card-radius); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.03), var(--shadow-card); position: relative; overflow: hidden; transition: background-color var(--transition-speed-med) var(--transition-ease), box-shadow var(--transition-speed-med) var(--transition-ease); }
+        .front-collection:hover { background-color: var(--surface-3); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.05), 0 8px 22px -5px var(--shadow-color-soft), 0 15px 35px -10px var(--shadow-color-strong); }
+        .front-collection > * { position: relative; z-index: 1; }
+        .front-collection h3 { margin-top: 0; margin-bottom: 1.5rem; color: var(--text-primary); border-bottom: 1px solid var(--border-color); padding-bottom: 0.7rem; font-size: clamp(1.3rem, 3.5vw, 1.6rem); font-weight: var(--font-weight-semibold); }
+        .collection-list { list-style: none; padding: 0; } .collection-list li { margin-bottom: 1.2rem; padding-bottom: 1.2rem; border-bottom: 1px solid var(--border-color); } .collection-list li:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
+        .collection-list a { font-weight: var(--font-weight-medium); font-size: 1.05rem; display: block; color: var(--text-primary); transition: color var(--transition-speed-med) var(--transition-ease), transform var(--transition-speed-med) var(--transition-ease), letter-spacing var(--transition-speed-med) var(--transition-ease); position: relative; letter-spacing: 0.1px; }
+        .collection-list a:hover { color: var(--accent-primary); transform: translateX(5px); letter-spacing: 0.3px; }
+        .collection-list .item-meta { font-size: 0.8rem; color: var(--text-tertiary); display: block; margin-top: 0.4rem; opacity: 0.8;}
+        .collection-list .item-summary { font-size: 0.95rem; color: var(--text-secondary); margin-top: 0.6rem; display: block; line-height: 1.65; font-weight: var(--font-weight-light); }
+        .capabilities-list { list-style: none; padding: 0; display: grid; gap: 2rem; } .capabilities-list li { display: flex; flex-direction: column; gap: 0.5rem; }
+        .capabilities-list .capability-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 0.5rem;} .capabilities-list svg { width: 24px; height: 24px; fill: var(--accent-primary); opacity: 0.9; flex-shrink: 0;} .capabilities-list strong { font-size: 1.1rem; color: var(--text-primary); font-weight: var(--font-weight-semibold);} .capabilities-list .capability-detail { font-size: 0.95rem; color: var(--text-secondary); padding-left: calc(24px + 1rem); line-height: 1.65; font-weight: var(--font-weight-light);}
+
+        /* Blog List / Project Grid */
+        .blog-list article, .project-card { background-color: var(--surface-2); padding: var(--card-padding); border-radius: var(--card-radius); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.03), var(--shadow-card); margin-bottom: var(--content-gap); position: relative; transition: transform var(--transition-speed-med) var(--transition-ease), box-shadow var(--transition-speed-med) var(--transition-ease), background-color var(--transition-speed-med) var(--transition-ease); }
+        .blog-list article:last-child, .project-grid > :last-child { margin-bottom: 0; }
+        .blog-list article:hover, .project-card:hover { transform: translateY(-5px) scale(1.015); background-color: var(--surface-3); box-shadow: 0 8px 25px -5px var(--shadow-color-soft), 0 15px 40px -10px var(--shadow-color-strong), inset 0 0 0 1px rgba(255, 255, 255, 0.05); }
+        .blog-list article { border-bottom: none; padding-bottom: var(--card-padding);} .blog-meta { font-size: 0.8rem; color: var(--text-tertiary); margin-bottom: 0.7rem; font-weight: var(--font-weight-light);} .blog-list h4 a, .project-card h4 { color: var(--text-primary); transition: color var(--transition-speed-med) var(--transition-ease); } .blog-list h4 a:hover, .project-card:hover h4 { color: var(--accent-primary); }
+        .project-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 330px), 1fr)); gap: var(--content-gap); }
+        .project-card { display: flex; flex-direction: column; } .project-card p { flex-grow: 1; color: var(--text-secondary); font-weight: var(--font-weight-light);} .project-tags { margin-top: 1.5rem; font-size: 0.8rem; } .project-tags span { background-color: rgba(99, 230, 190, 0.1); color: var(--accent-primary); font-family: var(--font-mono); padding: 4px 12px; border-radius: 12px; margin-right: 8px; margin-bottom: 8px; font-size: 0.75rem; letter-spacing: 0.5px; border: 1px solid rgba(99, 230, 190, 0.2); display: inline-block;}
+
+        /* Single Post View */
+        #view-post .back-link { display: inline-flex; align-items: center; gap: 0.5rem; margin-bottom: 2rem; font-weight: var(--font-weight-medium); color: var(--text-tertiary); transition: color var(--transition-speed-med) var(--transition-ease), transform var(--transition-speed-fast) ease-out; } #view-post .back-link:hover { color: var(--accent-primary); transform: translateX(-5px); } #view-post .back-link::before { content: '«'; display: inline-block; } #view-post .post-header { margin-bottom: 2.5rem; }
+        /* Markdown Content Styles */
+        .markdown-content { margin-top: 0; } .markdown-content h1 { display: none;} .markdown-content h2 { font-size: clamp(1.7rem, 4.8vw, 2.1rem); font-weight: var(--font-weight-semibold); color: var(--text-primary); border-bottom: 1px solid var(--border-color); padding-bottom: 0.5em; margin-top: 2.5em; margin-bottom: 1.2em;} .markdown-content h3 { font-size: clamp(1.4rem, 4vw, 1.7rem); font-weight: var(--font-weight-medium); color: var(--text-secondary); margin-top: 2.2em; margin-bottom: 1.1em;} .markdown-content h4 { font-size: clamp(1.2rem, 3.5vw, 1.4rem); font-weight: var(--font-weight-medium); color: var(--text-tertiary); margin-top: 2em; margin-bottom: 1em;} .markdown-content p { color: var(--text-secondary); font-weight: var(--font-weight-regular); margin-bottom: 1.5em;} .markdown-content ul, .markdown-content ol { color: var(--text-secondary); margin-bottom: 1.5em; padding-left: 1.8em;} .markdown-content li::marker { color: var(--accent-secondary); } .markdown-content blockquote { border-left: 3px solid var(--accent-secondary); padding: 0.8em 1.5em; margin: 2em 0; color: var(--text-secondary); font-style: italic; background-color: rgba(74, 144, 226, 0.04); border-radius: 0 var(--card-radius) var(--card-radius) 0; } .markdown-content code:not(pre code) { background-color: rgba(173, 181, 189, 0.15); color: var(--text-secondary); padding: 0.25em 0.5em; border-radius: 4px; font-size: 0.9em; font-family: var(--font-mono); } .markdown-content pre { background: #060708; /* Darkest code bg */ border: 1px solid var(--border-color); margin: 2em 0; box-shadow: inset 0 4px 12px rgba(0,0,0,0.5); border-radius: var(--card-radius); overflow: auto; padding: 0 !important; /* Remove padding for Prism theme */ font-size: 0.9rem !important; } .markdown-content pre code[class*="language-"] { display: block; padding: 1.5rem; margin: 0; background: transparent !important; /* Override prism theme bg */} .markdown-content table { width: 100%; border-collapse: collapse; margin: 2em 0; box-shadow: var(--shadow-card); border-radius: var(--card-radius); overflow: hidden; border: 1px solid var(--border-color);} .markdown-content th, .markdown-content td { border: 1px solid var(--border-color); padding: 0.8em 1em; text-align: left; } .markdown-content th { background-color: var(--surface-2); font-weight: var(--font-weight-semibold); color: var(--text-primary); } .markdown-content img { max-width: 100%; height: auto; border-radius: var(--card-radius); margin: 1.5em 0; box-shadow: var(--shadow-card); } .markdown-content hr { border: none; height: 1px; background-image: var(--border-gradient-soft); margin: 3em 0; }
+
+        /* Contact Form */
+        .contact-form label { display: block; margin-bottom: 0.7rem; font-weight: var(--font-weight-medium); color: var(--text-secondary); font-size: 0.9rem;} .contact-form input[type="text"], .contact-form input[type="email"], .contact-form textarea { width: 100%; padding: 12px 15px; margin-bottom: 1.5rem; border: 1px solid var(--border-color-strong); background-color: var(--bg-color); color: var(--text-primary); border-radius: var(--card-radius); font-size: 1rem; font-family: var(--font-body); transition: border-color var(--transition-speed-med) var(--transition-ease), box-shadow var(--transition-speed-med) var(--transition-ease); box-shadow: inset 0 2px 5px rgba(0,0,0,0.3); } .contact-form input[type="text"]:hover, .contact-form input[type="email"]:hover, .contact-form textarea:hover { border-color: var(--text-tertiary); } .contact-form textarea { min-height: 150px; resize: vertical; line-height: 1.6; } .contact-form button { margin-top: 1rem; }
+        .contact-availability { color: var(--text-tertiary); font-style: italic; margin-top: -0.5rem; margin-bottom: 2.5rem; font-size: 0.9rem;}
+
+        /* Loading/Error */
+        .loading-indicator, .error-message { font-style: normal; color: var(--text-tertiary); padding: 3rem 1rem; text-align: center; font-size: 1.1rem; letter-spacing: 0.5px;} .error-message { color: var(--error-color); font-weight: var(--font-weight-medium); }
+        /* --- End Specific View Styles --- */
+
+        /* --- Responsiveness & Accessibility --- */
+        @media (max-width: 960px) { .content-wrapper { width: 92%; } .front-page-grid { grid-template-columns: 1fr; } }
+        @media (max-width: 768px) { body { font-size: 15px; } .header-content { flex-direction: column; align-items: flex-start; gap: 0.5rem;} nav ul { margin-top: 0.8rem; gap: 1rem; flex-wrap: wrap; } .content-wrapper { padding: calc(var(--main-padding) * 0.8); margin-top: 2rem; } h2 { font-size: 1.9rem; margin-bottom: 2rem; } h3 { font-size: 1.6rem; } .front-page-grid, .project-grid { gap: 2rem; } .front-collection { padding: calc(var(--card-padding) * 0.9); } .capabilities-list li { flex-basis: 100%; } .blog-list article, .project-card { clip-path: none; } }
+        @media (max-width: 480px) { .content-wrapper { padding: calc(var(--main-padding) * 0.6); border-radius: 8px;} nav ul { gap: 0.8rem; } .button, button { padding: 11px 20px; font-size: 0.95rem;} h2 {font-size: 1.7rem;} h3 {font-size: 1.4rem;} h4 {font-size: 1.2rem;} .markdown-content h2 {font-size: 1.6rem;} .markdown-content h3 {font-size: 1.3rem;} .markdown-content h4 {font-size: 1.2rem;} }
+        @media (prefers-reduced-motion: reduce) { body.reduced-motion *, body.reduced-motion *::before, body.reduced-motion *::after { animation-duration: 0.001s !important; animation-iteration-count: 1 !important; transition-duration: 0.001s !important; scroll-behavior: auto !important; transition-delay: 0s !important; animation-delay: 0s !important; text-shadow: none !important; } body.reduced-motion .content-wrapper, body.reduced-motion .front-collection, body.reduced-motion .blog-list article, body.reduced-motion .project-card { box-shadow: 0 2px 5px rgba(0,0,0,0.2); } body.reduced-motion #p5-background { display: none; } body.reduced-motion h2::after { display: none; } body.reduced-motion .button, body.reduced-motion button { transform: none !important; } body.reduced-motion .blog-list article:hover, body.reduced-motion .project-card:hover { transform: none !important; } }
+         /* Focus visible outline - Increased prominence */
+         *:focus-visible { outline: 3px solid var(--focus-outline-color); outline-offset: 4px; border-radius: 4px; }
+         *:focus:not(:focus-visible) { outline: none; }
+        /* --- End Accessibility --- */
+
+         /* --- Prism JS Theme Overrides --- */
+         /* Ensure code block has proper padding with line numbers */
+        .line-numbers .line-numbers-rows { padding-top: 1.5rem; padding-bottom: 1.5rem; }
+         /* Adjust background if needed, Okaidia is dark */
+        pre[class*="language-"], code[class*="language-"] {
+            /* background: #060708 !important; */ /* Already set on pre */
+            text-shadow: none !important;
+        }
+         /* Increase contrast slightly if needed */
+         .token.comment, .token.prolog, .token.doctype, .token.cdata { color: #8292a2; }
+         .token.string { color: #c3e88d; }
+         .token.punctuation { color: #c8cdd4; }
+         .token.operator { color: #89ddff;}
+         .token.function { color: #ffcb6b; }
+         .token.keyword { color: #c792ea; }
+         /* --- End Prism JS Overrides --- */
+    </style>
+</head>
+<body class=""> <!-- JS adds 'reduced-motion' -->
+
+    <div id="p5-background" aria-hidden="true"></div>
+
+    <header class="site-header">
+        <!-- Header content -->
+        <div class="header-content">
+             <div class="logo"> <a href="#" aria-label="Home"> <h1>rastla.us</h1> <span>solve the problem</span> </a> </div>
+            <nav role="navigation" aria-label="Main Navigation">
+                <ul role="list"> 
+                    <li role="listitem"><a href="#" data-view="front" class="nav-link" aria-current="page">Home</a></li> 
+                    <li role="listitem"><a href="#blog" data-view="blog" class="nav-link">Insights</a></li>
+                    <li role="listitem"><a href="#projects" data-view="projects" class="nav-link">Projects</a></li>
+                    <!-- <li role="listitem"><a href="#contact" data-view="contact" class="nav-link">Connect</a></li> -->
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="content-wrapper" id="main-content" role="main" tabindex="-1">
+        <!-- --- VIEW DIVS --- -->
+        <!-- View: Front Page -->
+        <div id="view-front" class="view active">
+             <header class="front-page-header">
+                <h2>[Hassan Zouhar]</h2>
+                <p class="sub-headline">Creating Value and Driving Transformative Change with Data-Driven Insights & Intelligent Orchestration</p>
+                <p class="tagline">(A restless pursuit of efficiency and enhanced potential)</p>
+            </header>
+            <p class="value-proposition">
+                Hi there! I am a seasoned technology leader specializing in <strong>IT Strategy</strong> and <strong>Business Development</strong> to deliver measurable improvements in operational efficiency and system intelligence. I am <strong> currently seeking strategic roles </strong>where I can bring my technical expertise and a business-first mindset to create value for the business. If you want to know more, check <a href="https://www.linkedin.com/in/hassanzouhar/"> out my LinkedIn</a>.
+                
+                 <!-- Example: <br><em>Proven ability to reduce process overhead by up to X% and enhance data insights.</em> -->
+            </p>
+            <div class="front-page-grid" style="margin-top: var(--content-gap);">
+                 <section class="front-collection" aria-labelledby="capabilities-heading">
+                     <h3 id="capabilities-heading">Key Capabilities</h3>
+                     <ul class="capabilities-list" role="list"> 
+                         <li role="listitem"> 
+                             <div class="capability-header">
+                                 <svg viewBox="0 0 24 24" focusable="false" aria-hidden="true"><path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+                                <strong>AI Strategy & Implementation</strong>
+                             </div>
+                             <span class="capability-detail">Translating business needs into practical, value-driven AI solutions (Python, TensorFlow/PyTorch, Scikit-learn, ML Ops).</span> 
+                         </li>
+                         <li role="listitem">
+                             <div class="capability-header">
+                                 <svg viewBox="0 0 24 24" focusable="false" aria-hidden="true"><path fill="currentColor" d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H8V4h12v12zM10 9h8v2h-8zm0 3h4v2h-4z"/></svg>
+                                <strong>Intelligent Agent Orchestration</strong>
+                             </div>
+                              <span class="capability-detail">Designing and managing resilient multi-agent workflows for complex automation (LangChain, AutoGen Concepts, Distributed Systems).</span> 
+                         </li>
+                         <li role="listitem">
+                             <div class="capability-header">
+                                 <svg viewBox="0 0 24 24" focusable="false" aria-hidden="true"><path fill="currentColor" d="M9 21c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-1H9v1zm3-19C8.14 2 5 5.14 5 9c0 2.38 1.19 4.47 3 5.74V17c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-2.26c1.81-1.27 3-3.36 3-5.74 0-3.86-3.14-7-7-7zm2.83 10.67L12 14.17l-2.83-1.5C8.46 12.35 8 11.71 8 11c0-1.1.9-2 2-2s2 .9 2 2c0 .71-.46 1.35-1.17 1.67z"/></svg>
+                                <strong>Neural Networks & Deep Learning</strong>
+                             </div>
+                              <span class="capability-detail">Applying advanced models (CNNs, RNNs, Transformers) to extract deep insights and build predictive capabilities.</span> 
+                         </li>
+                        <li role="listitem">
+                             <div class="capability-header">
+                                 <svg viewBox="0 0 24 24" focusable="false" aria-hidden="true"><path fill="currentColor" d="M3.5 18.49l6-6.01 4 4L22 6.92l-1.41-1.41L13.5 12.53l-4-4L2 17.08l1.5 1.41zM3 20h18v2H3v-2z"/></svg>
+                                <strong>Data-Driven Transformation</strong>
+                             </div>
+                              <span class="capability-detail">Leveraging robust data analysis (SQL, Pandas, Visualization tools) as the foundation for strategic decision-making.</span> 
+                        </li>
+                         <li role="listitem">
+                             <div class="capability-header">
+                                <svg viewBox="0 0 24 24" focusable="false" aria-hidden="true"><path fill="currentColor" d="M19.43 12.98c.04-.32.07-.64.07-.98s-.03-.66-.07-.98l2.11-1.65c.19-.15.24-.42.12-.64l-2-3.46c-.12-.22-.39-.3-.61-.22l-2.49 1c-.52-.4-1.08-.73-1.69-.98l-.38-2.65C14.46 2.18 14.25 2 14 2h-4c-.25 0-.46.18-.49.42l-.38 2.65c-.61.25-1.17.59-1.69.98l-2.49-1c-.23-.08-.49 0-.61.22l-2 3.46c-.13.22-.07.49.12.64l2.11 1.65c-.04.32-.07.65-.07.98s.03.66.07.98l-2.11 1.65c-.19.15-.24.42-.12.64l2 3.46c.12.22.39.3.61.22l2.49-1c.52.4 1.08.73 1.69.98l.38 2.65c.03.24.24.42.49.42h4c.25 0 .46-.18.49-.42l.38-2.65c.61-.25 1.17-.59 1.69-.98l2.49 1c.23.08.49 0 .61-.22l2-3.46c.12-.22.07-.49-.12-.64l-2.11-1.65zM12 15.5c-1.93 0-3.5-1.57-3.5-3.5s1.57-3.5 3.5-3.5 3.5 1.57 3.5 3.5-1.57 3.5-3.5 3.5z"/></svg>
+                                <strong>"Work Smarter" Methodologies</strong>
+                             </div>
+                             <span class="capability-detail">Implementing frameworks (Agile, Lean principles) and tools enhancing productivity via focused, high-impact activities.</span> 
+                         </li>
+                     </ul>
+                </section>
+                 <section class="front-collection" aria-labelledby="featured-implementations-heading">
+                    <h3 id="featured-implementations-heading">Featured Projects</h3>
+                     
+                    <ul class="collection-list" id="recent-projects-list" role="list"> <li>Loading...</li> </ul>
+                    <a href="#projects" data-view="projects" class="button" style="margin-top: 1rem;">View All Projects</a>
+                </section>
+                 
+                 <!--
+                 <section class="front-collection" aria-labelledby="kudos-heading">
+                    <h3 id="kudos-heading">Recognition</h3>
+                    <ul class="collection-list" id="kudos-list" role="list">
+                        <li role="listitem"><blockquote>"[Impactful quote highlighting a key strength or achievement...]" <cite>- Source (e.g., Performance Review Excerpt, LinkedIn Recommendation)</cite></blockquote></li>
+                        Add 1-2 more brief, high-impact quotes
+                    </ul>
+                 </section>
+                 -->
+                <section class="front-collection" aria-labelledby="strategic-thoughts-heading">
+                    <h3 id="strategic-thoughts-heading">Insights</h3>
+                    <ul class="collection-list" id="latest-posts-list" role="list"> <li>Loading...</li> </ul>
+                    <a href="#blog" data-view="blog" class="button" style="margin-top: 1rem;">Explore All Insights</a>
+                </section>
+            </div>
+        </div>
+        <!-- View: Blog List -->
+        <div id="view-blog" class="view">
+            <h2>Insights</h2>
+            <div class="blog-list" id="blog-list-full"> <p class="loading-indicator">Loading insights...</p> </div>
+        </div>
+        <!-- View: Single Blog Post -->
+        <div id="view-post" class="view">
+            <a href="#blog" data-view="blog" class="back-link">Back to Insights</a>
+            <div class="post-header"><h2 id="post-title" style="margin-bottom: 0.5rem;"></h2><p class="blog-meta" id="post-meta" style="margin-bottom: 2.5rem;"></p></div>
+            <div id="post-content-area"><p class="loading-indicator">Initializing content module...</p><article class="markdown-content" id="post-content" style="display: none;"></article></div>
+        </div>
+        <!-- View: Projects -->
+        <div id="view-projects" class="view">
+             <h2>Projects</h2>
+            <p style="max-width: 70ch; color: var(--text-secondary); margin-bottom: var(--content-gap);">Concepts and experiments in applying AI, data analysis, and automation. Focused on intelligent systems that enhance efficiency and capability.</p>
+             
+            <div class="project-grid" id="project-grid-full"> <p class="loading-indicator">Loading projects...</p> </div>
+        </div>
+        <!-- View: Contact -->
+        <!-- <div id="view-contact" class="view">
+             <h2>Connect</h2>
+             
+            <p style="max-width: 70ch; color: var(--text-secondary);">Seeking to leverage expertise in AI Strategy and Intelligent Systems to tackle challenging problems. If your organization values data-driven innovation and impactful automation, let's connect.</p>
+             <p class="contact-availability">Currently exploring strategic roles focused on AI implementation and data-led transformation. Preferred contact via LinkedIn or Email.</p>
+            <div style="margin: 2.5rem 0;">
+                <strong>Email:</strong> <a href="mailto:[your.email@example.com]">[your.email@example.com]</a> <br>
+                <strong style="margin-top: 0.5rem; display: inline-block;">LinkedIn:</strong> <a href="[Link to your LinkedIn Profile]" target="_blank" rel="noopener noreferrer">[Your LinkedIn Profile Name]</a>
+            </div>
+            <form class="contact-form" action="#" method="POST" onsubmit="alert('Form submission placeholder.'); return false;">
+                 <div> <label for="name">Name</label> <input type="text" id="name" name="name" required aria-required="true"> </div>
+                 <div> <label for="email">Email</label> <input type="email" id="email" name="email" required aria-required="true"> </div>
+                 <div> <label for="subject">Subject</label> <input type="text" id="subject" name="subject"> </div>
+                 <div> <label for="message">Message</label> <textarea id="message" name="message" required aria-required="true"></textarea> </div>
+                 <button type="submit">Send Message</button>
+            </form>
+        </div> -->
+        <!-- --- END VIEW DIVS --- -->
+    </main>
+
+    <footer class="site-footer">
+        <div class="footer-links">
+             <a href="#" data-view="front">Home</a> | <a href="#blog" data-view="blog">Insights</a> | <a href="#projects" data-view="projects">Projects</a> | 
+             <!-- <a href="#contact" data-view="contact">Connect</a> | -->
+             <a href="https://www.linkedin.com/in/hassanzouhar/" target="_blank" rel="noopener noreferrer">LinkedIn</a> |
+             <a href="mailto:hassan.zouhar@proton.me">Email</a>
+        </div>
+        <p style="margin-top: 1.5rem;">© <span id="currentYear"></span> rastla.us | [Hassan Zouhar]. All Rights Reserved.</p>
+        <p style="font-style: italic; font-size: 0.8rem; margin-top: 0.6rem; opacity: 0.6;">Weaving intelligent systems for a smarter future.</p>
+    </footer>
+
+    <script>
+        // --- JS Configuration ---
+        const blogPostsConfig = [ // Ensure that summaries are useful, and not click-bate
+            { slug: 'agent-orchestration-frameworks', title: 'Agent Orchestration Frameworks: A Comparative Look', date: 'October 26, 2024', summary: "Analyzing current tools for multi-agent systems, highlighting trade-offs and opportunities for building smarter coordination." },
+            { slug: 'neural-nets-practical-applications', title: 'Neural Nets: Practical Applications Beyond the Hype', date: 'September 15, 2024', summary: 'Moving past theoretical potential to discuss real-world use cases where NNs provided tangible value over simpler methods.' },
+            { slug: 'data-driven-change-management', title: 'Data-Driven Change: Lessons in Implementation', date: 'August 01, 2024', summary: "Navigating the human element is key when implementing data-backed initiatives. Sharing critical lessons for ensuring adoption." },
+            { slug: 'working-smarter-deep-work', title: 'Deep Work Strategies: Tools for Enhanced Focus', date: 'July 10, 2024', summary: 'Exploring specific tools and techniques beyond basic time management to genuinely improve focus and productivity.' }
+        ];
+         const projectsConfig = [ // Add placeholders/reminders for quantifiable results
+              { slug: 'adaptive-workflow-orchestrator', title: 'Concept: Adaptive Workflow Orchestrator', summary: 'Designing an agent-based system to dynamically adjust complex workflows using real-time data, targeting 15% increase in resilience/efficiency.', tags: ['AI', 'Agent Orchestration', 'Resilience', 'Concept'] }, // Added target outcome
+              { slug: 'sentiment-analysis-pipeline', title: 'Experiment: Sentiment Analysis Pipeline', summary: 'Evaluating an NLP/NN pipeline for extracting actionable sentiment trends, potentially correlating with employee/customer satisfaction metrics.', tags: ['Neural Networks', 'NLP', 'Python', 'Analytics'] }, // Added metric hint
+              { slug: 'smart-meeting-scheduler', title: 'Concept: Frictionless Scheduling via Constraint AI', summary: 'Prototyping a tool using constraint satisfaction to optimize meeting schedules, demonstrating potential to reduce scheduling overhead by ~20%.', tags: ['Automation', 'Work Smarter', 'Constraint AI', 'Efficiency'] }, // Added potential saving
+              { slug: 'nn-activity-explorer', title: 'Viz: Neural Net Activity Explorer', summary: 'Developing an interactive p5.js visualization to demystify internal activation patterns in simple NNs for educational/interpretability purposes.', tags: ['Visualization', 'NN', 'p5.js', 'Interpretability']} // Added purpose
+         ];
+         // --- End Config ---
+
+        // --- JS (SPA Logic, Content Loading, p5 Sketch) ---
+        const views = document.querySelectorAll('.view');
+        const navLinks = document.querySelectorAll('.nav-link');
+        const mainContent = document.getElementById('main-content');
+        const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+        let p5Instance;
+
+        // --- Content Loading (async function loadMarkdownContent) ---
+        async function loadMarkdownContent(type, slug) {
+            const contentWrapper = document.getElementById(`${type}-content-area`);
+            const titleElement = document.getElementById(`${type}-title`);
+            const metaElement = document.getElementById(`${type}-meta`);
+            if (!contentWrapper) { console.error(`Content area for ${type} not found.`); return; }
+            contentWrapper.innerHTML = '<p class="loading-indicator">Processing data stream...</p>';
+            const config = (type === 'post' ? blogPostsConfig : projectsConfig);
+            const itemConfig = config.find(item => item.slug === slug);
+            if (titleElement && itemConfig) titleElement.textContent = itemConfig.title; else if (titleElement) titleElement.textContent = 'Loading...';
+            if (metaElement && itemConfig && itemConfig.date) metaElement.textContent = `Published: ${itemConfig.date}`; else if (metaElement) metaElement.textContent = '';
+            const filePath = `${type}s/${slug}.md`;
+            try {
+                const response = await fetch(filePath); if (!response.ok) throw new Error(`Network response error: ${response.statusText}`);
+                const markdownText = await response.text();
+                requestAnimationFrame(() => {
+                    const htmlContent = marked.parse(markdownText);
+                    const articleElement = document.createElement('article'); articleElement.className = 'markdown-content'; articleElement.id = `${type}-content`;
+                    articleElement.innerHTML = htmlContent; articleElement.style.display = 'block';
+                    contentWrapper.innerHTML = ''; contentWrapper.appendChild(articleElement);
+                    // Apply Syntax Highlighting after content is injected
+                    Prism.highlightAllUnder(articleElement);
+                });
+            } catch (error) { console.error('Fetch/Parse Error:', error); contentWrapper.innerHTML = `<p class="error-message">Content module failed to load. (${error.message})</p>`; if (titleElement) titleElement.textContent = 'Load Error'; }
+        }
+
+
+        // --- View Switching (function showView) ---
+        function showView(viewId, slug = null) {
+            const targetView = document.getElementById(`view-${viewId}`) || document.getElementById('view-front');
+            if (!targetView || targetView.classList.contains('active')) return;
+            let currentlyActive = document.querySelector('.view.active');
+            if (currentlyActive) { currentlyActive.classList.remove('active'); currentlyActive.style.display = 'none'; currentlyActive.setAttribute('aria-hidden', 'true'); }
+            targetView.style.display = 'block'; targetView.removeAttribute('aria-hidden'); void targetView.offsetWidth; targetView.classList.add('active');
+            setTimeout(() => { mainContent.focus({ preventScroll: true }); }, motionQuery.matches ? 50 : 600); // Adjusted focus delay timing
+            // ARIA Current Page Management
+            navLinks.forEach(link => {
+                 const linkTargetView = link.getAttribute('data-view');
+                 const isCurrent = (linkTargetView === viewId && viewId !== 'post') || (viewId === 'post' && linkTargetView === 'blog');
+                 link.classList.toggle('active', isCurrent);
+                 link.setAttribute('aria-current', isCurrent ? 'page' : 'false'); // Set aria-current
+            });
+            // Ensure Home always loses aria-current if not active (needed for initial load state)
+            if (viewId !== 'front') { document.querySelector('nav a[data-view="front"]')?.setAttribute('aria-current', 'false');}
+
+            mainContent.scrollTop = 0;
+            if (viewId === 'post') { if (slug) { loadMarkdownContent('post', slug); } else { const wrapper = document.getElementById('post-content-area'); if(wrapper) wrapper.innerHTML = '<p class="error-message">Select an insight from the Blog list.</p>'; document.getElementById('post-title').textContent = 'No Insight Selected'; document.getElementById('post-meta').textContent = ''; }}
+        }
+
+        // --- Navigation Handling ---
+        function handleNavigation(event) {
+             const targetLink = event.target.closest('a'); if (!targetLink || !targetLink.href) return; const url = new URL(targetLink.href, window.location.href);
+             if (url.origin === window.location.origin && url.pathname === window.location.pathname && url.hash) { event.preventDefault(); if (window.location.hash !== url.hash) { window.location.hash = url.hash; } else { const { viewId, slug } = parseHash(url.hash); showView(viewId, slug); } }
+        }
+        function parseHash(hash) {
+              const hashValue = hash.substring(1); const parts = hashValue.split('/'); const viewId = parts[0] || 'front'; const slug = parts[1] || null; return { viewId, slug };
+        }
+        document.addEventListener('click', handleNavigation);
+        window.addEventListener('hashchange', () => { const { viewId, slug } = parseHash(window.location.hash); showView(viewId, slug); });
+
+        // --- Dynamic List Population ---
+         function populateBlogList() {
+               const container = document.getElementById('blog-list-full'); if (!container) return; container.innerHTML = ''; if (!blogPostsConfig || blogPostsConfig.length === 0) { container.innerHTML = '<p>No insights available yet.</p>'; return; }
+               blogPostsConfig.forEach(post => { const article = document.createElement('article'); article.innerHTML = `<h4><a href="#post/${post.slug}" data-view="post">${post.title}</a></h4><p class="blog-meta">Published: ${post.date}</p><p>${post.summary}</p><a href="#post/${post.slug}" data-view="post" class="read-more-link">Read Insight »</a>`; container.appendChild(article); });
+           }
+         function populateProjectGrid() { // Ensure project summaries reflect impact
+             const container = document.getElementById('project-grid-full'); if (!container) return; container.innerHTML = ''; if (!projectsConfig || projectsConfig.length === 0) { container.innerHTML = '<p>No projects listed yet.</p>'; return; }
+             projectsConfig.forEach(project => { const card = document.createElement('div'); card.className = 'project-card'; const tagSpans = project.tags.map(tag => `<span>${tag}</span>`).join(''); card.innerHTML = `<h4>${project.title}</h4><p>${project.summary}</p><div class="project-tags">${tagSpans}</div>`; container.appendChild(card); });
+         }
+         function populateFrontPageCollections() { // Ensure project summaries reflect impact
+               const maxItems = 3;
+               const postsList = document.getElementById('latest-posts-list');
+               if (postsList) { postsList.innerHTML = ''; if (blogPostsConfig.length > 0) { blogPostsConfig.slice(0, maxItems).forEach(post => { const li = document.createElement('li'); li.innerHTML = `<a href="#post/${post.slug}" data-view="post">${post.title}</a><span class="item-meta">Published: ${post.date}</span>`; postsList.appendChild(li); }); } else { postsList.innerHTML = '<li>No insights available yet.</li>'; }}
+               const projectsList = document.getElementById('recent-projects-list');
+               if (projectsList) { projectsList.innerHTML = ''; if (projectsConfig.length > 0) { projectsConfig.slice(0, maxItems).forEach(project => { const li = document.createElement('li'); li.innerHTML = `<a href="#projects" data-view="projects">${project.title}</a><span class="item-summary">${project.summary}</span>`; projectsList.appendChild(li); }); } else { projectsList.innerHTML = '<li>No projects listed yet.</li>'; }}
+          }
+
+
+        // --- Initial Load & Reduced Motion ---
+        function initializeApp() {
+            populateFrontPageCollections(); populateBlogList(); populateProjectGrid();
+            const handleMotionChange = () => { if (motionQuery.matches) { console.log("Reduced motion ENABLED."); document.body.classList.add('reduced-motion'); p5Instance?.disableLooping(); } else { console.log("Reduced motion DISABLED."); document.body.classList.remove('reduced-motion'); p5Instance?.enableLooping(); } };
+            handleMotionChange(); motionQuery.addEventListener('change', handleMotionChange);
+            const { viewId, slug } = parseHash(window.location.hash); showView(viewId, slug);
+            document.getElementById('currentYear').textContent = new Date().getFullYear();
+        }
+        window.addEventListener('DOMContentLoaded', initializeApp);
+
+        // --- p5.js Sketch - Tuned Further ---
+        const sketch = (p) => {
+             // Variables (colors, physics etc.)
+              let particles = []; let numParticles; const baseNumParticles = 150; // Further reduced for performance focus
+              const particleBaseColor = p.color(99, 230, 190); // Use var(--accent-primary)
+              const connectionColor = p.color(74, 144, 226); // Use var(--accent-secondary)
+              const maxDist = 110; const mouseEffectDist = 110; const focusEffectDist = 130; // Reduced range
+              let focusPoint = null; let isLooping = true; let particlesToUpdatePerFrame = 35; // Adjusted update count
+
+             class Particle {
+                  constructor(index) { // Faster energy decay, slightly increased base size variance
+                     this.index = index; this.pos = p.createVector(p.random(p.width), p.random(p.height)); this.vel = p5.Vector.random2D().mult(p.random(0.05, 0.25)); this.acc = p.createVector(0, 0); this.maxSpeed = 0.4; this.noiseSeed = p.random(10000); this.baseSize = p.random(1.2, 3.0); this.energy = 0; this.maxEnergy = 1.0; this.energyDecay = 0.90; // Faster decay
+                   }
+                 applyForce(force) { this.acc.add(force); }
+                 update() {
+                      // --- Movement ---
+                     let angle=p.noise(this.pos.x*0.0035,this.pos.y*0.0035,p.frameCount*0.00004+this.noiseSeed)*p.TWO_PI*1.8; let wanderForce=p5.Vector.fromAngle(angle); wanderForce.setMag(0.008); this.applyForce(wanderForce); // Reduced wander
+                      // --- Interaction ---
+                     let mouseVec=p.createVector(p.mouseX,p.mouseY); let dMouse=this.pos.dist(mouseVec); let dFocus=focusPoint?this.pos.dist(focusPoint):Infinity;
+                     // Focus/Mouse interaction boost energy - strength adjusted
+                     if(focusPoint&&dFocus<focusEffectDist){let steerFocus=p5.Vector.sub(focusPoint,this.pos); let strengthFocus=p.map(dFocus,0,focusEffectDist,0.12,0); steerFocus.setMag(strengthFocus); this.applyForce(steerFocus); this.boostEnergy(p.map(dFocus,0,focusEffectDist,0.7,0));} // Focus boost
+                     else if(dMouse<mouseEffectDist&&p.mouseX>0&&p.mouseX<p.width&&p.mouseY>0&&p.mouseY<p.height){let steer=p5.Vector.sub(mouseVec,this.pos); let strength=p.map(dMouse,0,mouseEffectDist,0.08,0); steer.setMag(strength); this.applyForce(steer); this.boostEnergy(p.map(dMouse,0,mouseEffectDist,0.4,0));} // Mouse boost (lower priority)
+
+                     // --- Physics ---
+                     this.vel.add(this.acc); this.vel.limit(this.maxSpeed); this.vel.mult(0.985); this.pos.add(this.vel); this.acc.mult(0); this.energy*=this.energyDecay; this.energy=p.max(0,this.energy); this.edges();
+                 }
+                 boostEnergy(amount){this.energy=p.min(this.maxEnergy,this.energy+amount);}
+                 edges(){if(this.pos.x>p.width+10)this.pos.x=-10;if(this.pos.x<-10)this.pos.x=p.width+10;if(this.pos.y>p.height+10)this.pos.y=-10;if(this.pos.y<-10)this.pos.y=p.height+10;}
+                 display() { // Slightly simpler display - subtle energy effect
+                    let currentSize=this.baseSize+this.energy*1.5; let baseAlpha=100+this.energy*90; let coreAlpha=150+this.energy*70; p.noStroke();
+                     // Lerp color slightly towards secondary accent based on energy
+                    let displayColor=p.lerpColor(p.color(p.red(particleBaseColor),p.green(particleBaseColor),p.blue(particleBaseColor),baseAlpha),
+                                                p.color(p.red(connectionColor),p.green(connectionColor),p.blue(connectionColor), baseAlpha+20), // Lerp towards connection blue
+                                                this.energy*0.3); // Weaker lerp effect
+                    p.fill(displayColor); p.ellipse(this.pos.x,this.pos.y,currentSize,currentSize);
+                     // Core remains brighter version of base color
+                    let coreColor=p.color(p.red(particleBaseColor)+40,p.green(particleBaseColor)+40,p.blue(particleBaseColor)+40, coreAlpha);
+                    p.fill(coreColor); p.ellipse(this.pos.x,this.pos.y,currentSize*0.4,currentSize*0.4); // Smaller core
+                 }
+                 connect(others) { // Connection alpha further reduced for subtlety
+                     for(let other of others){if(other.index<=this.index)continue; let d=this.pos.dist(other.pos); if(d<maxDist){let combinedEnergy=(this.energy+other.energy)/2.0; let alpha=p.map(d,0,maxDist,50,0)*(0.3+combinedEnergy*0.7); let weight=0.25+combinedEnergy*0.4; if(alpha>2){let connDisplayColor=p.lerpColor(p.color(p.red(connectionColor),p.green(connectionColor),p.blue(connectionColor),alpha),p.color(p.red(particleBaseColor),p.green(particleBaseColor),p.blue(particleBaseColor),alpha+10),combinedEnergy*0.4); p.stroke(connDisplayColor); p.strokeWeight(weight); p.line(this.pos.x,this.pos.y,other.pos.x,other.pos.y);}}}
+                 }
+             } // End Particle Class
+             p.setup = () => { // Adjusted particle counts
+                let canvas = p.createCanvas(p.windowWidth, p.windowHeight); canvas.parent('p5-background');
+                numParticles = Math.floor(baseNumParticles * (p.width / 1920)); numParticles = p.constrain(numParticles, 40, 160); // Lowered max
+                particles = []; for (let i = 0; i < numParticles; i++) { particles.push(new Particle(i)); } isLooping = !document.body.classList.contains('reduced-motion'); if (!isLooping) p.noLoop(); else console.log(`p5 Setup: ${numParticles} particles.`); particlesToUpdatePerFrame = Math.max(10, Math.floor(numParticles * 0.3)); // Adjust update rate
+             };
+             p.draw = () => { // Draw loop unchanged
+                 if(!isLooping)return; p.clear(); let startIdx=(p.frameCount*particlesToUpdatePerFrame)%numParticles; for(let i=0;i<numParticles;i++){let currentIdx=(startIdx+i)%numParticles; if(i<particlesToUpdatePerFrame){particles[currentIdx].update();} particles[currentIdx].display(); particles[currentIdx].connect(particles);} };
+             p.windowResized = () => { // Resize logic unchanged, uses new particle counts
+                 if(!document.body.classList.contains('reduced-motion')){p.resizeCanvas(p.windowWidth,p.windowHeight); numParticles=Math.floor(baseNumParticles*(p.width/1920)); numParticles=p.constrain(numParticles,40,160); particles=[]; for(let i=0;i<numParticles;i++){particles.push(new Particle(i));} particlesToUpdatePerFrame=Math.max(10,Math.floor(numParticles*0.3)); console.log(`p5 Resized: ${numParticles} particles.`); if(!isLooping)p.loop(); isLooping=true;} else {if(isLooping){isLooping=false; p.noLoop(); p.clear();}}};
+             p.enableLooping = () => {if(!isLooping&&!document.body.classList.contains('reduced-motion')){isLooping=true; p.loop(); console.log("p5 loop ENABLED");}}; p.disableLooping = () => {if(isLooping){isLooping=false; p.noLoop(); p.clear(); console.log("p5 loop DISABLED");}};
+             p.updateFocusPoint = (x, y) => {if(x!==null&&y!==null){focusPoint=p.createVector(x,y);}else{focusPoint=null;}};
+        }; // End Sketch
+        p5Instance = new p5(sketch);
+
+        // --- Interaction Bridge: JS -> p5 Focus Point ---
+        let focusUpdateTimeout; function updateP5Focus() {
+            // Ensure p5 instance exists before calling update
+            if (!p5Instance) return;
+            if(document.activeElement&&document.activeElement!==document.body&&document.activeElement!==mainContent){const rect=document.activeElement.getBoundingClientRect(); const focusX=rect.left+rect.width/2; const focusY=rect.top+rect.height/2; p5Instance.updateFocusPoint(focusX,focusY);}else{p5Instance.updateFocusPoint(null,null);}}
+        document.addEventListener('focusin', () => { clearTimeout(focusUpdateTimeout); focusUpdateTimeout = setTimeout(updateP5Focus, 50); }); // Faster focus update
+        document.addEventListener('focusout', () => { clearTimeout(focusUpdateTimeout); focusUpdateTimeout = setTimeout(updateP5Focus, 50); });
+        motionQuery.addEventListener('change', () => { if (motionQuery.matches) { p5Instance?.disableLooping(); } else { p5Instance?.enableLooping(); } });
+
+    </script>
+
+</body>
+</html>

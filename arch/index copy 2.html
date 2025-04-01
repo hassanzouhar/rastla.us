@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rastlaus | Strategic AI & Data Leadership</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600&family=Orbitron:wght@600;700&display=swap" rel="stylesheet">
+    <!-- Orbitron for Logo, Inter for body, IBM Plex Mono for code -->
+
+    <style>
+        /* 1. CSS Variables & Base Styles - "Ephemeral Data Glyphs" Theme */
+        :root {
+            /* Color Palette - Deeper, more atmospheric */
+            --bg-color: #0a0b0d; /* Near black */
+            --surface-1: rgba(18, 20, 24, 0.92); /* Main content bg - slightly blueish */
+            --surface-2: rgba(26, 29, 35, 0.96); /* Card/nested bg */
+            --text-primary: #f0f2f5; /* Slightly brighter primary */
+            --text-secondary: #c5c9d1;
+            --text-tertiary: #8a919e;
+            --accent-primary: #00ffff; /* Cyan - More digital/glitchy */
+            --accent-secondary: #ff00ff; /* Magenta - For subtle glitch/contrast */
+            --accent-border: rgba(0, 255, 255, 0.6);
+            --accent-glow: rgba(0, 255, 255, 0.4);
+            --accent-secondary-glow: rgba(255, 0, 255, 0.3);
+            --border-color: rgba(140, 145, 158, 0.2); /* More subtle */
+            --border-color-strong: rgba(140, 145, 158, 0.4);
+            --shadow-color: rgba(0, 0, 0, 0.6);
+            --error-color: #ff4d80; /* Adjusted error color */
+            --focus-outline-color: var(--accent-primary); /* Bright Cyan for focus */
+
+            /* Typography */
+            --font-logo: 'Orbitron', sans-serif;
+            --font-heading: 'Orbitron', sans-serif; /* Use Orbitron for headings too */
+            --font-body: 'Inter', sans-serif;
+            --font-mono: 'IBM Plex Mono', monospace;
+
+            /* Sizing & Spacing */
+            --main-padding: clamp(1.8rem, 6vw, 3.5rem);
+            --content-gap: clamp(2rem, 7vw, 3.5rem);
+            --card-padding: clamp(1.5rem, 5vw, 2.2rem);
+
+            /* Borders, Shadows, Effects */
+            --main-radius: 12px;
+            --card-radius: 8px;
+            --button-radius: 6px;
+             --shadow-card: 0 6px 18px -3px rgba(0,0,0,0.4), 0 10px 30px -5px rgba(0,0,0,0.6);
+            --shadow-interactive: 0 2px 6px rgba(0, 255, 255, 0.2); /* Cyan shadow */
+             /* Weave/Glitch effect (animated border) */
+            --border-weave: linear-gradient(90deg, transparent 50%, var(--accent-primary) 50%),
+                             linear-gradient(90deg, transparent 50%, var(--accent-primary) 50%),
+                             linear-gradient(0deg, transparent 50%, var(--accent-primary) 50%),
+                             linear-gradient(0deg, transparent 50%, var(--accent-primary) 50%);
+            --border-weave-size: 1px; /* Thickness */
+            --border-weave-pos: 0% 0%, 100% 100%, 0% 100%, 100% 0%;
+            --border-weave-repeat: no-repeat;
+
+            /* Transitions */
+            --transition-duration: 0.3s;
+            --transition-func: cubic-bezier(0.25, 0.8, 0.25, 1); /* Smooth ease-out */
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        ::selection { background-color: var(--accent-primary); color: var(--bg-color); }
+
+        body {
+            font-family: var(--font-body); background-color: var(--bg-color); color: var(--text-primary);
+            line-height: 1.7; font-size: 16px; overflow-x: hidden; /* Prevent horizontal scroll */
+            /* Finer noise texture */
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='3' height='3' viewBox='0 0 3 3'%3E%3Cpath fill='%23333' fill-opacity='0.07' d='M1 0h1v1H1V0zm1 1h1v1H2V1z'%3E%3C/path%3E%3C/svg%3E");
+        }
+
+        /* 2. Layout & Background Structure */
+        #p5-background {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; overflow: hidden;
+            filter: blur(3px); /* Start blurred */
+            opacity: 0.7; /* Slightly muted */
+            transition: filter 0.8s var(--transition-func), opacity 0.8s var(--transition-func);
+        }
+        body:not(.reduced-motion) .content-wrapper:hover ~ #p5-background { /* Reduce blur on content hover */
+             filter: blur(1px);
+             opacity: 0.9;
+        }
+
+        .site-header {
+            padding: 0.9rem 5%; background-color: rgba(10, 11, 13, 0.75); /* Darker */
+            backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+            position: sticky; top: 0; z-index: 10; border-bottom: 1px solid var(--border-color);
+            transition: background-color var(--transition-duration) var(--transition-func);
+        }
+
+        .header-content { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; }
+
+        /* p5 Logo container */
+        .logo { position: relative; min-height: 40px; /* Ensure space for canvas */ }
+        .logo a { text-decoration: none; display: block; position: relative; z-index: 1;} /* Ensure link covers logo */
+        #logo-canvas-container { /* Canvas position */
+            position: absolute; top: 50%; left: 0; transform: translateY(-50%); z-index: 0;
+             opacity: 1; transition: opacity 0.4s;
+        }
+        body.reduced-motion #logo-canvas-container, /* Hide canvas if reduced motion */
+        html.no-js #logo-canvas-container { /* Hide if JS disabled */
+            opacity: 0; pointer-events: none;
+        }
+        .static-logo-fallback { /* Visible only if canvas hidden */
+            font-family: var(--font-logo); font-size: clamp(1.6rem, 3.5vw, 2.2rem); font-weight: 700;
+            color: var(--text-primary); letter-spacing: 1px; padding-bottom: 2px; /* Align roughly */
+             opacity: 0; position: relative; z-index: 0; pointer-events: none; /* Hidden by default */
+             transition: opacity 0.4s;
+        }
+         body.reduced-motion .static-logo-fallback,
+         html.no-js .static-logo-fallback {
+             opacity: 1; pointer-events: auto;
+         }
+        .logo span { /* Subtitle */
+            font-size: 0.7rem; color: var(--text-tertiary); font-family: var(--font-body);
+            display: block; margin-top: -2px; letter-spacing: 1px; font-weight: 400;
+        }
+
+        nav ul { list-style: none; display: flex; gap: clamp(1.2rem, 3.5vw, 2.2rem); }
+        nav a.nav-link {
+            color: var(--text-secondary); text-decoration: none; font-weight: 500;
+            padding: 0.4rem 0.1rem; position: relative; border-radius: 3px;
+            transition: color var(--transition-duration) var(--transition-func);
+            font-size: clamp(0.9rem, 2vw, 1rem); text-transform: uppercase; letter-spacing: 0.8px;
+        }
+        nav a.nav-link::after { /* Underline effect - subtler */
+             content: ''; position: absolute; width: 0; height: 1px; bottom: -3px; left: 50%; transform: translateX(-50%);
+             background-color: var(--accent-primary);
+             transition: width var(--transition-duration) var(--transition-func);
+        }
+        nav a.nav-link:hover, nav a.nav-link.active { color: var(--text-primary); }
+        nav a.nav-link:hover::after, nav a.nav-link.active::after { width: 100%; }
+
+        /* Main content area - slightly inset feel */
+        .content-wrapper {
+            max-width: 900px; width: 90%;
+            margin: var(--content-gap) auto; padding: var(--main-padding);
+            position: relative; z-index: 1; background-color: var(--surface-1);
+            border: 1px solid var(--border-color); border-radius: var(--main-radius);
+            box-shadow: 0 0 0 1px rgba(10, 11, 13, 0.8), var(--shadow-card); /* Inner dark edge + outer shadow */
+            min-height: 60vh;
+            transition: box-shadow var(--transition-duration) var(--transition-func); /* For hover on body */
+        }
+
+        /* View switching */
+        .view { display: none; animation: fadeInSkew 0.6s var(--transition-func) forwards; }
+        .view.active { display: block; }
+        @keyframes fadeInSkew { /* Slightly more dynamic entry */
+            from { opacity: 0; transform: translateY(20px) skewY(1deg); }
+            to { opacity: 1; transform: translateY(0) skewY(0); }
+        }
+
+        /* 3. Common Elements Styling */
+        h1, h2, h3, h4, h5, h6 { font-family: var(--font-heading); font-weight: 600; letter-spacing: 0.5px; }
+
+        h2 { /* Main view titles */
+            font-size: clamp(2rem, 5.5vw, 2.8rem); margin-bottom: var(--content-gap);
+            color: var(--text-primary); font-weight: 700; position: relative;
+            padding-bottom: 0.8rem; display: inline-block;
+        }
+        h2::after { /* Animated underline for titles */
+            content: ''; position: absolute; width: 40%; height: 2px;
+            bottom: 0; left: 0; background-color: var(--accent-primary);
+            transition: width 0.5s var(--transition-func);
+        }
+         .view.active h2::after { width: 100%; } /* Animate on view load */
+
+        h3 { /* Section titles */
+            font-size: clamp(1.6rem, 4.5vw, 2rem); margin-bottom: 1.8rem; margin-top: 2.8rem;
+            color: var(--text-primary); font-weight: 600; letter-spacing: 1px;
+        }
+        h4 { /* Item titles */
+            font-size: clamp(1.3rem, 4vw, 1.7rem); margin-bottom: 1rem;
+            color: var(--text-primary); font-weight: 600;
+        }
+        .view > *:first-child { margin-top: 0; }
+
+        p { margin-bottom: 1.5rem; color: var(--text-secondary); line-height: 1.8; max-width: 75ch; /* Improve readability */ }
+        p a:not(.button) { /* Enhance standard links in paragraphs */
+             color: var(--accent-primary); text-decoration: underline; text-decoration-color: rgba(0, 255, 255, 0.4);
+             text-underline-offset: 3px; text-decoration-thickness: 1px;
+             transition: color var(--transition-duration), text-decoration-color var(--transition-duration);
+        }
+        p a:not(.button):hover, p a:not(.button):focus {
+            color: #80ffff; /* Lighter cyan */ text-decoration-color: rgba(0, 255, 255, 0.8);
+        }
+
+        strong { color: var(--text-primary); font-weight: 600; }
+
+        /* Buttons & Interactive Elements */
+        .button, button {
+            display: inline-block; position: relative; overflow: hidden; /* For pseudo-elements */
+            background-color: transparent; border: 1px solid var(--accent-border);
+            color: var(--text-primary); padding: 11px 24px; border-radius: var(--button-radius);
+            text-decoration: none; font-weight: 500; font-family: var(--font-body);
+            cursor: pointer; font-size: 0.95rem; letter-spacing: 0.8px; text-transform: uppercase;
+            transition: color var(--transition-duration), border-color var(--transition-duration), transform var(--transition-duration) ease-out, box-shadow var(--transition-duration);
+            box-shadow: inset 0 0 0 0 var(--accent-primary); /* Start no inset shadow */
+        }
+         .button::before { /* Subtle background fill effect */
+            content: ''; position: absolute; top: 0; left: 0; width: 0; height: 100%;
+            background-color: var(--accent-primary); opacity: 0.15; z-index: -1;
+            transition: width var(--transition-duration) var(--transition-func);
+        }
+        .button:hover, button:hover {
+            color: var(--bg-color); border-color: var(--accent-primary);
+            transform: translateY(-2px); box-shadow: var(--shadow-interactive);
+        }
+        .button:hover::before, button:hover::before { width: 100%; }
+        .button:active, button:active { transform: translateY(0px); box-shadow: none; }
+
+        /* Glitch effect on active (brief) - Requires careful testing */
+        body:not(.reduced-motion) .button:active::after,
+        body:not(.reduced-motion) button:active::after {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(45deg, var(--accent-secondary) 15%, var(--accent-primary) 35%, var(--accent-secondary) 85%);
+            mix-blend-mode: color-dodge; /* Experiment with blend modes */
+            opacity: 0.6;
+            animation: subtleGlitch 0.15s ease-out forwards;
+             pointer-events: none;
+        }
+        @keyframes subtleGlitch {
+            0% { clip-path: inset(0% 0% 0% 0%); }
+            25% { clip-path: inset(20% 80% 60% 10%); }
+            50% { clip-path: inset(70% 10% 10% 75%); }
+            75% { clip-path: inset(40% 50% 45% 5%); }
+            100% { clip-path: inset(0% 0% 0% 0%); opacity: 0; }
+        }
+
+        /* Accessibility Focus - High Contrast Outline */
+        *:focus-visible {
+            outline: 2px solid var(--focus-outline-color);
+            outline-offset: 2px;
+            box-shadow: 0 0 0 4px rgba(0, 255, 255, 0.2); /* Add subtle glow */
+        }
+        *:focus { outline: none; /* Remove default only if focus-visible is handled */}
+
+
+        /* 4. Specific Views & "Strata/Glyph" Styles */
+
+        /* Front Page Collections */
+        .front-collection {
+            background-color: var(--surface-2); padding: var(--card-padding);
+            border-radius: var(--card-radius); position: relative; overflow: hidden;
+            border: 1px solid transparent; /* Prepare for animated border */
+             background-image: var(--border-weave); background-size: 100% var(--border-weave-size), var(--border-weave-size) 100%, 100% var(--border-weave-size), var(--border-weave-size) 100%;
+             background-position: var(--border-weave-pos); background-repeat: var(--border-weave-repeat);
+             animation: borderWeaveAnim 6s linear infinite paused; /* Paused initially */
+             box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.04);
+        }
+         body:not(.reduced-motion) .front-collection:hover {
+             animation-play-state: running; /* Play border anim on hover */
+         }
+        @keyframes borderWeaveAnim {
+             0% { background-position: 0% 0%, 100% 100%, 0% 100%, 100% 0%; }
+             100% { background-position: 100% 0%, 0% 100%, 0% 0%, 100% 100%; }
+        }
+         .front-collection h3 { /* Collection titles */
+             /* Styles unchanged */
+             margin-top: 0; margin-bottom: 1.5rem; color: var(--text-primary);
+             border-bottom: 1px solid var(--border-color); padding-bottom: 0.7rem;
+             font-size: clamp(1.3rem, 3.5vw, 1.6rem); font-weight: 600;
+        }
+        .collection-list a:hover { color: var(--accent-primary); transform: translateX(5px); }
+        .collection-list .item-meta { color: var(--text-tertiary); }
+        .focus-areas-list svg { fill: var(--accent-primary); width: 26px; height: 26px;} /* Cyan icons */
+
+        /* Blog List */
+        .blog-list article { /* Styles mostly unchanged */
+             margin-bottom: var(--content-gap); padding-bottom: var(--content-gap);
+            border-bottom: 1px solid var(--border-color);
+            transition: border-color var(--transition-duration) var(--transition-func);
+         }
+         .blog-list article:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+         .blog-list article:hover { border-bottom-color: var(--accent-border); }
+         .blog-meta { color: var(--text-tertiary); }
+         .blog-list h4 a:hover { color: var(--accent-primary); }
+
+
+        /* Single Post View - Enhanced Markdown Styles */
+        .markdown-content h1, .markdown-content h2 { color: var(--text-primary); border-bottom: 1px solid var(--border-color); padding-bottom: 0.5em; }
+        .markdown-content h3, .markdown-content h4 { color: var(--text-secondary); }
+        .markdown-content blockquote {
+            border-left-color: var(--accent-primary); background-color: rgba(0, 255, 255, 0.04);
+            color: var(--text-secondary); padding: 1.2em 1.5em; border-radius: 0 4px 4px 0;
+        }
+        .markdown-content code:not(pre code) { color: var(--accent-primary); background-color: rgba(0, 255, 255, 0.1); }
+        .markdown-content pre { background: #070809; border-color: var(--border-color-strong); }
+        .markdown-content table { border-color: var(--border-color); box-shadow: 0 0 8px rgba(0, 255, 255, 0.1);}
+        .markdown-content th { background-color: var(--surface-2); color: var(--text-primary); }
+        .markdown-content th, .markdown-content td { border-color: var(--border-color); }
+
+
+        /* Project List */
+        .project-card { /* Enhanced hover/border */
+             background-color: var(--surface-2); padding: var(--card-padding); border-radius: var(--card-radius);
+             border: 1px solid var(--border-color); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.03);
+             transition: transform var(--transition-duration) ease-out, box-shadow var(--transition-duration), border-color var(--transition-duration);
+             position: relative; overflow: hidden; /* For pseudo */
+        }
+         /* Add subtle animated border on hover */
+         body:not(.reduced-motion) .project-card::before {
+             content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+             border-radius: inherit; border: 1px solid transparent;
+             background: conic-gradient(from 180deg at 50% 50%, var(--accent-secondary) 0deg, var(--accent-primary) 100deg, var(--accent-secondary) 1turn) border-box;
+             -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+             -webkit-mask-composite: xor; mask-composite: exclude;
+             opacity: 0; transition: opacity var(--transition-duration); animation: spin 4s linear infinite paused;
+         }
+         body:not(.reduced-motion) .project-card:hover::before { opacity: 1; animation-play-state: running; }
+         @keyframes spin { to { transform: rotate(1turn); } }
+
+        .project-card:hover {
+             transform: translateY(-4px) scale(1.005); /* Less aggressive scale */
+             box-shadow: 0 8px 25px -5px var(--shadow-color), inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+             border-color: var(--border-color-strong);
+        }
+        .project-tags span { /* Slightly refined tags */
+             background-color: rgba(0, 255, 255, 0.08); color: var(--accent-primary);
+             padding: 4px 12px; border-radius: 15px; font-size: 0.78rem;
+             border: 1px solid rgba(0, 255, 255, 0.2); letter-spacing: 0.3px;
+        }
+
+        /* Contact Form - Input styling */
+        .contact-form input[type="text"], .contact-form input[type="email"], .contact-form textarea {
+             background-color: #101215; border: 1px solid var(--border-color); color: var(--text-primary);
+             box-shadow: inset 0 1px 4px rgba(0,0,0,0.4);
+        }
+        .contact-form input[type="text"]:hover, .contact-form input[type="email"]:hover, .contact-form textarea:hover {
+             border-color: var(--accent-secondary);
+        }
+        /* Focus handled by focus-visible */
+
+        /* 5. Responsiveness (adjustments mainly to spacing/sizes) */
+        @media (max-width: 768px) {
+            body { font-size: 15px; }
+            .content-wrapper { padding: calc(var(--main-padding) * 0.8); }
+            h2 { font-size: 1.9rem; } h3 { font-size: 1.6rem; }
+            .focus-areas-list li { flex-basis: 100%; }
+        }
+        @media (max-width: 480px) {
+             .content-wrapper { padding: calc(var(--main-padding) * 0.7); }
+             h2 {font-size: 1.7rem;} h3 {font-size: 1.4rem;} h4 {font-size: 1.2rem;}
+        }
+
+        /* 6. Accessibility: Reduced Motion (overrides in :root, plus JS control) */
+         body.reduced-motion { /* Class added by JS */ }
+        @media (prefers-reduced-motion: reduce) {
+            /* Base browser support */
+            * { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important; scroll-behavior: auto !important;
+                transition-delay: 0ms !important; animation-delay: 0ms !important; }
+        }
+    </style>
+</head>
+<body class=""> <!-- JS will add reduced-motion class if needed -->
+    <!-- IMPORTANT NOTE: Run via local server (e.g., python -m http.server) -->
+    <div id="p5-background" aria-hidden="true"></div>
+
+    <header class="site-header">
+         <div class="header-content">
+            <div class="logo" aria-label="Rastlaus - Strategic AI & Data Leadership"> <!-- Accessible name -->
+                 <a href="#">
+                     <!-- Static Fallback (Hidden by default, shown if JS fails or reduced motion) -->
+                    <span class="static-logo-fallback" aria-hidden="true">Rastlaus</span>
+                    <span>Strategic AI & Data Leadership</span>
+                 </a>
+                 <!-- p5 Canvas Container -->
+                 <div id="logo-canvas-container" aria-hidden="true"></div>
+            </div>
+            <nav role="navigation" aria-label="Main Navigation">
+                <ul>
+                    <li><a href="#" data-view="front" class="nav-link">Home</a></li>
+                    <li><a href="#blog" data-view="blog" class="nav-link">Blog</a></li>
+                    <li><a href="#projects" data-view="projects" class="nav-link">Projects</a></li>
+                    <li><a href="#contact" data-view="contact" class="nav-link">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="content-wrapper" id="main-content" role="main" tabindex="-1">
+        <!-- View HTML Structure Remains the Same -->
+         <!-- View: Front Page -->
+        <div id="view-front" class="view active"> /* ... */ </div>
+        <!-- View: Blog List -->
+        <div id="view-blog" class="view"> /* ... */ </div>
+        <!-- View: Single Blog Post -->
+        <div id="view-post" class="view"> /* ... (Remember the content area structure) */ </div>
+        <!-- View: Projects -->
+        <div id="view-projects" class="view"> /* ... */ </div>
+        <!-- View: Contact -->
+        <div id="view-contact" class="view"> /* ... */ </div>
+
+        <!-- Example Content Structure for View: Post -->
+         <div id="view-post" class="view">
+            <a href="#blog" data-view="blog" class="back-link">Back to Blog List</a>
+            <div class="post-header">
+                <h2 id="post-title" style="margin-bottom: 0.5rem;"></h2>
+                <p class="blog-meta" id="post-meta" style="margin-bottom: 2rem;"></p>
+            </div>
+            <div id="post-content-area">
+                 <p class="loading-indicator">Loading content...</p>
+                 <article class="markdown-content" id="post-content" style="display: none;"></article>
+            </div>
+        </div>
+        <!-- (Include other views similarly) -->
+
+    </main>
+
+    <footer class="site-footer">
+        <!-- Footer Content Unchanged -->
+          <div class="footer-links">
+            <a href="mailto:[your.email@example.com]">Email</a> |
+            <a href="[Link to your LinkedIn Profile]" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+        </div>
+        <p style="margin-top: 1rem;">© <span id="currentYear"></span> Rastlaus | [Your Name]. All Rights Reserved.</p>
+        <p style="font-style: italic; font-size: 0.85rem; margin-top: 0.5rem; opacity: 0.7;">Building a better future, one intelligent system at a time.</p>
+    </footer>
+
+    <script>
+        // --- Add 'no-js' class removal ---
+        document.documentElement.classList.remove('no-js'); // Indicate JS is enabled
+        document.documentElement.classList.add('js');
+
+        // --- Configuration (Blog & Projects) ---
+        // ... (Keep config arrays unchanged) ...
+        const blogPostsConfig = [
+            { slug: 'agent-orchestration-frameworks', title: 'Thoughts on Agent Orchestration Frameworks', date: 'October 26, 2023', summary: "Comparing the current landscape of tools for managing multi-agent systems. What works, what doesn't, and where are the opportunities..." },
+            { slug: 'neural-nets-practical-applications', title: 'Neural Nets: Beyond the Hype - Practical Applications', date: 'September 15, 2023', summary: 'Deep learning is powerful, but applying it effectively requires careful consideration. Discussing real-world use cases...' },
+            { slug: 'data-driven-change-management', title: 'Data-Driven Change Management: Lessons Learned', date: 'August 01, 2023', summary: "Implementing change based on data insights isn't just about the tech; it's about people and process. Sharing some hard-won lessons..." },
+            { slug: 'working-smarter-deep-work', title: 'Working Smarter: Tooling for Focused Deep Work', date: 'July 10, 2023', summary: 'An exploration of tools and techniques that genuinely help improve focus and productivity in a world full of distractions...' }
+        ];
+        const projectsConfig = [
+             { slug: 'adaptive-workflow-orchestrator', title: 'Concept: Adaptive Workflow Orchestrator', summary: 'Designing a system using agents to dynamically adjust complex workflows based on real-time data feeds and predictive models.', tags: ['AI', 'Agent Orchestration', 'Python', 'Concept'] },
+             { slug: 'sentiment-analysis-pipeline', title: 'Experiment: Sentiment Analysis Pipeline', summary: 'Building and evaluating a pipeline using NLP and neural networks to analyze sentiment trends in large text datasets.', tags: ['Neural Networks', 'NLP', 'Python', 'Data Analysis'] },
+             { slug: 'smart-meeting-scheduler', title: 'Tool: Smart Meeting Scheduler', summary: 'A prototype tool using constraint satisfaction and user preferences to suggest optimal meeting times.', tags: ['Automation', 'Work Smarter', 'JavaScript', 'Prototype'] },
+             { slug: 'nn-activity-explorer', title: 'Viz: Neural Net Activity Explorer', summary: 'An interactive visualization (using p5.js) to explore the activation patterns within a simple trained neural network.', tags: ['Visualization', 'NN', 'p5.js', 'Experiment']}
+        ];
+
+        // --- SPA Logic & Content Loading (Mostly Unchanged, Minor Refinements) ---
+        const views = document.querySelectorAll('.view');
+        const navLinks = document.querySelectorAll('.nav-link');
+        const mainContent = document.getElementById('main-content');
+        const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+        // ... (Keep marked.setOptions, loadMarkdownContent, showView, handleNavigation, parseHash functions) ...
+        // --- (Ensure these functions are identical to the previous 'fixed' version) ---
+         async function loadMarkdownContent(type, slug) {
+             const contentWrapper = document.getElementById(`${type}-content-area`);
+             const titleElement = document.getElementById(`${type}-title`);
+             const metaElement = document.getElementById(`${type}-meta`);
+             if (!contentWrapper) { console.error(`Content area for ${type} not found.`); return; }
+             contentWrapper.innerHTML = '<p class="loading-indicator">Loading content...</p>'; // Show loading
+             const config = (type === 'post' ? blogPostsConfig : projectsConfig);
+             const itemConfig = config.find(item => item.slug === slug);
+             if (titleElement && itemConfig) titleElement.textContent = itemConfig.title;
+             else if (titleElement) titleElement.textContent = 'Loading...';
+             if (metaElement && itemConfig && itemConfig.date) metaElement.textContent = `Published on: ${itemConfig.date}`;
+             else if (metaElement) metaElement.textContent = '';
+             const filePath = `${type}s/${slug}.md`;
+             try {
+                 const response = await fetch(filePath);
+                 if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+                 const markdownText = await response.text();
+                 requestAnimationFrame(() => { // Ensure layout before parse/render
+                      const htmlContent = marked.parse(markdownText);
+                      const articleElement = document.createElement('article'); // Create dynamically
+                      articleElement.className = 'markdown-content';
+                      articleElement.id = `${type}-content`;
+                      articleElement.innerHTML = htmlContent;
+                      contentWrapper.innerHTML = ''; // Clear loading indicator
+                      contentWrapper.appendChild(articleElement);
+                  });
+             } catch (error) {
+                 console.error('Error loading or parsing Markdown:', error);
+                 contentWrapper.innerHTML = `<p class="error-message">Error loading content. (${error.message})</p>`;
+                 if (titleElement) titleElement.textContent = 'Error';
+             }
+         }
+
+         function showView(viewId, slug = null) {
+             const targetView = document.getElementById(`view-${viewId}`) || document.getElementById('view-front');
+             if (targetView.classList.contains('active')) return; // Avoid re-triggering animation
+             views.forEach(view => {
+                 view.classList.remove('active'); view.setAttribute('aria-hidden', 'true'); view.style.display = 'none';
+             });
+             targetView.style.display = 'block'; targetView.removeAttribute('aria-hidden');
+             void targetView.offsetWidth; // Trigger reflow
+             targetView.classList.add('active');
+             setTimeout(() => { // Focus after transition
+                 mainContent.focus({ preventScroll: true });
+             }, motionQuery.matches ? 50 : 600); // Use transition duration
+             navLinks.forEach(link => { // Update nav highlights
+                 const linkTargetView = link.getAttribute('data-view');
+                 const isCurrentlyActive = (linkTargetView === viewId && viewId !== 'post') || (viewId === 'post' && linkTargetView === 'blog');
+                 link.classList.toggle('active', isCurrentlyActive);
+             });
+             mainContent.scrollTop = 0; // Scroll content to top
+             if (viewId === 'post') { // Load post content
+                 if (slug) { loadMarkdownContent('post', slug); }
+                 else { /* Handle direct #post access */
+                     const postContentWrapper = document.getElementById('post-content-area');
+                     if(postContentWrapper) postContentWrapper.innerHTML = '<p class="error-message">Please select a post to view.</p>';
+                     document.getElementById('post-title').textContent = 'No Post Selected';
+                     document.getElementById('post-meta').textContent = '';
+                 }
+             } // Add project detail loading if needed
+         }
+
+        function handleNavigation(event) { /* ... unchanged ... */
+             const targetLink = event.target.closest('a');
+             if (!targetLink || !targetLink.href) return;
+             const url = new URL(targetLink.href, window.location.href);
+             if (url.origin === window.location.origin && url.pathname === window.location.pathname && url.hash) {
+                 event.preventDefault();
+                 if (window.location.hash !== url.hash) { window.location.hash = url.hash; }
+                 else { const { viewId, slug } = parseHash(url.hash); showView(viewId, slug); } // Force show if same hash
+             }
+        }
+        function parseHash(hash) { /* ... unchanged ... */
+            const hashValue = hash.substring(1); const parts = hashValue.split('/');
+            const viewId = parts[0] || 'front'; const slug = parts[1] || null;
+            return { viewId, slug };
+        }
+
+        // --- Event Listeners ---
+        document.addEventListener('click', handleNavigation);
+        window.addEventListener('hashchange', () => {
+            const { viewId, slug } = parseHash(window.location.hash);
+            showView(viewId, slug);
+        });
+
+        // --- Dynamic Content Population ---
+        // ... (Keep populateBlogList, populateProjectGrid, populateFrontPageCollections unchanged) ...
+        function populateBlogList() { /* ... unchanged ... */
+            const container = document.getElementById('blog-list-full'); if (!container) return; container.innerHTML = '';
+            if (!blogPostsConfig || blogPostsConfig.length === 0) { container.innerHTML = '<p>No posts available yet.</p>'; return; }
+            blogPostsConfig.forEach(post => { const article = document.createElement('article'); article.innerHTML = `<h4><a href="#post/${post.slug}" data-view="post">${post.title}</a></h4><p class="blog-meta">Published on: ${post.date}</p><p>${post.summary}</p><a href="#post/${post.slug}" data-view="post">Read More »</a>`; container.appendChild(article); });
+        }
+        function populateProjectGrid() { /* ... unchanged ... */
+            const container = document.getElementById('project-grid-full'); if (!container) return; container.innerHTML = '';
+             if (!projectsConfig || projectsConfig.length === 0) { container.innerHTML = '<p>No projects listed yet.</p>'; return; }
+             projectsConfig.forEach(project => { const card = document.createElement('div'); card.className = 'project-card'; const tagSpans = project.tags.map(tag => `<span>${tag}</span>`).join(''); card.innerHTML = `<h4>${project.title}</h4><p>${project.summary}</p><div class="project-tags">${tagSpans}</div>`; container.appendChild(card); });
+        }
+         function populateFrontPageCollections() { /* ... unchanged ... */
+            const maxItems = 3; const postsList = document.getElementById('latest-posts-list');
+            if (postsList) { postsList.innerHTML = ''; if (blogPostsConfig.length > 0) { blogPostsConfig.slice(0, maxItems).forEach(post => { const li = document.createElement('li'); li.innerHTML = `<a href="#post/${post.slug}" data-view="post">${post.title}</a><span class="item-meta">Published on: ${post.date}</span>`; postsList.appendChild(li); }); } else { postsList.innerHTML = '<li>No posts available yet.</li>'; } }
+            const projectsList = document.getElementById('recent-projects-list');
+            if (projectsList) { projectsList.innerHTML = ''; if (projectsConfig.length > 0) { projectsConfig.slice(0, maxItems).forEach(project => { const li = document.createElement('li'); li.innerHTML = `<a href="#projects" data-view="projects">${project.title}</a><span class="item-meta">${project.summary.substring(0, 100)}${project.summary.length > 100 ? '...' : ''}</span>`; projectsList.appendChild(li); }); } else { projectsList.innerHTML = '<li>No projects listed yet.</li>'; } }
+        }
+
+        // --- Initial Load & Reduced Motion Check ---
+        function initializeApp() {
+             // Reduced Motion Check & Body Class
+            const handleMotionChange = (isInitialLoad = false) => {
+                const reducedMotion = motionQuery.matches;
+                 document.body.classList.toggle('reduced-motion', reducedMotion);
+                 if (isInitialLoad) {
+                    console.log(`Initial Reduced Motion Preference: ${reducedMotion}`);
+                 } else {
+                     console.log(`Reduced Motion Preference Changed: ${reducedMotion}`);
+                 }
+                 // Control p5 loops via exposed methods
+                 if (reducedMotion) { p5LogoInstance?.disableLooping(); p5BackgroundInstance?.disableLooping(); }
+                 else { p5LogoInstance?.enableLooping(); p5BackgroundInstance?.enableLooping(); }
+            }
+            handleMotionChange(true); // Initial check
+            motionQuery.addEventListener('change', () => handleMotionChange(false)); // Listen for changes
+
+            populateFrontPageCollections(); populateBlogList(); populateProjectGrid();
+            const { viewId, slug } = parseHash(window.location.hash);
+            showView(viewId, slug); // Show initial view
+            document.getElementById('currentYear').textContent = new Date().getFullYear();
+        }
+        window.addEventListener('DOMContentLoaded', initializeApp);
+
+        // --- p5.js Sketches (Background & Logo) ---
+        let p5BackgroundInstance;
+        let p5LogoInstance;
+
+        // Background Sketch
+        const backgroundSketch = (p) => {
+            let particles = []; let numParticles; const baseNumParticles = 180; // Adjusted count
+            const particleColor = p.color(0, 255, 255, 150); // Cyan base, var(--accent-primary)
+            const particleTrailColor = p.color(0, 255, 255, 20); // Fainter trail
+            const connectionColor = p.color(0, 255, 255);
+            const maxDist = 120; const mouseRepelDist = 100; const mouseRepelForce = 0.6;
+            let isLooping = true; // Internal loop control
+
+            class Particle {
+                constructor() { this.reset(); this.trail = []; this.maxTrailLength = 10; }
+                reset() {
+                    this.pos = p.createVector(p.random(p.width), p.random(p.height));
+                    this.vel = p5.Vector.random2D().mult(p.random(0.1, 0.4)); this.acc = p.createVector(0, 0);
+                    this.maxSpeed = 0.6; this.noiseScalePos = 0.0035; this.noiseScaleTime = 0.00009;
+                    this.baseSize = p.random(1, 2.5); this.life = 1.0;
+                }
+                applyForce(force) { this.acc.add(force); }
+                update() { /* ... (Wander + Mouse Repel logic same as before) ... */
+                     let angle = p.noise(this.pos.x * this.noiseScalePos, this.pos.y * this.noiseScalePos, p.frameCount * this.noiseScaleTime) * p.TWO_PI * 1.8;
+                    let wanderForce = p5.Vector.fromAngle(angle); wanderForce.setMag(0.02); this.applyForce(wanderForce);
+                    let mouseVec = p.createVector(p.mouseX, p.mouseY); let distToMouse = this.pos.dist(mouseVec);
+                    if (distToMouse < mouseRepelDist && p.mouseX > 0 && p.mouseX < p.width && p.mouseY > 0 && p.mouseY < p.height) {
+                        let repel = p5.Vector.sub(this.pos, mouseVec); let strength = p.map(distToMouse, 0, mouseRepelDist, mouseRepelForce, 0);
+                        repel.setMag(strength); this.applyForce(repel);
+                    }
+                    this.vel.add(this.acc); this.vel.limit(this.maxSpeed);
+                     // Add current position to trail BEFORE moving
+                     this.trail.push(this.pos.copy());
+                     if (this.trail.length > this.maxTrailLength) { this.trail.shift(); } // Keep trail length limited
+                    this.pos.add(this.vel); this.acc.mult(0); this.edges();
+                }
+                edges() { /* ... (Wrap around logic same) ... */
+                    if (this.pos.x > p.width + 10) { this.pos.x = -10; this.trail = []; } if (this.pos.x < -10) { this.pos.x = p.width + 10; this.trail = [];}
+                    if (this.pos.y > p.height + 10) { this.pos.y = -10; this.trail = []; } if (this.pos.y < -10) { this.pos.y = p.height + 10; this.trail = [];}
+                }
+                display() {
+                     // Draw Trail
+                     p.noFill(); p.strokeWeight(1);
+                     for (let i = 0; i < this.trail.length; i++) {
+                         let alpha = p.map(i, 0, this.trail.length, 0, p.alpha(particleTrailColor));
+                         p.stroke(p.red(particleTrailColor), p.green(particleTrailColor), p.blue(particleTrailColor), alpha);
+                         if (i > 0) { p.line(this.trail[i].x, this.trail[i].y, this.trail[i - 1].x, this.trail[i - 1].y); }
+                     }
+                     // Draw Particle Head
+                    p.noStroke(); let c = particleColor;
+                    p.fill(p.red(c), p.green(c), p.blue(c), p.alpha(c));
+                    p.ellipse(this.pos.x, this.pos.y, this.baseSize, this.baseSize);
+                }
+                connect(others) { /* ... (Connection logic same, check alpha > 1) ... */
+                    for (let other of others) { if (other === this) continue; let d = this.pos.dist(other.pos);
+                        if (d < maxDist) { let alpha = p.map(d, 0, maxDist, 50, 0); // Fainter base
+                            if (alpha > 1) { let c = connectionColor; p.stroke(p.red(c), p.green(c), p.blue(c), alpha); p.strokeWeight(0.4); p.line(this.pos.x, this.pos.y, other.pos.x, other.pos.y); }
+                        } } }
+            } // End Particle Class
+
+             // Expose loop control methods
+            p.enableLooping = () => { if (!isLooping) { isLooping = true; p.loop(); console.log("BG Sketch loop ENABLED"); } };
+            p.disableLooping = () => { if (isLooping) { isLooping = false; p.noLoop(); p.clear(); console.log("BG Sketch loop DISABLED"); } };
+
+            p.setup = () => { /* ... (Setup similar, ensure isLooping check) ... */
+                let canvas = p.createCanvas(p.windowWidth, p.windowHeight); canvas.parent('p5-background');
+                numParticles = Math.floor(baseNumParticles * (p.width / 1920)); numParticles = p.constrain(numParticles, 50, 200); particles = [];
+                for (let i = 0; i < numParticles; i++) { particles.push(new Particle()); }
+                isLooping = !document.body.classList.contains('reduced-motion'); if (!isLooping) p.noLoop(); else console.log(`BG Setup: ${numParticles} particles.`);
+            };
+            p.draw = () => { /* ... (Draw similar, check isLooping) ... */
+                if (!isLooping) return; p.clear();
+                for (let i = particles.length - 1; i >= 0; i--) { particles[i].update(); particles[i].display(); particles[i].connect(particles); }
+             };
+            p.windowResized = () => { /* ... (Resize similar, check reduced motion) ... */
+                 if (!document.body.classList.contains('reduced-motion')) {
+                     p.resizeCanvas(p.windowWidth, p.windowHeight);
+                     numParticles = Math.floor(baseNumParticles * (p.width / 1920)); numParticles = p.constrain(numParticles, 50, 200); particles = [];
+                     for (let i = 0; i < numParticles; i++) { particles.push(new Particle()); } console.log(`BG Resized: ${numParticles} particles.`);
+                     if (!isLooping) { isLooping = true; p.loop(); } // Ensure loop restarts if needed
+                 } else { p.disableLooping(); } // Stop if resized into reduced motion
+             };
+        };
+
+        // Logo Sketch
+        const logoSketch = (p) => {
+            let points = []; let font; let fontSize = 34; let word = "Rastlaus";
+            let isLooping = true; // Internal loop control
+
+            p.preload = () => { font = p.loadFont('https://fonts.gstatic.com/s/orbitron/v25/yMJRMIlzdpvBhQQL_Qq7dy0.ttf'); } // Load Orbitron WOFF2
+
+            p.setup = () => {
+                p.textFont(font); p.textSize(fontSize);
+                 // Get precise bounds of the text
+                let bounds = font.textBounds(word, 0, 0, fontSize);
+                 let canvasWidth = bounds.w + 20; // Add padding
+                 let canvasHeight = bounds.h + 10;
+                let canvas = p.createCanvas(canvasWidth, canvasHeight);
+                canvas.parent('logo-canvas-container');
+
+                // Sample points along the text path
+                 points = font.textToPoints(word, 10, bounds.h + 2, fontSize, { // Adjust x, y start
+                     sampleFactor: 0.15, // Density of points
+                     simplifyThreshold: 0
+                 });
+
+                 // Add noise offsets for movement
+                 for (let pt of points) { pt.noiseOffsetX = p.random(1000); pt.noiseOffsetY = p.random(1000); }
+
+                 isLooping = !document.body.classList.contains('reduced-motion'); if (!isLooping) p.noLoop(); else console.log(`Logo Setup: ${points.length} points.`);
+            };
+
+            p.draw = () => {
+                if (!isLooping) return; // Don't draw if not looping
+                p.clear();
+                 // Optional: Subtle background glow?
+                // p.background(10, 11, 13, 50); // Match header slightly
+
+                 p.noStroke(); p.fill(0, 255, 255, 210); // Cyan color, var(--accent-primary)
+
+                 let noiseScale = 0.01;
+                 let noiseSpeed = p.frameCount * 0.005;
+                 let magnitude = 1.5; // How far points move
+
+                 for (let pt of points) {
+                     // Calculate noise-based offset
+                     let offsetX = (p.noise(pt.noiseOffsetX + noiseSpeed, pt.noiseOffsetY) - 0.5) * 2 * magnitude;
+                     let offsetY = (p.noise(pt.noiseOffsetY, pt.noiseOffsetX + noiseSpeed) - 0.5) * 2 * magnitude;
+
+                     // Draw small circles at perturbed points
+                     p.ellipse(pt.x + offsetX, pt.y + offsetY, 2, 2); // Adjust size
+                 }
+            };
+
+             // Expose loop control methods
+             p.enableLooping = () => { if (!isLooping) { isLooping = true; p.loop(); console.log("Logo Sketch loop ENABLED"); } };
+             p.disableLooping = () => { if (isLooping) { isLooping = false; p.noLoop(); p.clear(); console.log("Logo Sketch loop DISABLED"); } };
+
+            p.windowResized = () => { if (isLooping) p.draw(); } // Redraw on resize if looping
+        };
+
+        // Initialize Sketches
+        p5BackgroundInstance = new p5(backgroundSketch);
+        // Delay logo init slightly to ensure font might be ready? (Helps sometimes)
+        setTimeout(() => {
+             p5LogoInstance = new p5(logoSketch);
+        }, 100);
+
+
+    </script>
+
+</body>
+</html>
