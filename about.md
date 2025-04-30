@@ -17,10 +17,10 @@ With nearly two decades of experience in the tech industry, I've had the privile
 
 While I'm always learning, my core expertise revolves around:
 
-*   **Leadership:** Technology strategy, Digital transformation, Team building, Product ownership
-*   **Systems:** ERP implementations, E-commerce platforms, Enterprise architecture, Cloud migration
-*   **Infrastructure:** Virtualization (VMware, Hyper-V), Windows/Linux servers, Network security
-*   **Development:** System integration, Automation, API design, Multi-agent systems
+*   **Leadership:** Technology strategy, Digital transformation, Team building, Product ownership, OKR implementation
+*   **Systems:** ERP implementations (Visma.net), E-commerce platforms (Magento), Enterprise architecture, Cloud migration, SaaS development
+*   **Infrastructure:** Virtualization (VMware, Hyper-V), Windows/Linux servers, Network security (MPLS, Cisco), Cloud Platforms (AWS mentioned indirectly via Serverless), Monitoring
+*   **Development & Automation:** System integration, Automation (n8n), API design, Multi-agent systems, PowerShell, Bash, SQL
 *   **Data:** Analytics, Reporting, Business intelligence, Data-driven decision making
 
 **Beyond the Code:**

@@ -1,33 +1,70 @@
-## My Projects
+## PetXL: E-commerce Growth & ERP Transformation
 
-Here are a few selected projects I've worked on. Feel free to check out my [GitHub](https://github.com/hassanzouhar) for more!
+As CTO and part of the leadership team (CEO, CFO, CMO, Procurement), I led PetXL's technological transformation during a period of significant growth and change. The initial system landscape was poorly documented, and an ongoing ERP rollout presented challenges alongside an underperforming e-commerce setup.
 
-## Project Alpha: Cloud Orchestration Platform
+**Key Contributions & Responsibilities:**
+*   Led a complete re-implementation of the ERP system (Visma.net), integrating cash register systems, and automating processes across logistics, physical stores, warehouse, and e-commerce.
+*   Built and managed a new e-commerce team, enhancing the Magento platform experience.
+*   Increased online revenue by 80% YoY (approx. 30 MNOK) within one year of taking over e-commerce responsibility.
+*   Established and implemented a data-driven OKR framework across the organization, supported by Microsoft Viva.
+*   Reorganized the internal IT operations, consolidated the supplier portfolio, and established an IT-SPOC model with outsourced support.
+*   Successfully completed the technical and operational integration of Dyrekassen.no (system/platform migration, process alignment).
 
-**Goal:** To build a scalable and resilient platform for managing containerized applications across multiple cloud providers.
+**Technologies:** Visma.net (ERP), Magento, E-commerce Strategy, Process Automation, OKRs, Microsoft Viva, Team Leadership, Vendor Management, System Integration.
 
-**My Role:** Lead Engineer & Architect.
+**Links:**
+*   (Company Website/Info if applicable)
 
-**Key Technologies:** Go, Kubernetes, Terraform, Prometheus, Grafana, AWS, GCP.
+---
 
-**Description:** This project involved designing the core architecture, leading a team of 5 engineers, and implementing key features like automated scaling, self-healing infrastructure, and a unified API layer. We focused heavily on **observability** and **developer experience**. It reduced deployment times by *80%* and improved system uptime significantly.
+## Seaber AS: Maritime Safety SaaS Platform
 
-## Project Beta: Real-time Data Analytics Engine
+Joined Seaber AS in its early stages as CTO & Product Owner to lead the technological development of a maritime SaaS solution aimed at improving safety and operational flow for leisure boaters by connecting them directly with rescue services.
 
-**Goal:** Develop an engine capable of processing and analyzing high-volume streaming data for immediate insights.
+**Key Contributions & Responsibilities:**
+*   Defined and implemented the company's technical architecture and development processes from the ground up.
+*   Led the product development through the MVP phase and subsequent iterations based on pilot customer feedback in the maritime industry.
+*   Selected and implemented the technology stack with a strong focus on scalability, security (authentication, access control), and cloud deployment.
+*   Actively participated in investor processes and public grant applications as the technical lead.
+*   Combined hands-on development with strategic product and platform responsibilities.
 
-**My Role:** Senior Software Engineer.
+**Technologies:** SaaS Architecture, Cloud Platforms, API Design, Authentication/Authorization, Product Management (MVP to iteration), Development Process Definition, Investor Relations (Technical).
 
-**Key Technologies:** Scala, Akka Streams, Kafka, Apache Flink, ClickHouse, Python.
+**Links:**
+*   (Company Website/Info if applicable)
 
-**Description:** I contributed to the core stream processing logic using Akka Streams and Flink, developed data ingestion pipelines from Kafka, and built APIs for querying results stored in ClickHouse. The system processes millions of events per second, providing valuable real-time dashboards for business intelligence. This involved complex state management and performance tuning. Check out the `sample_code.py` if you could link files.
+---
 
-## Project Gamma: Team Collaboration Tool
+## rastla.us: Consulting & Experimentation Hub
 
-**Goal:** Create a user-friendly web application to improve internal team communication and project tracking.
+Founded rastla.us to serve as a dedicated hub for technology consulting services and personal project experimentation, particularly focusing on areas like automation and multi-agent systems.
 
-**My Role:** Full-Stack Developer.
+**Key Activities:**
+*   Providing strategic technology consulting drawing on nearly two decades of experience across various industries and roles.
+*   Developing proof-of-concept projects and exploring emerging technologies.
+*   Actively utilizing and experimenting with automation tools like n8n.
+*   Focusing on combining human insight with technology to create real value.
 
-**Key Technologies:** Node.js, React, TypeScript, PostgreSQL, GraphQL, Docker.
+**Technologies:** Technology Consulting, Business Strategy, Automation (n8n), Multi-agent Systems, Prototyping, Independent Research.
 
-**Description:** Built both the backend API using Node.js/GraphQL and the frontend interface with React/TypeScript. Focused on creating an intuitive user interface and ensuring data consistency. Implemented features like task management, real-time chat updates (using WebSockets), and integration with existing authentication systems. This project emphasized **clean code** and **test-driven development**.
+**Links:**
+*   (Link to rastla.us if available)
+
+---
+
+## Portfolio Website (This one!)
+
+A lightweight, single-page portfolio showcasing skills and experience, built entirely with plain HTML, CSS, and vanilla JavaScript. It demonstrates frontend techniques and dynamic content loading.
+
+**Features:**
+*   Interactive background animations using the tsParticles library.
+*   Dynamic loading and rendering of 'About' and 'Projects' content from external Markdown (.md) files.
+*   Markdown parsing handled client-side using the Marked.js library.
+*   Project section structured into distinct cards using JavaScript DOM manipulation after content load.
+*   Responsive design adapting to various screen sizes.
+*   Focus on performance, clean code, and modern web aesthetics within a single-file constraint (initially).
+
+**Technologies:** HTML5, CSS3, Vanilla JavaScript, tsParticles, Marked.js, Responsive Design, DOM Manipulation, Fetch API.
+
+**Links:**
+*   [View Source on GitHub](https://github.com/hassanzouhar/portfolio-v1)  *(Please verify/update this link)*

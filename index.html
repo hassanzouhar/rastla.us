@@ -4,8 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hassan Zouhar - Portfolio</title>
-    <!-- tsParticles library (single dependency) -->
+
+    <!-- Libraries -->
     <script src="https://cdn.jsdelivr.net/npm/tsparticles@2.12.0/tsparticles.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script> <!-- Added Marked.js -->
 
     <style>
         /* Basic Reset & Fullscreen Setup */
@@ -14,18 +16,20 @@
             padding: 0;
             height: 100%;
             width: 100%;
-            overflow-x: hidden; /* Prevent horizontal scroll */
-            overflow-y: auto;   /* Allow vertical scroll if content needs it */
+            overflow-x: hidden;
+            overflow-y: auto;
             font-family: 'Roboto', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: radial-gradient(ellipse at center, #181830 0%, #050510 75%);
-            background-color: #050510;
+            /* Subtle gradient adjustment */
+            background: radial-gradient(ellipse at 50% 60%, #1a1a33 0%, #080815 85%);
+            background-color: #080815;
             position: relative;
-            color: #e8e8ff; /* Default text color */
+            color: #e8e8ff;
+            scroll-behavior: smooth; /* Smooth scrolling for anchor jumps if ever needed */
         }
 
         /* Particle Container */
         #tsparticles {
-            position: fixed; /* Keep particles fixed in viewport */
+            position: fixed;
             top: 0;
             left: 0;
             width: 100%;
@@ -39,105 +43,136 @@
             z-index: 1;
             display: flex;
             flex-direction: column;
-            /* justify-content: center; /* Centering handled by home section when active */
             align-items: center;
             min-height: 100vh;
-            text-align: center; /* Default alignment */
-            padding: 80px 20px 40px 20px; /* Added top padding for nav, bottom padding */
+            text-align: center;
+            padding: 80px 20px 40px 20px; /* Top padding for nav, bottom padding */
             box-sizing: border-box;
             width: 100%;
         }
 
         /* --- Navigation Menu --- */
         #main-nav {
-            position: fixed; /* Fixed at the top */
+            position: fixed;
             top: 0;
             left: 0;
             width: 100%;
-            background-color: rgba(10, 10, 20, 0.85); /* Semi-transparent background */
-            backdrop-filter: blur(5px);
-            padding: 10px 0;
-            z-index: 10; /* Above content */
+            background-color: rgba(10, 10, 25, 0.85); /* Slightly darker */
+            backdrop-filter: blur(8px); /* Increased blur */
+            padding: 12px 0; /* Slightly more padding */
+            z-index: 10;
             display: flex;
             justify-content: center;
-            border-bottom: 1px solid rgba(120, 120, 170, 0.3);
+            border-bottom: 1px solid rgba(120, 120, 170, 0.2); /* Softer border */
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.3); /* Added shadow for depth */
         }
         #main-nav ul {
             list-style: none;
             margin: 0;
             padding: 0;
             display: flex;
-            gap: 25px; /* Space between items */
+            gap: 30px; /* Increased gap */
         }
         #main-nav li a {
             color: #c0c0ff;
             text-decoration: none;
             font-size: 1.1rem;
-            font-weight: 300;
+            font-weight: 400; /* Slightly bolder */
             transition: color 0.3s ease, text-shadow 0.3s ease;
-            padding: 5px 10px;
+            padding: 8px 12px; /* Adjusted padding */
             border-radius: 4px;
-            cursor: pointer; /* Ensure pointer cursor */
+            cursor: pointer;
+            position: relative; /* For pseudo-element underline */
+            outline: none; /* Remove default outline */
+        }
+        /* Underline effect */
+        #main-nav li a::after {
+            content: '';
+            position: absolute;
+            bottom: -2px; /* Position below the text */
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 2px;
+            background-color: #ffffff;
+            transition: width 0.3s ease;
+            box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
         }
         #main-nav li a:hover,
-        #main-nav li a.active { /* Add class for active state */
+        #main-nav li a:focus, /* Added focus state */
+        #main-nav li a.active {
             color: #ffffff;
-            text-shadow: 0 0 6px rgba(200, 200, 255, 0.6);
+            text-shadow: 0 0 8px rgba(200, 200, 255, 0.7);
         }
+        #main-nav li a:hover::after,
+        #main-nav li a:focus::after, /* Apply effect on focus */
+        #main-nav li a.active::after {
+             width: 70%; /* Animate width for underline */
+        }
+        /* Accessibility: clear focus outline for mouse users, keep for keyboard */
+        #main-nav li a:focus:not(:focus-visible) {
+            outline: none; /* Hide outline if focused by mouse */
+        }
+        #main-nav li a:focus-visible {
+            outline: 2px solid #8a8aff; /* Visible outline for keyboard nav */
+             outline-offset: 2px;
+        }
+
 
         /* Page Sections for Content Switching */
         .page-section {
             width: 100%;
-            max-width: 850px; /* Max width for readable content */
-            margin: 0 auto; /* Center the section */
-            padding-top: 20px; /* Space below nav */
-            text-align: left; /* Align markdown content left */
+            max-width: 900px; /* Slightly wider max width */
+            margin: 0 auto;
+            padding-top: 30px; /* Increased space below nav */
+            text-align: left;
 
             /* --- Animation/Transition Control --- */
             opacity: 0;
-            visibility: hidden; /* Hidden by default */
-            transition: opacity 0.3s ease-in-out, visibility 0s linear 0.3s; /* Fade out takes 0.3s, hide afterwards */
-            position: absolute; /* Take out of flow to prevent height jumps */
+            visibility: hidden;
+            position: absolute; /* Keeps inactive sections out of flow */
             left: 0;
-            right: 0; /* Center within content-wrapper */
-            /* Important: Add top offset matching the nav height + content padding */
-            top: 80px; /* Adjust if nav/padding changes */
+            right: 0;
+            top: 80px; /* Match content-wrapper top padding */
+            pointer-events: none; /* Prevent interaction with hidden sections */
+            /* Transition: fade out quickly, hide immediately */
+            transition: opacity 0.25s ease-out, visibility 0s linear 0.25s;
         }
         .page-section.active {
              opacity: 1;
-             visibility: visible; /* Make visible */
-             transition-delay: 0.1s; /* Slight delay for fade-in after fade-out starts */
-             position: relative; /* Put back into normal flow when active */
-             /* Override the visibility transition delay for showing */
-             transition: opacity 0.4s ease-in-out 0.1s, visibility 0s linear 0s;
-             top: 0; /* Reset top offset when active */
+             visibility: visible;
+             position: relative; /* Put back into flow when active */
+             top: 0; /* Reset top offset */
+             pointer-events: auto; /* Allow interaction */
+             /* Transition: delay fade-in slightly after fade-out starts, longer fade-in duration */
+             transition: opacity 0.45s ease-in 0.15s, visibility 0s linear 0s;
         }
 
-        /* Specific styling for home content (ensure it still centers) */
+        /* Specific styling for home content */
         #home-content {
-             padding-top: 0; /* Reset padding */
-             text-align: center; /* Restore center alignment */
-             max-width: none; /* Allow full width */
-             width: 100%; /* Ensure it takes full width */
+             padding-top: 0;
+             text-align: center;
+             max-width: none;
+             width: 100%;
         }
-         /* When home is active, it should behave like other active sections */
+         /* Home section when active: use flex to center vertically */
         #home-content.active {
-            /* Inherits active styles (opacity, visibility, position: relative) */
-            /* Add back flex centering specifically for home when active */
              display: flex;
              flex-direction: column;
              justify-content: center;
              align-items: center;
-             min-height: calc(100vh - 120px); /* Adjust based on top/bottom padding */
+             /* Adjust min-height based on top/bottom padding of content-wrapper */
+             min-height: calc(100vh - 120px);
+             /* Inherits other active styles */
         }
 
 
         /* Logo Styling */
         .logo {
-            font-size: 4rem;
+            font-size: 4.2rem; /* Slightly larger */
             font-weight: 200;
-            letter-spacing: 3px;
-            margin-bottom: 20px;
+            letter-spacing: 4px; /* Increased spacing */
+            margin-bottom: 25px;
             text-transform: lowercase;
             color: #f0f0ff;
             text-shadow: 0 0 12px rgba(200, 200, 255, 0.7), 0 0 25px rgba(200, 200, 255, 0.5), 0 0 45px rgba(180, 180, 255, 0.3);
@@ -152,88 +187,239 @@
         }
 
         /* Subtitle Styling */
-        .subtitle { font-size: 1.3rem; font-weight: 300; color: #c0c0ff; max-width: 650px; line-height: 1.7; text-shadow: 0 0 6px rgba(180, 180, 255, 0.25); margin-bottom: 30px; }
+        .subtitle {
+            font-size: 1.4rem; /* Slightly larger */
+            font-weight: 300;
+            color: #c8c8ff; /* Slightly brighter */
+            max-width: 700px; /* Wider allowed width */
+            line-height: 1.8; /* Increased line height */
+            text-shadow: 0 0 6px rgba(180, 180, 255, 0.2);
+            margin-bottom: 35px; /* More space below */
+        }
 
         /* Social Icons */
-        .social-icons { display: flex; justify-content: center; align-items: center; gap: 20px; margin-top: 20px; }
+        .social-icons { display: flex; justify-content: center; align-items: center; gap: 25px; margin-top: 25px; }
         .social-icons a { display: inline-block; color: #c0c0ff; transition: color 0.3s ease, transform 0.3s ease; }
-        .social-icons a:hover { color: #ffffff; transform: scale(1.1); }
-        .social-icons svg { width: 28px; height: 28px; fill: currentColor; vertical-align: middle; }
+        .social-icons a:hover { color: #ffffff; transform: translateY(-3px) scale(1.05); /* Added subtle lift */ }
+        .social-icons svg { width: 30px; height: 30px; fill: currentColor; vertical-align: middle; }
 
-        /* Styling for Markdown Rendered Content */
+        /* Styling for General Markdown Rendered Content (About section, etc.) */
         .markdown-content {
-            line-height: 1.7;
-            color: #d0d0e0; /* Slightly dimmer than main titles for readability */
+            line-height: 1.75; /* Increased line height */
+            color: #d8d8e8; /* Slightly brighter body text */
+            text-align: left; /* Default for markdown content */
         }
-        .markdown-content h1, .markdown-content h2, .markdown-content h3 {
-             color: #e8e8ff;
-             margin-top: 1.8em;
-             margin-bottom: 0.6em;
-             padding-bottom: 0.2em;
-             border-bottom: 1px solid rgba(120, 120, 170, 0.3);
+        /* General Markdown element styling (can be overridden by card styles) */
+        .markdown-content h1, .markdown-content h2, .markdown-content h3, .markdown-content h4 {
+             color: #f0f0ff; /* Brighter headings */
+             margin-top: 2em;
+             margin-bottom: 0.8em;
+             padding-bottom: 0.3em;
+             border-bottom: 1px solid rgba(120, 120, 170, 0.4); /* Slightly stronger border */
+             font-weight: 500; /* Heavier weight */
         }
-        .markdown-content h1 { font-size: 2rem; }
-        .markdown-content h2 { font-size: 1.6rem; }
-        .markdown-content p { margin-bottom: 1.2em; }
+        .markdown-content h1 { font-size: 2.2rem; font-weight: 600;}
+        .markdown-content h2 { font-size: 1.8rem; } /* Base H2 size */
+        .markdown-content h3 { font-size: 1.5rem; }
+        .markdown-content p { margin-bottom: 1.3em; }
         .markdown-content strong { font-weight: 600; color: #fff; }
-        .markdown-content em { font-style: italic; color: #f0f0f0; }
+        .markdown-content em { font-style: italic; color: #f5f5f5; }
         .markdown-content code { /* Inline code */
-             background-color: rgba(255, 255, 255, 0.1);
-             padding: 0.2em 0.4em;
-             border-radius: 3px;
-             font-family: 'Courier New', Courier, monospace;
+             background-color: rgba(255, 255, 255, 0.12); /* Slightly more visible */
+             padding: 0.2em 0.5em;
+             border-radius: 4px;
+             font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace; /* Better font stack */
              font-size: 0.9em;
-             color: #a0e0a0;
+             color: #b3f0b3; /* Adjusted green */
         }
         .markdown-content pre { /* Code block */
-             background-color: rgba(0, 0, 0, 0.3);
-             padding: 1em;
-             border-radius: 5px;
+             background-color: rgba(0, 0, 0, 0.35);
+             padding: 1.2em 1.5em; /* More padding */
+             border-radius: 6px;
              overflow-x: auto;
-             font-family: 'Courier New', Courier, monospace;
-             line-height: 1.4;
-             margin-bottom: 1.2em;
+             font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+             line-height: 1.45;
+             margin: 1.5em 0; /* More vertical space */
+             border: 1px solid rgba(120, 120, 170, 0.2); /* Subtle border */
+             box-shadow: 0 2px 8px rgba(0,0,0,0.2);
         }
-        .markdown-content pre code { background-color: transparent; padding: 0; font-size: 1em; }
-        .markdown-content a { color: #9eb7ff; text-decoration: none; border-bottom: 1px dotted #9eb7ff; transition: color 0.3s ease, border-color 0.3s ease;}
-        .markdown-content a:hover { color: #ffffff; border-bottom-color: #ffffff; }
+        .markdown-content pre code {
+             background-color: transparent; padding: 0; font-size: 0.95em; color: #d0d0e0; /* Neutral color inside blocks */
+             line-height: inherit;
+        }
+        .markdown-content a {
+            color: #aebfff; /* Brighter link color */
+            text-decoration: none;
+            border-bottom: 1px dashed #aebfff; /* Dashed underline */
+            transition: color 0.3s ease, border-color 0.3s ease, background-color 0.3s ease;
+             padding: 1px 2px;
+             margin: -1px -2px;
+             border-radius: 3px;
+        }
+        .markdown-content a:hover {
+            color: #ffffff;
+            border-bottom-color: transparent; /* Hide underline on hover */
+             background-color: rgba(174, 191, 255, 0.2); /* Subtle background highlight */
+        }
         .markdown-content hr {
-            border: none;
-            border-top: 1px solid rgba(120, 120, 170, 0.3);
-            margin: 2em 0;
+            /* HRs are used as separators for projects, hide them visually */
+             display: none;
+            /* If you need HRs elsewhere, you might need more specific selectors */
         }
+        /* Lists */
+        .markdown-content ul, .markdown-content ol {
+             margin-bottom: 1.2em;
+             padding-left: 1.8em; /* Indentation */
+        }
+        .markdown-content li {
+             margin-bottom: 0.6em;
+        }
+        .markdown-content ul li::marker {
+            color: #aebfff; /* Match link color */
+        }
+        /* Blockquotes */
+        .markdown-content blockquote {
+            border-left: 4px solid #aebfff;
+            margin: 1.5em 0;
+            padding: 0.5em 1.2em;
+            color: #b0b0d0; /* Slightly muted text */
+            background-color: rgba(40, 40, 70, 0.15);
+            border-radius: 0 4px 4px 0;
+        }
+        .markdown-content blockquote p {
+             margin-bottom: 0.5em; /* Less space between paragraphs in blockquote */
+        }
+
+        /* Loading/Error Placeholders */
         .loading-placeholder, .error-placeholder {
             font-style: italic;
-            color: #888;
-            text-align: center;
-            padding: 40px 0;
+            color: #9999aa; /* Softer color */
+            text-align: center; /* Center placeholders */
+            padding: 50px 0;
+            font-size: 1.1rem;
+            width: 100%; /* Ensure they take full width */
         }
-        .error-placeholder { color: #ff8080; }
+        .error-placeholder {
+            color: #ff9090; /* Softer error red */
+            font-weight: 500;
+        }
+
+        /* --- Styles SPECIFICALLY for Project Cards --- */
+
+        /* Container for the project cards */
+        #projects-content .markdown-content {
+            /* Remove default text alignment, cards handle it */
+            text-align: initial;
+            /* Add some space around the cards container */
+             padding-top: 10px;
+             padding-bottom: 20px;
+        }
+
+        /* Project Card Styling */
+        .project-card {
+            background-color: rgba(28, 28, 55, 0.55); /* Card background - slightly adjusted */
+            border: 1px solid rgba(120, 120, 170, 0.3);
+            border-radius: 8px;
+            padding: 25px 30px; /* Inner padding */
+            margin-bottom: 35px; /* Space between cards */
+            box-shadow: 0 4px 18px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+            overflow: hidden; /* Ensure content respects border-radius */
+            text-align: left; /* Ensure card content is left-aligned */
+        }
+
+        .project-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            border-color: rgba(150, 150, 200, 0.6); /* Highlight border on hover */
+        }
+
+        /* Styling elements *within* a project card */
+        .project-card h2 {
+            margin-top: 0; /* Remove top margin for the first heading */
+            margin-bottom: 0.8em;
+            font-size: 1.7rem; /* Title size within card */
+            color: #f0f0ff; /* Brighter title */
+            border-bottom: 1px solid rgba(120, 120, 170, 0.5);
+            padding-bottom: 0.4em;
+        }
+
+        .project-card p {
+            margin-bottom: 1.2em;
+            color: #d8d8e8; /* Body text in card */
+            line-height: 1.75;
+        }
+
+        .project-card strong { /* "Technologies:", "Links:" labels */
+            color: #ffffff;
+            font-weight: 600;
+            display: block; /* Make labels like 'Technologies:' block */
+            margin-bottom: 0.3em; /* Add space below the label */
+             margin-top: 1em; /* Add space above the label */
+        }
+
+        /* Adjust styling for specific elements like links or lists if needed */
+        .project-card a {
+            color: #b8ccff; /* Slightly different link color for cards */
+            /* Inherits base link styling otherwise */
+        }
+         .project-card a:hover {
+             color: #ffffff;
+             background-color: rgba(184, 204, 255, 0.25); /* Slightly stronger highlight */
+        }
+
+        .project-card ul {
+             padding-left: 1.6em; /* List indentation inside card */
+             margin-bottom: 1em;
+             margin-top: 0.5em; /* Space above list, after label */
+             list-style: disc; /* Ensure bullets are visible */
+        }
+        .project-card li {
+             margin-bottom: 0.5em;
+             color: #d0d0e0; /* List item color */
+        }
+        .project-card ul li::marker {
+             color: #b8ccff; /* Marker color */
+        }
+        /* Hide <hr> specifically within the projects section markdown */
+        #projects-content .markdown-content hr {
+            display: none;
+        }
 
 
         /* Media Queries */
         @media (max-width: 768px) {
-            .content-wrapper { padding-top: 70px; padding-bottom: 30px; } /* Adjust padding for fixed nav */
-            .page-section { top: 70px; } /* Adjust absolute positioning */
-            .logo { font-size: 3rem; }
-            .subtitle { font-size: 1.1rem; margin-bottom: 25px;}
-            .social-icons svg { width: 26px; height: 26px; }
-            .social-icons { gap: 15px; }
-            #main-nav ul { gap: 15px; }
-            #main-nav li a { font-size: 1rem; padding: 4px 8px;}
-            .markdown-content h1 { font-size: 1.8rem; }
-            .markdown-content h2 { font-size: 1.4rem; }
+            .content-wrapper { padding-top: 75px; padding-bottom: 30px; }
+            .page-section { top: 75px; }
+            .logo { font-size: 3.2rem; }
+            .subtitle { font-size: 1.2rem; margin-bottom: 30px;}
+            .social-icons svg { width: 28px; height: 28px; }
+            .social-icons { gap: 20px; }
+            #main-nav ul { gap: 20px; }
+            #main-nav li a { font-size: 1rem; padding: 6px 10px;}
+            .markdown-content h1 { font-size: 1.9rem; }
+            .markdown-content h2 { font-size: 1.6rem; } /* Base H2 */
+            .markdown-content h3 { font-size: 1.4rem; }
+            /* Card specific adjustments */
+            .project-card { padding: 20px 25px; margin-bottom: 30px;}
+            .project-card h2 { font-size: 1.5rem; }
         }
          @media (max-width: 480px) {
-            .content-wrapper { padding-top: 60px; padding-left: 10px; padding-right: 10px;}
-            .page-section { top: 60px; } /* Adjust absolute positioning */
-            .logo { font-size: 2.2rem; letter-spacing: 2px; }
-            .subtitle { font-size: 1rem; }
-            .social-icons svg { width: 24px; height: 24px; }
-            #main-nav ul { gap: 10px; }
-            #main-nav li a { font-size: 0.9rem; padding: 3px 6px;}
-            .markdown-content h1 { font-size: 1.6rem; }
-            .markdown-content h2 { font-size: 1.3rem; }
+            .content-wrapper { padding-top: 70px; padding-left: 15px; padding-right: 15px;}
+            .page-section { top: 70px; }
+            .logo { font-size: 2.5rem; letter-spacing: 2px; }
+            .subtitle { font-size: 1.05rem; }
+            .social-icons svg { width: 26px; height: 26px; }
+            .social-icons { gap: 15px; }
+            #main-nav ul { gap: 15px; } /* Further reduce gap */
+            #main-nav li a { font-size: 0.95rem; padding: 5px 8px;}
+            .markdown-content h1 { font-size: 1.7rem; }
+            .markdown-content h2 { font-size: 1.4rem; } /* Base H2 */
+            .markdown-content h3 { font-size: 1.3rem; }
+             .markdown-content pre { padding: 1em; } /* Reduce padding on small screens */
+             /* Card specific adjustments */
+            .project-card { padding: 15px 20px; margin-bottom: 25px; }
+            .project-card h2 { font-size: 1.35rem; }
         }
 
     </style>
@@ -249,7 +435,7 @@
         <!-- Navigation Menu -->
         <nav id="main-nav">
             <ul>
-                <li><a href="#home" class="nav-link active">Home</a></li>
+                <li><a href="#home" class="nav-link active" aria-current="page">Home</a></li>
                 <li><a href="#projects" class="nav-link">Projects</a></li>
                 <li><a href="#about" class="nav-link">About</a></li>
             </ul>
@@ -277,7 +463,7 @@
 
         <!-- Projects Section (Hidden by default) -->
         <div id="projects-content" class="page-section">
-             <!-- Content loaded from projects.md -->
+             <!-- Content loaded from projects.md and structured into cards -->
              <div class="markdown-content" data-source="projects.md">
                  <p class="loading-placeholder">Loading projects...</p>
              </div>
@@ -295,73 +481,99 @@
 
 
     <script>
-        document.addEventListener('DOMContentLoaded', (event) => {
-            console.log("DOM Content Loaded"); // Debug
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log("DOM Content Loaded");
 
             // --- tsParticles Initialization ---
             const particlesConfig = {
                  fpsLimit: 60, particles: { number: { value: 180, density: { enable: true, value_area: 1100 } }, color: { value: ["#6a6aff", "#8f8fff", "#b0b0ff", "#4f4fff", "#60d0d0"] }, shape: { type: "circle" }, opacity: { value: { min: 0.05, max: 0.7 }, animation: { enable: true, speed: 0.7, minimumValue: 0.05, sync: false, startValue: "random" } }, size: { value: { min: 1, max: 4 }, animation: { enable: true, speed: 3, minimumValue: 0.5, sync: false, startValue: "random", destroy: "none" } }, links: { enable: true, distance: 140, color: "#606090", opacity: 0.1, width: 1.2, triangles: { enable: true, color: "#101030", opacity: 0.03 } }, move: { enable: true, speed: 1.0, direction: "bottom-right", random: true, straight: false, outModes: { default: "bounce" }, attract: { enable: true, distance: 200, rotate: { x: 3500, y: 3500 } } } }, interactivity: { detectsOn: "window", events: { onHover: { enable: true, mode: "grab", parallax: { enable: false } }, onClick: { enable: true, mode: "push" }, resize: { enable: true, delay: 0.5 } }, modes: { grab: { distance: 200, links: { blink: false, consent: false, opacity: 0.9, color: "#ffffff" } }, bubble: { distance: 150, size: 6, opacity: 1, duration: 0.8, mix: false }, repulse: { distance: 100, duration: 0.4, factor: 100, speed: 1, maxSpeed: 50, easing: "ease-out-quad" }, push: { quantity: 4 }, remove: { quantity: 2 } } }, detectRetina: true
             };
-             tsParticles.load("tsparticles", particlesConfig)
+            tsParticles.load("tsparticles", particlesConfig)
                 .then(container => console.log("tsParticles simulation loaded."))
                 .catch(error => console.error("Error loading tsParticles:", error));
 
             // --- Navigation and Content Loading Logic ---
             const mainNav = document.getElementById('main-nav');
-            const navLinks = document.querySelectorAll('.nav-link'); // Used for setting active class
+            const navLinks = document.querySelectorAll('.nav-link');
             const pageSections = document.querySelectorAll('.page-section');
-            const contentCache = {}; // Simple cache for fetched markdown
+            const contentCache = {}; // Cache for fetched markdown HTML (can be raw or structured)
 
-            console.log("Elements selected:", { mainNav: !!mainNav, navLinks: navLinks.length, pageSections: pageSections.length }); // Debug
+            console.log("Elements selected:", { mainNav: !!mainNav, navLinks: navLinks.length, pageSections: pageSections.length });
 
-            // --- Basic Markdown Parser ---
-            function parseBasicMarkdown(md) {
-                let html = md.trim();
-                // Code blocks (``` lang \n code \n ```)
-                html = html.replace(/```(.*?)?\n([\s\S]*?)\n```/g, (match, lang, code) => {
-                    const languageClass = lang ? ` class="language-${lang.trim()}"` : '';
-                    // Basic escaping for HTML within code blocks
-                    const escapedCode = code.replace(/</g, '<').replace(/>/g, '>');
-                    return `<pre><code${languageClass}>${escapedCode.trim()}</code></pre>`;
-                });
-                // Headings per line (#, ##)
-                html = html.split('\n').map(line => {
-                    line = line.trim();
-                    if (line.startsWith('## ')) return `<h2>${line.substring(3)}</h2>`;
-                    if (line.startsWith('# ')) return `<h1>${line.substring(2)}</h1>`;
-                    return line;
-                }).join('\n');
-                // Paragraphs and inline elements
-                html = html.split('\n\n').map(paragraph => {
-                    paragraph = paragraph.trim();
-                    if (!paragraph) return '';
-                    // Keep pre-formatted blocks (headings, code blocks)
-                    if (/^<h[1-6]>/.test(paragraph) || /^<pre>/.test(paragraph)) {
-                        return paragraph;
+            // --- Function to Structure Project Cards ---
+            function structureProjectCards(container) {
+                // Check if the container already has structured cards (e.g., from cache)
+                 if (container.querySelector('.project-card')) {
+                    console.log("Project cards already structured (from cache or previous run).");
+                    return; // Already structured, do nothing
+                 }
+
+                console.log("Structuring project cards...");
+                const fragment = document.createDocumentFragment();
+                let currentCard = null;
+
+                // Convert NodeList to Array for easier processing
+                const nodes = Array.from(container.childNodes);
+
+                nodes.forEach(node => {
+                    // Skip empty text nodes
+                     if (node.nodeType === Node.TEXT_NODE && !node.textContent.trim()) {
+                        return;
+                     }
+
+                    // Check if the node is an <hr> tag (used as separator)
+                    // Note: We hide HRs with CSS, but still use them as logical separators here.
+                    if (node.nodeName === 'HR') {
+                        if (currentCard) {
+                            fragment.appendChild(currentCard); // Add the completed card
+                        }
+                        currentCard = null; // Reset for the next project
+                    } else {
+                        // If it's not an HR, it belongs to the current project
+                        if (!currentCard) {
+                            // Start a new card div if needed
+                            currentCard = document.createElement('div');
+                            currentCard.className = 'project-card';
+                        }
+                        // Append the node (h2, p, ul, etc.) to the current card
+                        currentCard.appendChild(node.cloneNode(true)); // Clone to avoid issues if nodes were referenced elsewhere
                     }
-                    // Inline: Bold, Italic, Links, Inline Code
-                    paragraph = paragraph
-                        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') // Bold
-                        .replace(/(?<!\*)\*(?!\*)(.*?)(?<!\*)\*(?!\*)/g, '<em>$1</em>') // Italic (simple)
-                        .replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>') // Links
-                        .replace(/`(.*?)`/g, '<code>$1</code>'); // Inline code
-                    // Wrap in <p> and convert single newlines to <br> within paragraphs
-                    return `<p>${paragraph.replace(/(?<!\n)\n(?!\n)/g, '<br>')}</p>`;
-                }).join('\n'); // Join paragraphs back
-                return html;
+                });
+
+                // Append the last card if it exists (markdown might not end with <hr>)
+                if (currentCard) {
+                    fragment.appendChild(currentCard);
+                }
+
+                // Replace the original flat content with the structured cards
+                container.innerHTML = ''; // Clear original content
+                container.appendChild(fragment); // Append the structured cards
+                console.log("Finished structuring project cards.");
             }
 
 
-            // --- Content Fetching Function ---
+            // --- Modified Content Fetching Function ---
             async function fetchAndDisplayMarkdown(sourceFile, targetElement) {
-                 console.log(`Fetching ${sourceFile}`); // Debug
+                 console.log(`Requesting ${sourceFile}`);
+                 const isProjectsSection = targetElement.closest('#projects-content');
+
+                 // Check cache first
                  if (contentCache[sourceFile]) {
-                    console.log(`Using cache for ${sourceFile}`); // Debug
+                    console.log(`Using cache for ${sourceFile}`);
                     targetElement.innerHTML = contentCache[sourceFile];
-                    return; // Use cached content
+                    // Note: For projects, the cache *already contains the structured HTML* after the first load.
+                    // So, no need to call structureProjectCards() again on cache hit for projects.
+                    return;
                  }
 
-                 targetElement.innerHTML = `<p class="loading-placeholder">Loading ${sourceFile}...</p>`; // Show loading message
+                 targetElement.innerHTML = `<p class="loading-placeholder">Loading ${sourceFile.split('.')[0]}...</p>`;
+
+                 // Check if Marked.js is loaded
+                 if (typeof marked === 'undefined') {
+                     console.error('Marked.js library not found!');
+                     targetElement.innerHTML = `<p class="error-placeholder">Error: Markdown library (marked.js) failed to load.</p>`;
+                     return;
+                 }
 
                  try {
                     const response = await fetch(sourceFile);
@@ -369,38 +581,40 @@
                         throw new Error(`HTTP error! status: ${response.status} for ${sourceFile}`);
                     }
                     const markdownText = await response.text();
-                    const htmlContent = parseBasicMarkdown(markdownText);
-                    contentCache[sourceFile] = htmlContent; // Cache the result
-                    targetElement.innerHTML = htmlContent;
-                    console.log(`Successfully loaded and parsed ${sourceFile}`); // Debug
+                    // Use Marked.js to parse the markdown into raw HTML
+                    const rawHtmlContent = marked.parse(markdownText);
+                    targetElement.innerHTML = rawHtmlContent; // Temporarily render raw HTML
+
+                    // If this is the projects section, structure the content into cards
+                    if (isProjectsSection) {
+                         structureProjectCards(targetElement);
+                         // **Important:** Cache the *structured* HTML for the projects section
+                         contentCache[sourceFile] = targetElement.innerHTML;
+                    } else {
+                        // For other sections (like About), cache the raw parsed HTML
+                         contentCache[sourceFile] = rawHtmlContent;
+                    }
+
+                    console.log(`Successfully loaded, parsed, and structured (if applicable) ${sourceFile}`);
+
                  } catch (error) {
                     console.error(`Error fetching or parsing ${sourceFile}:`, error);
-                    targetElement.innerHTML = `<p class="error-placeholder">Could not load content from ${sourceFile}. Check file exists and browser console.</p>`;
+                    targetElement.innerHTML = `<p class="error-placeholder">Could not load content from ${sourceFile}. Please check the file exists and the browser console.</p>`;
                     delete contentCache[sourceFile]; // Don't cache errors
                  }
             }
 
-            // --- Navigation Click Handler (using event delegation) ---
+            // --- Navigation Click Handler (Event Delegation) ---
             function handleNavClick(event) {
-                console.log("Nav area clicked", event.target); // Debug
-
-                // Find the closest ancestor link element that is a direct child li>a of the nav
                 const clickedLink = event.target.closest('#main-nav ul li a.nav-link');
+                if (!clickedLink) return; // Ignore clicks not on nav links
 
-                // If the click wasn't on a relevant link, ignore it
-                if (!clickedLink) {
-                     console.log("Click was not on a nav-link, ignoring."); // Debug
-                     return;
-                }
+                event.preventDefault();
 
-                event.preventDefault(); // Prevent default anchor jump
-
-                const targetId = clickedLink.getAttribute('href').substring(1); // Get 'home', 'projects', 'about'
+                const targetId = clickedLink.getAttribute('href').substring(1); // 'home', 'projects', 'about'
                 const newTargetSection = document.getElementById(`${targetId}-content`);
                 const currentActiveSection = document.querySelector('.page-section.active');
                 const currentActiveLink = document.querySelector('.nav-link.active');
-
-                console.log(`Target ID: ${targetId}`); // Debug
 
                 // Do nothing if clicking the already active link/section
                 if (currentActiveSection === newTargetSection) {
@@ -408,65 +622,66 @@
                     return;
                 }
 
-                // --- Update Nav Link Styling ---
+                // --- Update Nav Link Styling & Accessibility ---
                 if (currentActiveLink) {
                     currentActiveLink.classList.remove('active');
+                    currentActiveLink.removeAttribute('aria-current'); // Remove aria-current
                 }
                 clickedLink.classList.add('active');
-                console.log("Updated active link class"); // Debug
+                clickedLink.setAttribute('aria-current', 'page'); // Set aria-current
+                console.log(`Set active link: ${targetId}`);
 
                 // --- Switch Sections with Animation ---
-                // 1. Hide the current section (if one exists and is different)
+                // 1. Hide the current section
                 if (currentActiveSection) {
                     currentActiveSection.classList.remove('active');
-                    console.log(`Hiding section: ${currentActiveSection.id}`); // Debug
+                    console.log(`Hiding section: ${currentActiveSection.id}`);
                 }
 
-                // 2. Show the new section (if it exists)
+                // 2. Show the new section
                 if (newTargetSection) {
-                    console.log(`Showing section: ${newTargetSection.id}`); // Debug
-                    newTargetSection.classList.add('active'); // Add active class to trigger fade-in via CSS
+                    console.log(`Showing section: ${newTargetSection.id}`);
+                    newTargetSection.classList.add('active');
 
-                    // 3. Load content if needed (only for the new section)
+                    // 3. Load content if it's markdown-based (fetch function handles caching & structuring)
                     const markdownContainer = newTargetSection.querySelector('.markdown-content');
                     if (markdownContainer && markdownContainer.dataset.source) {
                         const sourceFile = markdownContainer.dataset.source;
-                        // Fetch content (function handles caching)
                         fetchAndDisplayMarkdown(sourceFile, markdownContainer);
                     }
                 } else {
-                     console.error(`No page section found with ID: ${targetId}-content`); // Debug
+                     console.error(`Target section not found: ${targetId}-content`);
                 }
 
-
-                // Scroll to top when changing sections (optional - happens immediately)
-                 if (targetId !== 'home') { // Don't scroll top if navigating back to home
-                     // Check if user prefers reduced motion
+                // Scroll to top smoothly when changing sections (except back to home)
+                if (targetId !== 'home') {
                      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
                      window.scrollTo({
                          top: 0,
                          behavior: prefersReducedMotion ? 'auto' : 'smooth'
                      });
+                 } else {
+                    // If navigating home, ensure scroll is at top instantly if not already
+                    if (window.scrollY !== 0) {
+                         window.scrollTo({ top: 0, behavior: 'auto' });
+                    }
                  }
             }
 
-            // --- Attach Single Event Listener to Nav ---
+            // Attach Single Event Listener to Nav
             if (mainNav) {
                 mainNav.addEventListener('click', handleNavClick);
-                console.log("Event listener attached to mainNav"); // Debug
+                console.log("Event listener attached to mainNav");
             } else {
-                console.error("Main navigation element (#main-nav) not found!"); // Debug
+                console.error("Main navigation element (#main-nav) not found!");
             }
 
-            // --- Initialize Page State ---
-            // Ensure only home is visible initially and home link is active
+            // Initialize Page State (ensure only home is active)
             pageSections.forEach(section => {
                  section.classList.toggle('active', section.id === 'home-content');
             });
-            navLinks.forEach(link => {
-                 link.classList.toggle('active', link.getAttribute('href') === '#home');
-            });
-            console.log("Initial page state set."); // Debug
+            // Active state and aria-current already set via HTML/CSS for the home link initially.
+            console.log("Initial page state set.");
 
         });
     </script>
