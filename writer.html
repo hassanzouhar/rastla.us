@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>sanswriter clone</title>
+    <style>
+        /* --- Style Guide Variables --- */
+        :root {
+            --color-bg: #000000;
+            --color-text: #FFFFFF;
+            --color-text-muted: #AAAAAA;
+            --color-placeholder: #555555;
+            --color-feedback: #55FF55;
+            --color-focus-border: rgba(255, 255, 255, 0.2);
+
+            --font-family-primary: Georgia, Times, 'Times New Roman', serif;
+            --font-size-base: 18px;
+            --line-height-base: 1.7;
+            --font-weight-normal: 400; /* Explicitly defining normal weight */
+
+            --spacing-page-padding-v: 40px;
+            --spacing-page-padding-h: 50px;
+            --spacing-header-margin-bottom: 25px;
+        }
+
+        /* --- Basic Reset --- */
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+        }
+
+        /* --- Body Styling --- */
+        body {
+            background-color: var(--color-bg);
+            color: var(--color-text);
+            font-family: var(--font-family-primary);
+            font-size: var(--font-size-base);
+            line-height: var(--line-height-base);
+            font-weight: var(--font-weight-normal);
+            padding: var(--spacing-page-padding-v) var(--spacing-page-padding-h);
+            overflow-y: scroll; /* Ensure scrollbar is always present if needed */
+        }
+
+        /* --- Header Styling --- */
+        header {
+            margin-bottom: var(--spacing-header-margin-bottom);
+            position: relative; /* For positioning feedback */
+        }
+
+        h1 {
+            font-size: 1.1em; /* Relative to base font size */
+            font-weight: var(--font-weight-normal); /* Explicitly normal */
+            color: var(--color-text-muted);
+            margin: 0;
+            user-select: none; /* Prevent selecting the title */
+            transition: color 0.3s ease; /* Smooth transition for feedback (though not currently used) */
+        }
+
+        /* --- Feedback Message Styling --- */
+        .feedback-message {
+            position: absolute;
+            top: 0;
+            right: 0;
+            font-size: 0.9em; /* Slightly smaller than base */
+            color: var(--color-feedback);
+            opacity: 0;
+            transition: opacity 0.5s ease-out;
+            user-select: none;
+            pointer-events: none; /* Prevent interaction */
+        }
+
+        /* --- Main Content Area --- */
+        main {
+            position: relative; /* Needed for the focus border */
+            padding-top: 5px; /* Space for the focus border */
+            margin-top: -5px; /* Counteract padding */
+        }
+
+        /* --- Focus Indicator --- */
+        main::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background-color: var(--color-focus-border);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none; /* Should not interfere */
+        }
+        main:focus-within::before {
+            opacity: 1; /* Show border when editor inside is focused */
+        }
+
+        /* --- Editor Area Styling --- */
+        #editor {
+            outline: none; /* Remove the default focus outline */
+            min-height: 75vh; /* Ensure it takes up significant vertical space */
+            /* Inherit font styles from body automatically */
+            caret-color: var(--color-text); /* Ensure cursor is white */
+            white-space: pre-wrap; /* Preserve whitespace and wrap lines */
+            word-wrap: break-word; /* Break long words */
+        }
+
+        /* --- Placeholder Text Styling --- */
+        #editor:empty::before {
+            content: "Start writing..."; /* Placeholder text */
+            color: var(--color-placeholder);
+            cursor: text; /* Indicate it's a text area */
+            pointer-events: none; /* Allow clicks to focus the underlying div */
+            display: block; /* Ensure it takes up space */
+            font-style: italic; /* Italic as per guide */
+        }
+
+        /* --- Editor Focus State --- */
+        #editor:focus {
+            outline: none; /* Reiterate no outline on focus */
+        }
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1 id="app-title">sanswriter</h1>
+        <div id="feedback" class="feedback-message"></div>
+    </header>
+
+    <main id="main-content">
+        <div id="editor"
+             contenteditable="true"
+             spellcheck="false"
+             role="textbox"
+             aria-multiline="true"
+             aria-label="Writing area">
+        </div>
+    </main>
+
+    <script>
+        // --- DOM Elements ---
+        const editor = document.getElementById('editor');
+        const appTitle = document.getElementById('app-title'); // Kept variable though not used currently
+        const feedbackElement = document.getElementById('feedback');
+        const STORAGE_KEY = 'sanswriter_clone_content'; // Unique key for localStorage
+
+        // --- Improvement 1: Local Storage Persistence ---
+        function loadContent() {
+            const savedContent = localStorage.getItem(STORAGE_KEY);
+            if (savedContent) {
+                editor.innerHTML = savedContent;
+            }
+            // Placeholder visibility is handled by CSS :empty selector
+        }
+
+        function saveContent() {
+            localStorage.setItem(STORAGE_KEY, editor.innerHTML);
+        }
+
+        // Save content whenever it changes using 'input' event
+        editor.addEventListener('input', saveContent);
+
+        // --- Improvement 2: Keyboard Shortcuts ---
+        document.addEventListener('keydown', (event) => {
+            const isModKey = event.metaKey || event.ctrlKey; // Cmd on Mac, Ctrl on Win/Linux
+
+            if (isModKey && event.shiftKey) {
+                switch (event.key.toUpperCase()) {
+                    case 'C': // Cmd/Ctrl + Shift + C = Copy All
+                        event.preventDefault();
+                        copyAllText();
+                        break;
+
+                    case 'X': // Cmd/Ctrl + Shift + X = Clear Canvas
+                        event.preventDefault();
+                        clearCanvas();
+                        break;
+                }
+            }
+        });
+
+        function copyAllText() {
+            const textToCopy = editor.innerText; // Use innerText for plain text
+            if (textToCopy) {
+                navigator.clipboard.writeText(textToCopy)
+                    .then(() => {
+                        showFeedback("Copied!");
+                        console.log('Content copied to clipboard');
+                    })
+                    .catch(err => {
+                        showFeedback("Copy failed!");
+                        console.error('Failed to copy text: ', err);
+                        // Optionally provide alternative copy instructions here
+                    });
+            } else {
+                 showFeedback("Nothing to copy.");
+            }
+        }
+
+        function clearCanvas() {
+            if (editor.innerHTML === '') {
+                showFeedback("Already empty.");
+                return; // Don't prompt if already empty
+            }
+            // Use confirm dialog for safety - basic but functional
+            if (confirm('Clear the entire canvas? This cannot be undone.')) {
+                editor.innerHTML = ''; // Clear the editor visually
+                localStorage.removeItem(STORAGE_KEY); // Clear saved content
+                editor.focus(); // Put focus back into the editor
+                showFeedback("Canvas cleared.");
+                console.log('Canvas cleared');
+            }
+        }
+
+        // --- Action Feedback ---
+        let feedbackTimeout;
+        function showFeedback(message) {
+             if (feedbackTimeout) clearTimeout(feedbackTimeout); // Clear previous timeout
+
+             feedbackElement.textContent = message;
+             feedbackElement.style.opacity = '1';
+
+             feedbackTimeout = setTimeout(() => {
+                 feedbackElement.style.opacity = '0';
+             }, 2000); // Hide after 2 seconds
+        }
+
+
+        // --- Paste Handling (Plain Text) ---
+        editor.addEventListener('paste', (event) => {
+            event.preventDefault();
+            try {
+                const text = (event.clipboardData || window.clipboardData).getData('text/plain');
+                // Use insertText command for better compatibility and undo/redo behavior
+                document.execCommand('insertText', false, text);
+            } catch (e) {
+                console.error("Paste failed:", e);
+                // Fallback or error message if needed
+            }
+        });
+
+        // --- Initial Setup ---
+        window.onload = () => {
+            loadContent(); // Load content from localStorage first
+            editor.focus();  // Then focus the editor
+        };
+
+    </script>
+
+</body>
+</html>
