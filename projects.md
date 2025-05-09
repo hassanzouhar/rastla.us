@@ -7,9 +7,10 @@ In my quest for an answer to this question I look at the tools that are becoming
 **Technologies:** LM-studio, Ollama, llama.cpp, LibreChat
 **Models/Architectures:** LLama, Qwen ++
 **Resources:** 
+**Galaxy Wars:**
+About: Small Game coded using local LLM (Qwen3 8B), using HTML, JS in a single file.
 * [Galaxy Wars - Github](https://github.com/hassanzouhar/galaxy-wars)
 * [Galaxy Wars - Live Demo](https://galaxy-wars-zeta.vercel.app)
-About: Small Game coded using local LLM (Qwen3 8B), using HTML, JS in a single file.
 **Status:** In progress
 
 ---
