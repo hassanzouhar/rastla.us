@@ -7,8 +7,28 @@ In my quest for an answer to this question I look at the tools that are becoming
 **Technologies:** LM-studio, Ollama, llama.cpp, LibreChat
 **Models/Architectures:** LLama, Qwen ++
 **Resources:** 
+* [Galaxy Wars](https://github.com/hassanzouhar/galaxy-wars)
+Small Game coded using local LLM (Qwen3 8B).
 **Status:** In progress
 
+---
+
+## Portfolio Website (rastla.us)
+
+A lightweight, single-page portfolio showcasing skills and experience, built entirely with plain HTML, CSS, and vanilla JavaScript. It demonstrates frontend techniques and dynamic content loading.
+
+**Features:**
+*   Interactive background animations using the tsParticles library.
+*   Dynamic loading and rendering of 'About' and 'Projects' content from external Markdown (.md) files.
+*   Markdown parsing handled client-side using the Marked.js library.
+*   Project section structured into distinct cards using JavaScript DOM manipulation after content load.
+*   Responsive design adapting to various screen sizes.
+*   Focus on performance, clean code, and modern web aesthetics within a single-file constraint (initially).
+
+**Technologies:** HTML5, CSS3, Vanilla JavaScript, tsParticles, Marked.js, Responsive Design, DOM Manipulation, Fetch API.
+
+**Links:**
+*   [View Source on GitHub](https://github.com/hassanzouhar/rastla.us)
 ---
 
 ## PetXL: E-commerce Growth & ERP Transformation
@@ -45,39 +65,3 @@ Joined Seaber AS in its early stages as CTO & Product Owner to lead the technolo
 
 **Links:**
 *   (Company Website/Info if applicable)
-
----
-
-## rastla.us: Consulting & Experimentation Hub
-
-Founded rastla.us to serve as a dedicated hub for technology consulting services and personal project experimentation, particularly focusing on areas like automation and multi-agent systems.
-
-**Key Activities:**
-*   Providing strategic technology consulting drawing on nearly two decades of experience across various industries and roles.
-*   Developing proof-of-concept projects and exploring emerging technologies.
-*   Actively utilizing and experimenting with automation tools like n8n.
-*   Focusing on combining human insight with technology to create real value.
-
-**Technologies:** Technology Consulting, Business Strategy, Automation (n8n), Multi-agent Systems, Prototyping, Independent Research.
-
-**Links:**
-*   (Link to rastla.us if available)
-
----
-
-## Portfolio Website (This one!)
-
-A lightweight, single-page portfolio showcasing skills and experience, built entirely with plain HTML, CSS, and vanilla JavaScript. It demonstrates frontend techniques and dynamic content loading.
-
-**Features:**
-*   Interactive background animations using the tsParticles library.
-*   Dynamic loading and rendering of 'About' and 'Projects' content from external Markdown (.md) files.
-*   Markdown parsing handled client-side using the Marked.js library.
-*   Project section structured into distinct cards using JavaScript DOM manipulation after content load.
-*   Responsive design adapting to various screen sizes.
-*   Focus on performance, clean code, and modern web aesthetics within a single-file constraint (initially).
-
-**Technologies:** HTML5, CSS3, Vanilla JavaScript, tsParticles, Marked.js, Responsive Design, DOM Manipulation, Fetch API.
-
-**Links:**
-*   [View Source on GitHub](https://github.com/hassanzouhar/portfolio-v1)  *(Please verify/update this link)*
