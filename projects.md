@@ -1,3 +1,14 @@
+## Universal Access to Artificial Intelligence
+
+In 2022 neural networks went from abstract to commercial products and saw widespread adoption unlike anything we have seen before. But in the wake of this proliferation of a new and powerfull technology lingers a important question: Will this technology be available to everyone, or only those who can afford it?
+
+In my quest for an answer to this question I look at the tools that are becoming more available now to run LLMs locally on your computer without needing to pay for access etc. I examine their quality, hardware requirements, and possible use cases.
+
+**Technologies:** LM-studio, Ollama, llama.cpp, LibreChat
+**Models/Architectures:** LLama, Qwen ++
+**Resources:** 
+**Status:** In progress
+
 ## PetXL: E-commerce Growth & ERP Transformation
 
 As CTO and part of the leadership team (CEO, CFO, CMO, Procurement), I led PetXL's technological transformation during a period of significant growth and change. The initial system landscape was poorly documented, and an ongoing ERP rollout presented challenges alongside an underperforming e-commerce setup.
