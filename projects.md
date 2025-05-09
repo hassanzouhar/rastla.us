@@ -9,6 +9,8 @@ In my quest for an answer to this question I look at the tools that are becoming
 **Resources:** 
 **Status:** In progress
 
+---
+
 ## PetXL: E-commerce Growth & ERP Transformation
 
 As CTO and part of the leadership team (CEO, CFO, CMO, Procurement), I led PetXL's technological transformation during a period of significant growth and change. The initial system landscape was poorly documented, and an ongoing ERP rollout presented challenges alongside an underperforming e-commerce setup.
