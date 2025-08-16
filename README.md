@@ -1,5 +1,4 @@
 # rastla.us
-Okay, here is a compelling `README.md` file for your project. It explains what the project is, its features, how to use it, and how to customize it further.
 
 ```markdown
 # Dynamic Neural Network Landing Page
