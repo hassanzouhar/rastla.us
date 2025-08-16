@@ -1,6 +1,6 @@
 # rastla.us
 
-```markdown
+
 # Dynamic Neural Network Landing Page
 
 ![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)
@@ -79,10 +79,10 @@ Editing this single-file project is straightforward:
 
 This project is licensed under the MIT License - see the [LICENSE.txt](LICENSE.txt) file for details (or include the MIT license text directly if not using a separate file).
 
-```
+
 MIT License
 
-Copyright (c) [Year] [Your Name/Hassan Zouhar]
+Copyright (c) [2025] Hassan Zouhar
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -101,13 +101,9 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-```
+
 
 ## 🙏 Acknowledgements
 
 *   **[tsParticles](https://github.com/matteobruni/tsparticles)** by Matteo Bruni for the fantastic particle animation library.
 *   SVG Icons sourced from various open repositories (implicitly).
-
----
-
-*Remember to replace placeholders like `[Year]` and `[Your Name/Hassan Zouhar]` in the license text, and add an actual preview image/GIF.*
