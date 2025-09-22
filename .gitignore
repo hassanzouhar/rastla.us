@@ -1,0 +1,5 @@
+_arch/
+GEMINI.md
+.DS_Store
+.env
+.venv
