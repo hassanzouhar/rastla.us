@@ -9,7 +9,7 @@
     <script src="https://cdn.jsdelivr.net/npm/tsparticles@2.12.0/tsparticles.bundle.min.js"></script>
     
     <style>
-        /* Basic Reset & Setup */
+        /* Basic Reset & Fullscreen Setup */
         html, body {
             margin: 0;
             padding: 0;
@@ -81,6 +81,7 @@
             transition: all 0.3s ease;
             padding: 8px 16px;
             border-radius: 6px;
+            position: relative;
         }
 
         .nav-links a:hover {
@@ -88,13 +89,15 @@
             background-color: rgba(120, 120, 170, 0.2);
         }
 
-        /* Section Base */
+        /* Section Styling */
         .section {
             position: relative;
             z-index: 1;
-            padding: 120px 24px;
+            padding: 120px 0;
             max-width: 1200px;
             margin: 0 auto;
+            padding-left: 24px;
+            padding-right: 24px;
         }
 
         .section:first-of-type {
@@ -111,6 +114,7 @@
             align-items: center;
             position: relative;
         }
+
 
 
         .hero-content {
@@ -206,6 +210,7 @@
             transform: translateY(-2px);
         }
 
+
         /* Companies Section */
         .companies {
             text-align: center;
@@ -215,6 +220,17 @@
             margin: 4rem 0;
             padding: 3rem 2rem;
             position: relative;
+            overflow: hidden;
+        }
+
+        .companies::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, rgba(120, 120, 170, 0.6), rgba(180, 180, 220, 0.6));
         }
 
         .companies h2 {
@@ -250,8 +266,37 @@
             -ms-overflow-style: none;
         }
 
+        /* Center logos when they fit in viewport */
+        @media (min-width: 1024px) {
+            .companies-scroll {
+                justify-content: center;
+            }
+        }
+
         .companies-scroll::-webkit-scrollbar {
             display: none;
+        }
+
+        /* Fade effect on edges */
+        .companies-container::before,
+        .companies-container::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 40px;
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        .companies-container::before {
+            left: 0;
+            background: linear-gradient(to right, rgba(28, 28, 55, 0.3), transparent);
+        }
+
+        .companies-container::after {
+            right: 0;
+            background: linear-gradient(to left, rgba(28, 28, 55, 0.3), transparent);
         }
 
         .company-logo {
@@ -267,13 +312,20 @@
             width: 200px;
             min-width: 200px;
             flex-shrink: 0;
+            position: relative;
+            overflow: hidden;
         }
 
-        .company-logo:hover {
-            background-color: rgba(255, 255, 255, 0.1);
-            border-color: rgba(150, 150, 200, 0.6);
-            transform: translateY(-5px) scale(1.02);
-            box-shadow: 0 10px 30px rgba(120, 120, 170, 0.3);
+        .company-logo::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(120, 120, 170, 0.1), rgba(180, 180, 220, 0.1));
+            opacity: 0;
+            transition: opacity 0.4s ease;
         }
 
         .company-logo img {
@@ -286,11 +338,23 @@
             transition: all 0.4s ease;
         }
 
+        .company-logo:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-color: rgba(150, 150, 200, 0.6);
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 10px 30px rgba(120, 120, 170, 0.3);
+        }
+
+        .company-logo:hover::before {
+            opacity: 1;
+        }
+
         .company-logo:hover img {
             filter: grayscale(0%) brightness(1) contrast(1);
             transform: scale(1.05);
         }
 
+        /* Company logo placeholders for demonstration */
         .company-placeholder {
             width: 150px;
             height: 60px;
@@ -351,23 +415,6 @@
         .scroll-indicator.right {
             right: 10px;
         }
-
-        /* Card Base Style */
-        .card {
-            background-color: rgba(28, 28, 55, 0.6);
-            border: 1px solid rgba(120, 120, 170, 0.3);
-            border-radius: 12px;
-            padding: 2.5rem;
-            transition: all 0.3s ease;
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
-            border-color: rgba(150, 150, 200, 0.6);
-        }
-
-        /* About Section */
         .about {
             text-align: center;
         }
@@ -449,8 +496,8 @@
             line-height: 1.8;
         }
 
-        /* Section Headers */
-        .section-header {
+        /* Services Section */
+        .services h2 {
             text-align: center;
             font-size: 2.5rem;
             color: #f0f0ff;
@@ -458,12 +505,38 @@
             font-weight: 600;
         }
 
-        /* Services Section */
         .services-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
             gap: 2rem;
             margin-top: 3rem;
+        }
+
+        .service-card {
+            background-color: rgba(28, 28, 55, 0.6);
+            border: 1px solid rgba(120, 120, 170, 0.3);
+            border-radius: 12px;
+            padding: 2.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, rgba(120, 120, 170, 0.8), rgba(180, 180, 220, 0.8));
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+            border-color: rgba(150, 150, 200, 0.6);
         }
 
         .service-card h3 {
@@ -480,11 +553,26 @@
         }
 
         /* Why/How Section */
+        .why-how h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            color: #f0f0ff;
+            margin-bottom: 3rem;
+            font-weight: 600;
+        }
+
         .why-how-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
             gap: 3rem;
             margin-top: 3rem;
+        }
+
+        .why-how-card {
+            background-color: rgba(28, 28, 55, 0.6);
+            border: 1px solid rgba(120, 120, 170, 0.3);
+            border-radius: 12px;
+            padding: 2.5rem;
         }
 
         .why-how-card h3 {
@@ -568,6 +656,19 @@
 
         /* Media Queries */
         @media (max-width: 768px) {
+            .nav-container {
+                padding: 0 20px;
+            }
+            
+            .nav-links {
+                gap: 1rem;
+            }
+            
+            .nav-links a {
+                font-size: 0.9rem;
+                padding: 6px 12px;
+            }
+            
             .section {
                 padding: 80px 20px;
             }
@@ -619,7 +720,8 @@
                 gap: 2rem;
             }
             
-            .card {
+            .service-card,
+            .why-how-card {
                 padding: 2rem;
             }
             
@@ -633,6 +735,7 @@
             
             .companies-scroll {
                 gap: 2rem;
+                justify-content: center;
             }
             
             .company-logo {
@@ -642,10 +745,21 @@
                 min-width: 160px;
             }
             
+            .companies-container::before,
+            .companies-container::after {
+                width: 20px;
+            }
+            
             .scroll-indicator {
                 width: 35px;
                 height: 35px;
                 font-size: 1rem;
+            }
+            
+            .company-placeholder {
+                width: 120px;
+                height: 50px;
+                font-size: 0.8rem;
             }
             
             .cta-buttons {
@@ -681,7 +795,9 @@
                 font-size: 3rem;
             }
             
-            .section-header {
+            .services h2,
+            .why-how h2,
+            .contact h2 {
                 font-size: 2rem;
             }
             
@@ -693,14 +809,7 @@
                 width: 28px;
                 height: 28px;
             }
-        }
-
-        /* Center logos on larger screens */
-        @media (min-width: 1024px) {
-            .companies-scroll {
-                justify-content: center;
             }
-        }
     </style>
 </head>
 <body>
@@ -758,6 +867,7 @@
                     <img src="logos/client1.png" alt="Acorn Design AS">
                 </div>
                 <div class="company-logo">
+                    <!-- Replace with actual logo: <img src="logos/client4-logo.png" alt="Client 4"> -->
                     <div class="company-placeholder">Din bedrift?</div>
                 </div>
             </div>
@@ -777,8 +887,8 @@
         <div class="about-content">
             <div class="profile-section">
                 <div class="profile-picture">
-                    <img src="profile_image.jpeg" alt="Hassan Zouhar" class="profile-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                    <!--- <div class="profile-placeholder">👤</div> -->
+                    <!-- Placeholder for profile picture -->
+                    <div class="profile-placeholder">👤</div>
                 </div>
                 <div class="profile-name">Hassan Zouhar</div>
                 <div class="profile-title">Grunnlegger & Rabagast</div>
@@ -803,38 +913,38 @@
 
     <!-- Services Section -->
     <section id="services" class="services section">
-        <h2 class="section-header">Tjenester</h2>
+        <h2>Tjenester</h2>
         <p style="text-align: center; color: #c0c0ff; font-size: 1.2rem; margin-bottom: 3rem;">
             Helhetlige tekniske ledelsesløsninger tilpasset din vekstfase
         </p>
         
         <div class="services-grid">
-            <div class="card service-card">
+            <div class="service-card">
                 <h3>Teknisk rådgiver</h3>
                 <p>Strategisk teknisk rådgivning inkludert arkitekturgjennomgang, planlegging av teknologiroadmap og veiledning for kritiske tekniske beslutninger.</p>
             </div>
             
-            <div class="card service-card">
+            <div class="service-card">
                 <h3>Deltid CTO</h3>
                 <p>Praktisk teknisk ledelse inkludert teamstyring, rapportering til styret og full oversikt over din tekniske strategi og gjennomføring.</p>
             </div>
             
-            <div class="card service-card">
+            <div class="service-card">
                 <h3>Plattformpartner</h3>
                 <p>Full teknisk partnerskap med mulighet for eierandel, flere prosjekter samtidig og langsiktig strategisk samarbeid.</p>
             </div>
             
-            <div class="card service-card">
+            <div class="service-card">
                 <h3>MVP-utvikling</h3>
                 <p>Fullstendig MVP-utvikling levert med moderne teknologistakker, skalerbar arkitektur og produksjonsklare fundamenter.</p>
             </div>
             
-            <div class="card service-card">
+            <div class="service-card">
                 <h3>Teknisk due diligence</h3>
                 <p>Grundig teknologivurdering for investorer, oppkjøpere og interessenter som trenger detaljert teknisk analyse.</p>
             </div>
             
-            <div class="card service-card">
+            <div class="service-card">
                 <h3>Arkitekturgjennomgang</h3>
                 <p>Dyptgående analyse av eksisterende systemer med konkrete anbefalinger for ytelse, skalerbarhet og reduksjon av teknisk gjeld.</p>
             </div>
@@ -843,14 +953,14 @@
 
     <!-- Why/How Section -->
     <section class="why-how section">
-        <h2 class="section-header">Burde din bedrift være mer Rastlaus?</h2>
+        <h2>Burde din bedrift være mer Rastlaus?</h2>
         
         <div class="why-how-grid">
-            <div class="card why-how-card">
+            <div class="why-how-card">
                 <h3>Hvorfor jobbe med oss</h3>
                 <ul>
                     <li>Vi oversetter forretningsmål til teknologi</li>
-                    <li>Dokumentert erfaring med å bygge plattformer</li>
+						<li>Dokumentert erfaring med å bygge plattformer</li>
                     <li>Fokus på gjentakende inntekter og skalerbar arkitektur</li>
                     <li>Dyp forståelse av nordiske og europeiske markeder</li>
                     <li>Erfaring fra mange bransjer, både innen B2B- og B2C</li>
@@ -858,7 +968,7 @@
                 </ul>
             </div>
             
-            <div class="card why-how-card">
+            <div class="why-how-card">
                 <h3>Slik skaper vi verdi</h3>
                 <ul>
                     <li>Kostnadseffektiv utviklingsledelse</li>
@@ -1006,7 +1116,7 @@
         // Company logos horizontal scrolling
         function scrollCompanies(direction) {
             const container = document.getElementById('companiesScroll');
-            const scrollAmount = 220;
+            const scrollAmount = 220; // Logo width + gap
             
             if (direction === 'left') {
                 container.scrollBy({
@@ -1031,12 +1141,14 @@
                 const maxScrollLeft = scrollContainer.scrollWidth - scrollContainer.clientWidth;
                 const currentScroll = scrollContainer.scrollLeft;
                 
+                // Hide left indicator if at start
                 if (currentScroll <= 10) {
                     leftIndicator.style.opacity = '0';
                 } else {
                     leftIndicator.style.opacity = '1';
                 }
                 
+                // Hide right indicator if at end
                 if (currentScroll >= maxScrollLeft - 10) {
                     rightIndicator.style.opacity = '0';
                 } else {
@@ -1044,9 +1156,12 @@
                 }
             }
             
+            // Update indicators on scroll
             scrollContainer.addEventListener('scroll', updateScrollIndicators);
+            
+            // Initial check
             setTimeout(updateScrollIndicators, 100);
         });
     </script>
 </body>
-</html>
+</html>	
