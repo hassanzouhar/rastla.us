@@ -1,1 +1,1125 @@
-<iframe src="https://claude.site/public/artifacts/d2b96c30-363a-4be3-9a92-16272eb44c70/embed" title="Claude Artifact" width="100%" height="600" frameborder="0" allow="clipboard-write" allowfullscreen></iframe>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Corado Coffee - Data-Driven Growth Roadmap</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #f5f5f5;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            min-height: 100vh;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .header {
+            text-align: center;
+            padding: 3rem 2rem 2rem;
+            background: white;
+            border-bottom: 1px solid #e5e5e5;
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            color: #2d3748;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .header p {
+            font-size: 1rem;
+            color: #718096;
+            margin-bottom: 1rem;
+        }
+
+        .alert {
+            background: #fff5f5;
+            padding: 1rem 1.5rem;
+            border-radius: 4px;
+            margin-top: 1.5rem;
+            border-left: 3px solid #e53e3e;
+            display: inline-block;
+        }
+
+        .alert p {
+            color: #742a2a;
+            font-weight: 500;
+            font-size: 0.875rem;
+        }
+
+        .crisis-section {
+            padding: 2rem;
+            background: white;
+            border-bottom: 1px solid #e5e5e5;
+        }
+
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 1.5rem;
+        }
+
+        .crisis-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+
+        .crisis-card {
+            padding: 1.5rem;
+            border-radius: 4px;
+            border: 1px solid #e5e5e5;
+            background: white;
+            transition: all 0.2s ease;
+        }
+
+        .crisis-card:hover {
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            transform: translateY(-2px);
+        }
+
+        .crisis-card i {
+            font-size: 1.5rem;
+            margin-bottom: 0.75rem;
+            display: block;
+        }
+
+        .crisis-card.red { border-left: 3px solid #e53e3e; }
+        .crisis-card.red i { color: #e53e3e; }
+        .crisis-card.orange { border-left: 3px solid #dd6b20; }
+        .crisis-card.orange i { color: #dd6b20; }
+        .crisis-card.yellow { border-left: 3px solid #d69e2e; }
+        .crisis-card.yellow i { color: #d69e2e; }
+        .crisis-card.blue { border-left: 3px solid #3182ce; }
+        .crisis-card.blue i { color: #3182ce; }
+
+        .crisis-card .title {
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 0.25rem;
+            font-size: 0.9rem;
+        }
+
+        .crisis-card .desc {
+            font-size: 0.875rem;
+            color: #718096;
+        }
+
+        .progress-section {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: white;
+            border-bottom: 1px solid #e5e5e5;
+            padding: 1.5rem 2rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .progress-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .progress-item {
+            text-align: left;
+        }
+
+        .progress-label {
+            font-size: 0.75rem;
+            color: #718096;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 4px;
+            background: #e5e5e5;
+            border-radius: 2px;
+            overflow: hidden;
+            margin: 0.5rem 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: #3182ce;
+            border-radius: 2px;
+            transition: width 0.6s ease;
+        }
+
+        .progress-percent {
+            font-size: 0.75rem;
+            color: #4a5568;
+            margin-top: 0.25rem;
+        }
+
+        .phases-section {
+            padding: 2rem;
+        }
+
+        .phase-card {
+            border-radius: 4px;
+            margin: 1.5rem 0;
+            overflow: hidden;
+            border: 1px solid #e5e5e5;
+            background: white;
+        }
+
+        .phase-header {
+            padding: 1.25rem 1.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #fafafa;
+            border-bottom: 1px solid #e5e5e5;
+        }
+
+        .phase-header:hover {
+            background: #f5f5f5;
+        }
+
+        .phase-header-left {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .phase-header i {
+            font-size: 1.25rem;
+            color: #4a5568;
+        }
+
+        .phase-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: #2d3748;
+        }
+
+        .phase-meta {
+            display: flex;
+            gap: 1rem;
+            margin-top: 0.25rem;
+            font-size: 0.8rem;
+            color: #718096;
+        }
+
+        .phase-badge {
+            background: white;
+            padding: 0.125rem 0.5rem;
+            border-radius: 3px;
+            font-weight: 500;
+            font-size: 0.7rem;
+            border: 1px solid #e5e5e5;
+        }
+
+        .chevron {
+            transition: transform 0.3s ease;
+            color: #a0aec0;
+        }
+
+        .chevron.open {
+            transform: rotate(90deg);
+        }
+
+        .phase-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease;
+            background: white;
+        }
+
+        .phase-content.open {
+            max-height: 10000px;
+        }
+
+        .phase-inner {
+            padding: 1.5rem;
+        }
+
+        .impact-box {
+            padding: 1rem 1.25rem;
+            border-radius: 4px;
+            margin-bottom: 1.5rem;
+            border-left: 3px solid #e53e3e;
+            background: #fff5f5;
+        }
+
+        .issue-category {
+            background: #fafafa;
+            padding: 1.25rem;
+            border-radius: 4px;
+            margin-bottom: 1rem;
+            border: 1px solid #e5e5e5;
+        }
+
+        .problem-list {
+            list-style: none;
+            margin: 1rem 0;
+        }
+
+        .problem-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            margin: 0.5rem 0;
+            color: #4a5568;
+            font-size: 0.875rem;
+        }
+
+        .problem-list i {
+            color: #e53e3e;
+            margin-top: 0.25rem;
+            font-size: 0.75rem;
+        }
+
+        .task-item {
+            background: white;
+            border: 1px solid #e5e5e5;
+            border-radius: 4px;
+            padding: 1.25rem;
+            margin: 0.75rem 0;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .task-item:hover {
+            border-color: #cbd5e0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .task-item.completed {
+            background: #f7fafc;
+            border-color: #48bb78;
+        }
+
+        .task-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+
+        .checkbox {
+            width: 20px;
+            height: 20px;
+            border: 2px solid #cbd5e0;
+            border-radius: 3px;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+
+        .task-item.completed .checkbox {
+            background: #48bb78;
+            border-color: #48bb78;
+        }
+
+        .checkbox i {
+            color: white;
+            font-size: 0.75rem;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+
+        .task-item.completed .checkbox i {
+            opacity: 1;
+        }
+
+        .task-title {
+            font-weight: 600;
+            color: #2d3748;
+            font-size: 0.95rem;
+        }
+
+        .task-item.completed .task-title {
+            text-decoration: line-through;
+            color: #718096;
+        }
+
+        .task-description {
+            color: #718096;
+            margin: 0.5rem 0 0 2rem;
+            font-size: 0.875rem;
+        }
+
+        .task-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 0.75rem;
+            margin: 1rem 0 0 2rem;
+            font-size: 0.8rem;
+        }
+
+        .task-detail {
+            padding: 0.75rem;
+            background: #fafafa;
+            border-radius: 4px;
+            border: 1px solid #e5e5e5;
+        }
+
+        .task-detail .detail-header {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .task-detail i {
+            font-size: 0.875rem;
+        }
+
+        .task-detail strong {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 600;
+        }
+
+        .task-detail .detail-text {
+            color: #4a5568;
+            line-height: 1.5;
+        }
+
+        .outcome-card {
+            background: #fafafa;
+            border: 1px solid #e5e5e5;
+            border-radius: 4px;
+            padding: 1.25rem;
+            margin: 0.75rem 0;
+        }
+
+        .outcome-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .outcome-title {
+            font-weight: 600;
+            font-size: 0.95rem;
+            color: #2d3748;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .outcome-title i {
+            color: #718096;
+            font-size: 1rem;
+        }
+
+        .outcome-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            font-size: 0.875rem;
+        }
+
+        .outcome-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.5rem;
+            margin: 0.5rem 0;
+        }
+
+        .outcome-item i {
+            font-size: 0.75rem;
+            margin-top: 0.25rem;
+        }
+
+        .reasoning-box {
+            background: #ebf8ff;
+            border-left: 3px solid #3182ce;
+            padding: 1rem 1.25rem;
+            border-radius: 4px;
+            margin-bottom: 1.5rem;
+        }
+
+        .reasoning-box h4 {
+            color: #2c5282;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .reasoning-box p {
+            color: #2c5282;
+            font-size: 0.875rem;
+            line-height: 1.6;
+        }
+
+        .dependencies-section {
+            background: #fff5f5;
+            padding: 2rem;
+            border-radius: 4px;
+            margin: 2rem 0;
+            border: 1px solid #feb2b2;
+        }
+
+        .dependencies-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .dependency-item h3 {
+            font-weight: 600;
+            color: #742a2a;
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+        }
+
+        .dependency-item p {
+            color: #742a2a;
+            font-size: 0.875rem;
+            line-height: 1.6;
+        }
+
+        .success-section {
+            background: #fafafa;
+            padding: 2rem;
+            border-radius: 4px;
+            margin: 2rem 0;
+        }
+
+        .success-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .success-card {
+            background: white;
+            padding: 1.25rem;
+            border-radius: 4px;
+            border: 1px solid #e5e5e5;
+        }
+
+        .success-card h3 {
+            color: #2d3748;
+            margin-bottom: 0.75rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .success-card h3 i {
+            color: #718096;
+        }
+
+        .success-card p {
+            color: #4a5568;
+            font-size: 0.875rem;
+            line-height: 1.6;
+        }
+
+        @media (max-width: 768px) {
+            .container { padding: 0; }
+            .header { padding: 2rem 1rem; }
+            .header h1 { font-size: 1.5rem; }
+            .crisis-grid, .progress-grid { grid-template-columns: 1fr; }
+            .progress-section { position: relative; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>☕ Corado Coffee: Data-Driven Growth & SEO Integration</h1>
+            <p>From Data Blindness to Revenue Intelligence: A Strategic Implementation Plan</p>
+            <div class="alert">
+                <p>⚠️ CRITICAL: Current data infrastructure prevents optimization of marketing spend and customer experience</p>
+            </div>
+        </div>
+
+        <div class="crisis-section">
+            <h2 class="section-title">Current Data Infrastructure Crisis</h2>
+            <div class="crisis-grid">
+                <div class="crisis-card red">
+                    <i class="fas fa-eye-slash"></i>
+                    <div class="title">Traffic Blindness</div>
+                    <div class="desc">Facebook dominance, no quality confidence</div>
+                </div>
+                <div class="crisis-card orange">
+                    <i class="fas fa-database"></i>
+                    <div class="title">Platform Fragmentation</div>
+                    <div class="desc">Shopify/Shoplift data mismatch</div>
+                </div>
+                <div class="crisis-card yellow">
+                    <i class="fas fa-users"></i>
+                    <div class="title">Customer Intelligence Void</div>
+                    <div class="desc">No demographics, churn data</div>
+                </div>
+                <div class="crisis-card blue">
+                    <i class="fas fa-shopping-cart"></i>
+                    <div class="title">Revenue Optimization Gap</div>
+                    <div class="desc">No conversion funnel control</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="progress-section">
+            <h2 class="section-title" style="margin-bottom: 1rem;">Implementation Progress</h2>
+            <div class="progress-grid" id="progressGrid"></div>
+        </div>
+
+        <div class="phases-section">
+            <div id="phasesContainer"></div>
+
+            <div class="dependencies-section">
+                <h2 class="section-title" style="color: #742a2a;">Critical Dependencies & Risks</h2>
+                <div class="dependencies-grid">
+                    <div class="dependency-item">
+                        <h3>⚠️ Shopify Migration Deadline</h3>
+                        <p>Migration to new Shopify must happen this year (unconfirmed deadline). This blocks access to advanced customer profiles and modern analytics features.</p>
+                    </div>
+                    <div class="dependency-item">
+                        <h3>💰 Revenue Impact Risk</h3>
+                        <p>Without data integration, potentially 20-30% of marketing budget may be wasted on low-converting traffic sources while missing high-value opportunities.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="success-section">
+                <h2 class="section-title">Why This Sequence Creates Sustainable Growth</h2>
+                <div class="success-grid">
+                    <div class="success-card">
+                        <h3><i class="fas fa-layer-group"></i> Data Infrastructure First</h3>
+                        <p>Cannot optimize what you cannot measure. Data foundation enables all other optimizations and prevents wasted investment in ineffective tactics.</p>
+                    </div>
+                    <div class="success-card">
+                        <h3><i class="fas fa-wrench"></i> Platform + SEO Integration</h3>
+                        <p>Shopify migration creates opportunity to fix technical SEO simultaneously. Doing both together is more efficient than separate projects.</p>
+                    </div>
+                    <div class="success-card">
+                        <h3><i class="fas fa-chart-line"></i> Revenue Before Traffic</h3>
+                        <p>Optimize conversion funnel before driving more traffic. Better to convert 20% of 100 visitors than 2% of 1000 visitors - and it costs less.</p>
+                    </div>
+                    <div class="success-card">
+                        <h3><i class="fas fa-lightbulb"></i> Data-Informed Content</h3>
+                        <p>Content strategy informed by actual customer behavior data performs better than guessing about what topics will drive conversions.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const phases = [
+            {
+                title: "AS-IS: Data Blindness Crisis",
+                duration: "Current Situation",
+                priority: "CRITICAL",
+                icon: "fa-triangle-exclamation",
+                dataIssues: [
+                    {
+                        category: "Traffic Source Confusion",
+                        problems: [
+                            "Facebook biggest driver but no quality confidence in conversion data",
+                            "No consistent strategy on content creation and publication tracking",
+                            "Cannot identify which channels drive actual revenue vs vanity metrics",
+                            "Missing attribution model - can't connect marketing spend to sales"
+                        ],
+                        businessImpact: "Potentially wasting marketing budget on low-converting traffic"
+                    },
+                    {
+                        category: "Technical Platform Fragmentation",
+                        problems: [
+                            "Shopify on old version - missing new user profile/preferences pages",
+                            "Deadline to migrate to new Shopify this year (unconfirmed)",
+                            "Shoplift plugin for subscriptions has non-harmonised keys with Shopify",
+                            "No unified customer data across platforms"
+                        ],
+                        businessImpact: "Cannot optimize customer experience or measure true performance"
+                    },
+                    {
+                        category: "Revenue Intelligence Gap",
+                        problems: [
+                            "No full sales figures due to Shopify/Shoplift data mismatch",
+                            "No insights into traffic source → demographic → conversion funnel",
+                            "Unknown churn rates and reasons for cancellation",
+                            "No clear strategy to increase recurring revenue"
+                        ],
+                        businessImpact: "Flying blind on business growth levers and customer lifetime value"
+                    },
+                    {
+                        category: "User Experience Optimization Void",
+                        problems: [
+                            "No control over new user consent/onboarding flow",
+                            "No UX/UI strategy to drive users to add items to cart",
+                            "Cannot track last purchase to trigger reactivation campaigns",
+                            "Missing abandoned cart recovery automation"
+                        ],
+                        businessImpact: "Losing potential recurring customers due to poor conversion funnel"
+                    }
+                ]
+            },
+            {
+                title: "Phase 1: Data Foundation Emergency",
+                duration: "Week 1-2",
+                priority: "URGENT",
+                icon: "fa-database",
+                reasoning: "WHY FIRST: Without data infrastructure, all other optimization is guesswork. You're currently making business decisions with incomplete information - this must be fixed before any other investments.",
+                tasks: [
+                    {
+                        task: "Audit Current Shopify Version & Migration Timeline",
+                        description: "Confirm deadline and migration requirements for new Shopify features",
+                        impact: "Prevents future platform limitations and enables advanced analytics",
+                        impactIcon: "fa-shield-halved",
+                        technical: "Contact Shopify support, review migration guide, plan downtime",
+                        technicalIcon: "fa-screwdriver-wrench",
+                        dataGain: "Access to new customer profile features and enhanced reporting",
+                        dataIcon: "fa-chart-simple"
+                    },
+                    {
+                        task: "Implement Unified Analytics Tracking",
+                        description: "Google Analytics 4 + Facebook Pixel + UTM parameter strategy",
+                        impact: "Finally understand which traffic sources convert to sales",
+                        impactIcon: "fa-lightbulb",
+                        technical: "GA4 enhanced ecommerce, server-side tracking, attribution modeling",
+                        technicalIcon: "fa-code",
+                        dataGain: "Traffic source → demographic → conversion funnel visibility",
+                        dataIcon: "fa-chart-line"
+                    },
+                    {
+                        task: "Create Shopify/Shoplift Data Bridge",
+                        description: "Export and reconcile subscription data with main sales data",
+                        impact: "True revenue picture including recurring subscription value",
+                        impactIcon: "fa-money-bill-trend-up",
+                        technical: "API connections or manual data export/merge in spreadsheet",
+                        technicalIcon: "fa-plug",
+                        dataGain: "Complete customer lifetime value calculations",
+                        dataIcon: "fa-calculator"
+                    },
+                    {
+                        task: "Set Up Conversion Tracking Infrastructure",
+                        description: "Track micro-conversions: email signup, cart add, subscription signup",
+                        impact: "Identify bottlenecks in customer journey",
+                        impactIcon: "fa-route",
+                        technical: "Goal setup in GA4, Facebook Conversions API, email tracking",
+                        technicalIcon: "fa-bullseye",
+                        dataGain: "Funnel optimization opportunities identified",
+                        dataIcon: "fa-filter"
+                    }
+                ]
+            },
+            {
+                title: "Phase 2: Technical SEO + Platform Migration",
+                duration: "Week 3-6",
+                priority: "HIGH",
+                icon: "fa-arrow-trend-up",
+                reasoning: "WHY SECOND: Platform migration creates opportunity to fix technical debt AND data infrastructure simultaneously. Doing SEO fixes during migration is efficient - you're already touching the code.",
+                tasks: [
+                    {
+                        task: "Execute Shopify Migration",
+                        description: "Migrate to new Shopify version during planned maintenance window",
+                        impact: "Access to advanced customer profiles, better analytics, modern features",
+                        impactIcon: "fa-rocket",
+                        technical: "Theme compatibility check, data backup, DNS updates, testing",
+                        technicalIcon: "fa-server",
+                        dataGain: "Enhanced customer segmentation and personalization capabilities",
+                        dataIcon: "fa-users-viewfinder"
+                    },
+                    {
+                        task: "Implement Advanced Customer Profiles",
+                        description: "Set up customer preferences, purchase history, behavior tracking",
+                        impact: "Personalized experiences increase conversion rates 10-15%",
+                        impactIcon: "fa-user-check",
+                        technical: "New Shopify customer profile features + custom fields",
+                        technicalIcon: "fa-table-columns",
+                        dataGain: "Individual customer behavior patterns and preferences",
+                        dataIcon: "fa-user-tag"
+                    },
+                    {
+                        task: "Fix Technical SEO During Migration",
+                        description: "Update titles, meta descriptions, H1 tags, structured data in new theme",
+                        impact: "SEO improvements + fresh start with clean technical foundation",
+                        impactIcon: "fa-magnifying-glass",
+                        technical: "Theme.liquid optimization, schema markup, image ALT text",
+                        technicalIcon: "fa-file-code",
+                        dataGain: "Search performance metrics and keyword ranking improvements",
+                        dataIcon: "fa-ranking-star"
+                    },
+                    {
+                        task: "Integrate Subscription Analytics",
+                        description: "Connect Shoplift data properly with new Shopify analytics",
+                        impact: "Unified view of one-time + recurring revenue streams",
+                        impactIcon: "fa-repeat",
+                        technical: "API integration or upgraded subscription app with better reporting",
+                        technicalIcon: "fa-arrows-spin",
+                        dataGain: "Subscription churn analysis, upgrade/downgrade patterns",
+                        dataIcon: "fa-chart-gantt"
+                    }
+                ]
+            },
+            {
+                title: "Phase 3: Revenue Optimization Engine",
+                duration: "Week 7-10",
+                priority: "HIGH",
+                icon: "fa-chart-line",
+                reasoning: "WHY THIRD: Revenue optimization requires data foundation and platform stability. Now that you can track everything and have modern platform features, you can optimize the entire customer journey.",
+                tasks: [
+                    {
+                        task: "Build Customer Journey Mapping",
+                        description: "Map complete path: traffic source → browse → cart → purchase → retention",
+                        impact: "Identify exactly where customers drop off and why",
+                        impactIcon: "fa-map-location-dot",
+                        technical: "GA4 funnel analysis, heat mapping tools, user session recordings",
+                        technicalIcon: "fa-video",
+                        dataGain: "Conversion bottleneck identification and optimization opportunities",
+                        dataIcon: "fa-road-barrier"
+                    },
+                    {
+                        task: "Implement Cart Abandonment Recovery",
+                        description: "Automated email sequence + retargeting ads for abandoned carts",
+                        impact: "Recover 15-25% of abandoned carts = immediate revenue increase",
+                        impactIcon: "fa-cart-arrow-down",
+                        technical: "Shopify Flow automation + Facebook/Google retargeting pixels",
+                        technicalIcon: "fa-robot",
+                        dataGain: "Cart abandonment reasons and recovery rates by customer segment",
+                        dataIcon: "fa-percent"
+                    },
+                    {
+                        task: "Create Subscription Upsell Engine",
+                        description: "Convert one-time buyers to subscribers with targeted offers",
+                        impact: "Increase customer lifetime value by 3-5x through subscriptions",
+                        impactIcon: "fa-arrow-up-right-dots",
+                        technical: "Post-purchase upsells, email nurture sequences, discount triggers",
+                        technicalIcon: "fa-gears",
+                        dataGain: "Subscription conversion rates by product, timing, and customer type",
+                        dataIcon: "fa-bars-progress"
+                    },
+                    {
+                        task: "Deploy Reactivation Campaigns",
+                        description: "Track purchase dates, trigger win-back campaigns for lapsed customers",
+                        impact: "Reduce churn, increase repeat purchase frequency",
+                        impactIcon: "fa-user-clock",
+                        technical: "Customer segmentation by purchase recency, automated email workflows",
+                        technicalIcon: "fa-clock-rotate-left",
+                        dataGain: "Customer lifecycle stages, churn prediction, reactivation success rates",
+                        dataIcon: "fa-heart-pulse"
+                    }
+                ]
+            },
+            {
+                title: "Phase 4: Content & SEO Integration",
+                duration: "Month 3-4",
+                priority: "MEDIUM",
+                icon: "fa-pen-nib",
+                reasoning: "WHY FOURTH: Content and SEO efforts are now informed by real customer data and behavior patterns. You're not guessing what works - you're optimizing based on proven results.",
+                tasks: [
+                    {
+                        task: "Launch Data-Driven Content Strategy",
+                        description: "Create content based on actual search behavior and customer interests",
+                        impact: "Higher engagement because content matches proven demand",
+                        impactIcon: "fa-bullseye",
+                        technical: "SEO keyword research + customer behavior data integration",
+                        technicalIcon: "fa-magnifying-glass-chart",
+                        dataGain: "Content performance metrics tied to business outcomes",
+                        dataIcon: "fa-link"
+                    },
+                    {
+                        task: "Build Attribution-Tracked Content Funnel",
+                        description: "Track how blog content leads to email signups and purchases",
+                        impact: "Prove ROI of content marketing, optimize high-converting topics",
+                        impactIcon: "fa-dollar-sign",
+                        technical: "UTM tracking, goal tracking, content-to-conversion attribution",
+                        technicalIcon: "fa-tags",
+                        dataGain: "Which content types drive customers vs just traffic",
+                        dataIcon: "fa-chart-column"
+                    },
+                    {
+                        task: "Implement Personalized On-Site Experience",
+                        description: "Show relevant products/content based on traffic source and behavior",
+                        impact: "Increase conversion rates through relevant recommendations",
+                        impactIcon: "fa-wand-magic-sparkles",
+                        technical: "Shopify personalization apps + customer data utilization",
+                        technicalIcon: "fa-sliders",
+                        dataGain: "Personalization performance by segment, A/B testing results",
+                        dataIcon: "fa-vial"
+                    },
+                    {
+                        task: "Create Feedback Loop System",
+                        description: "Connect SEO performance, content engagement, and sales data",
+                        impact: "Continuous optimization based on complete customer journey",
+                        impactIcon: "fa-arrows-rotate",
+                        technical: "Dashboard creation, automated reporting, performance alerts",
+                        technicalIcon: "fa-gauge-high",
+                        dataGain: "Holistic view of marketing performance and business growth",
+                        dataIcon: "fa-chart-pie"
+                    }
+                ]
+            },
+            {
+                title: "TO-BE: Data-Driven Growth Machine",
+                duration: "Month 6+",
+                priority: "GOAL",
+                icon: "fa-flag-checkered",
+                outcomes: [
+                    {
+                        metric: "Revenue Attribution Clarity",
+                        metricIcon: "fa-chart-mixed",
+                        target: "Know exact ROI for every marketing channel and campaign",
+                        current: "Facebook biggest driver but no quality confidence",
+                        improvement: "Optimize marketing spend for maximum profitable growth",
+                        dataEnabled: "Complete funnel tracking from click to lifetime value"
+                    },
+                    {
+                        metric: "Customer Intelligence",
+                        metricIcon: "fa-brain",
+                        target: "Predict churn, identify high-value segments, personalize experiences",
+                        current: "No insights into demographics, growth sources, churn",
+                        improvement: "Increase customer lifetime value through targeted retention",
+                        dataEnabled: "Advanced customer profiles and behavior prediction"
+                    },
+                    {
+                        metric: "Recurring Revenue Growth",
+                        metricIcon: "fa-money-bill-wave",
+                        target: "70% of revenue from subscriptions, predictable monthly growth",
+                        current: "No clear strategy to increase recurring revenue",
+                        improvement: "Stable, predictable cash flow and business valuation",
+                        dataEnabled: "Subscription optimization and churn prevention"
+                    },
+                    {
+                        metric: "Conversion Optimization",
+                        metricIcon: "fa-arrow-up",
+                        target: "Double conversion rates through data-driven UX improvements",
+                        current: "No control over user consent, cart optimization, reactivation",
+                        improvement: "More revenue from same traffic investment",
+                        dataEnabled: "Complete customer journey optimization and automation"
+                    }
+                ]
+            }
+        ];
+
+        let expandedPhase = null;
+        let completedTasks = new Set();
+
+        function getProgressPercentage(phaseIndex) {
+            const phase = phases[phaseIndex];
+            if (!phase.tasks) return 0;
+            const completed = phase.tasks.filter((_, taskIndex) => 
+                completedTasks.has(`${phaseIndex}-${taskIndex}`)
+            ).length;
+            return Math.round((completed / phase.tasks.length) * 100);
+        }
+
+        function toggleTask(phaseIndex, taskIndex) {
+            const taskId = `${phaseIndex}-${taskIndex}`;
+            if (completedTasks.has(taskId)) {
+                completedTasks.delete(taskId);
+            } else {
+                completedTasks.add(taskId);
+            }
+            renderPhases();
+            renderProgress();
+        }
+
+        function togglePhase(index) {
+            expandedPhase = expandedPhase === index ? null : index;
+            renderPhases();
+        }
+
+        function renderProgress() {
+            const progressGrid = document.getElementById('progressGrid');
+            progressGrid.innerHTML = phases
+                .slice(1, -1)
+                .map((phase, index) => {
+                    const progress = getProgressPercentage(index + 1);
+                    return `
+                        <div class="progress-item">
+                            <div class="progress-label">${phase.title}</div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: ${progress}%"></div>
+                            </div>
+                            <div class="progress-percent">${progress}%</div>
+                        </div>
+                    `;
+                })
+                .join('');
+        }
+
+        function renderPhases() {
+            const container = document.getElementById('phasesContainer');
+            container.innerHTML = phases.map((phase, phaseIndex) => {
+                const isExpanded = expandedPhase === phaseIndex;
+                
+                return `
+                    <div class="phase-card">
+                        <div class="phase-header" onclick="togglePhase(${phaseIndex})">
+                            <div class="phase-header-left">
+                                <i class="fas ${phase.icon}"></i>
+                                <div>
+                                    <div class="phase-title">${phase.title}</div>
+                                    <div class="phase-meta">
+                                        <span><i class="fas fa-clock"></i> ${phase.duration}</span>
+                                        <span class="phase-badge">${phase.priority}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <i class="fas fa-chevron-right chevron ${isExpanded ? 'open' : ''}"></i>
+                        </div>
+                        <div class="phase-content ${isExpanded ? 'open' : ''}">
+                            <div class="phase-inner">
+                                ${renderPhaseContent(phase, phaseIndex)}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function renderPhaseContent(phase, phaseIndex) {
+            if (phaseIndex === 0) {
+                return `
+                    <div class="impact-box">
+                        <h4 style="font-weight: 600; color: #742a2a; margin-bottom: 0.5rem; font-size: 0.9rem;">
+                            Business Impact of Data Blindness
+                        </h4>
+                        <p style="color: #742a2a; font-size: 0.875rem;">
+                            Cannot optimize marketing spend, improve customer experience, or make data-driven business decisions. 
+                            Potentially wasting significant budget on ineffective channels while missing growth opportunities.
+                        </p>
+                    </div>
+                    ${phase.dataIssues.map(category => `
+                        <div class="issue-category">
+                            <h4 style="font-weight: 600; color: #2d3748; margin-bottom: 0.75rem; font-size: 0.95rem;">
+                                ${category.category}
+                            </h4>
+                            <ul class="problem-list">
+                                ${category.problems.map(problem => `
+                                    <li>
+                                        <i class="fas fa-circle-exclamation"></i>
+                                        <span>${problem}</span>
+                                    </li>
+                                `).join('')}
+                            </ul>
+                            <div style="background: #fff5f5; padding: 0.75rem 1rem; border-radius: 4px; border: 1px solid #feb2b2; margin-top: 0.75rem;">
+                                <p style="color: #742a2a; font-weight: 500; font-size: 0.8rem; margin-bottom: 0.25rem;">
+                                    Business Impact:
+                                </p>
+                                <p style="color: #742a2a; font-size: 0.8rem;">
+                                    ${category.businessImpact}
+                                </p>
+                            </div>
+                        </div>
+                    `).join('')}
+                `;
+            } else if (phaseIndex === phases.length - 1) {
+                return phase.outcomes.map(outcome => `
+                    <div class="outcome-card">
+                        <div class="outcome-header">
+                            <h4 class="outcome-title">
+                                <i class="fas ${outcome.metricIcon}"></i>
+                                ${outcome.metric}
+                            </h4>
+                        </div>
+                        <div class="outcome-grid">
+                            <div>
+                                <div class="outcome-item" style="color: #38a169;">
+                                    <i class="fas fa-circle-check"></i>
+                                    <div><strong>Target:</strong> ${outcome.target}</div>
+                                </div>
+                                <div class="outcome-item" style="color: #e53e3e;">
+                                    <i class="fas fa-circle-xmark"></i>
+                                    <div><strong>Current:</strong> ${outcome.current}</div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="outcome-item" style="color: #3182ce;">
+                                    <i class="fas fa-arrow-trend-up"></i>
+                                    <div><strong>Impact:</strong> ${outcome.improvement}</div>
+                                </div>
+                                <div class="outcome-item" style="color: #718096;">
+                                    <i class="fas fa-database"></i>
+                                    <div><strong>Data:</strong> ${outcome.dataEnabled}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+            } else {
+                return `
+                    ${phase.reasoning ? `
+                        <div class="reasoning-box">
+                            <h4>Why This Phase Comes Now</h4>
+                            <p>${phase.reasoning}</p>
+                        </div>
+                    ` : ''}
+                    ${phase.tasks.map((task, taskIndex) => {
+                        const isCompleted = completedTasks.has(`${phaseIndex}-${taskIndex}`);
+                        return `
+                            <div class="task-item ${isCompleted ? 'completed' : ''}" 
+                                 onclick="toggleTask(${phaseIndex}, ${taskIndex})">
+                                <div class="task-header">
+                                    <div class="checkbox">
+                                        <i class="fas fa-check"></i>
+                                    </div>
+                                    <div style="flex: 1;">
+                                        <h4 class="task-title">${task.task}</h4>
+                                        <p class="task-description">${task.description}</p>
+                                        <div class="task-details">
+                                            <div class="task-detail">
+                                                <div class="detail-header">
+                                                    <i class="fas ${task.impactIcon}" style="color: #3182ce;"></i>
+                                                    <strong style="color: #3182ce;">Impact</strong>
+                                                </div>
+                                                <div class="detail-text">${task.impact}</div>
+                                            </div>
+                                            <div class="task-detail">
+                                                <div class="detail-header">
+                                                    <i class="fas ${task.technicalIcon}" style="color: #718096;"></i>
+                                                    <strong style="color: #718096;">Technical</strong>
+                                                </div>
+                                                <div class="detail-text">${task.technical}</div>
+                                            </div>
+                                            <div class="task-detail">
+                                                <div class="detail-header">
+                                                    <i class="fas ${task.dataIcon}" style="color: #38a169;"></i>
+                                                    <strong style="color: #38a169;">Data Gain</strong>
+                                                </div>
+                                                <div class="detail-text">${task.dataGain}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    }).join('')}
+                `;
+            }
+        }
+
+        // Initialize
+        renderProgress();
+        renderPhases();
+    </script>
+</body>
+</html>
