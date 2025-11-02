@@ -3,14 +3,15 @@
 @tailwind components;
 @tailwind utilities;
 
-:root { 
-  --font-inter: Inter, system-ui, sans-serif; 
+:root {
+  --font-inter: Inter, system-ui, sans-serif;
   --font-bricolage: "Bricolage Grotesque", Inter, system-ui, sans-serif;
-
-html { font-family: var(--font-inter); }
-  
   --background: #ffffff;
   --foreground: #171717;
+}
+
+html {
+  font-family: var(--font-inter);
 }
 
 @theme inline {
@@ -20,12 +21,14 @@ html { font-family: var(--font-inter); }
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
+/*
+ * Vi har ikke et gjennomført dark-mode-design i resten av appen.
+ * Når operativsystemet ber om dark mode bytter denne blokken
+ * `--foreground` til en lys farge, mens komponentene (f.eks. Paper)
+ * fortsatt bruker en lys bakgrunn. Resultatet er hvit tekst på lys
+ * bakgrunn. Vi fjerner derfor dark-mode overstyringen slik at siden
+ * alltid bruker de lyse fargene vi faktisk designer for.
+ */
 
 body {
   background: var(--background);
