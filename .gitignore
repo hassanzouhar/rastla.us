@@ -1,7 +1,6 @@
-_arch/
+.arch/
 GEMINI.md
 .DS_Store
-<<<<<<< Updated upstream
 .env
 .venv
 .vercel
