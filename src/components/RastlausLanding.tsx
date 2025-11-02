@@ -1,6 +1,4 @@
 "use client";
-// Lim inn HELE innholdet fra canvas-filen her
-// (koden din starter med imports av React/useEffect/useState og framer-motion)
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 
@@ -61,7 +59,7 @@ const BrutalButton = ({ children, color = C.neon, href = "#", className = "" }: 
 const Monogram = ({ size = 48 }: { size?: number }) => (
   <svg width={size} height={size} viewBox="0 0 100 100" aria-label="Rastlaus monogram R/">
     <text
-      x="8" y="76"
+      x="8" y="79"
       fontWeight="900"
       fontFamily="Bricolage Grotesque, Inter, system-ui, sans-serif"
       fontSize="76"
@@ -198,8 +196,7 @@ const NavBar = () => {
     <div className={`${stuck ? 'fixed top-0 left-0 right-0' : ''}`} style={{ background: stuck ? 'rgba(255,255,255,0.95)' : 'transparent', borderColor: C.ink, borderBottomStyle: 'solid', borderBottomWidth: stuck ? BORDER_W : 0, backdropFilter: stuck ? 'saturate(120%) blur(6px)' : undefined, zIndex: 50 }}>
       <div className="mx-auto max-w-6xl px-5 py-3 flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <Monogram size={40} />
-          <span className="text-3xl font-black tracking-[0.14em] uppercase" style={{ color: C.ink }}>Rastlaus</span>
+          <Monogram size={48} />
         </div>
         {/* Desktop links */}
         <nav className="hidden md:flex gap-3 font-extrabold uppercase">
@@ -256,13 +253,13 @@ export default function RastlausLanding() {
       {/* Hero */}
       <section className="mx-auto max-w-6xl px-5 pt-20 pb-6 grid md:grid-cols-2 gap-6 items-center">
         <div>
-          <h1 className="text-5xl md:text-7xl font-black uppercase leading-[0.9]">Make. Break. Ship.</h1>
+          <h1 className="text-5xl md:text-7xl font-black uppercase leading-[0.9]">Make. Break. Fix.</h1>
           <p className="mt-3 text-xl md:text-2xl font-bold max-w-xl">
-            Et lite, effektivt kollektiv som bygger produkter for oss selv – og for de modige som blir med.
+            Rastlaus løser problemer, som blir til produkter og selskaper. 
           </p>
           <div className="mt-5 flex flex-wrap items-center gap-3">
-            <BrutalButton color={C.neon}>Se produktene</BrutalButton>
-            <BrutalButton color={C.blue}>Kontakt oss</BrutalButton>
+            <BrutalButton color={C.neon}>Gå til Produkter</BrutalButton>
+            <BrutalButton color={C.blue}>kontakt</BrutalButton>
           </div>
         </div>
         <StackedBlocks />
@@ -270,41 +267,60 @@ export default function RastlausLanding() {
 
       {/* What we do */}
       <section id="work" className="mx-auto max-w-6xl px-5 py-8">
-        <SectionHeader kicker="Hva vi gjør" title="Små produkter, store streker." badge={"Tempo \u003E prat"} />
+        <SectionHeader kicker="Rastlause" title="Utforske og skape" badge={"Data \u003E Antagelser"} />
         <div className="grid md:grid-cols-3 gap-5">
           <BrutalCard>
-            <h3 className="text-2xl font-black uppercase">Prototyper på dager</h3>
-            <p className="mt-2 font-semibold">Idé → klikkbar demo på rekordtid. Vi bygger for å lære raskt.</p>
+            <h3 className="text-2xl font-black uppercase">Nye perspektiv</h3>
+            <p className="mt-2 font-semibold">Ikke alle problemer kan, eller bør løses. Vi roter og går i dybden.</p>
           </BrutalCard>
           <BrutalCard>
-            <h3 className="text-2xl font-black uppercase">Design som roper</h3>
-            <p className="mt-2 font-semibold">Tynne, tydelige linjer. Neubrutal – uten dill.</p>
+            <h3 className="text-2xl font-black uppercase">Prøve og feile</h3>
+            <p className="mt-2 font-semibold">Funker det i praksis? Hva om...? Vi tester det! Og prøver på nytt.</p>
           </BrutalCard>
           <BrutalCard>
-            <h3 className="text-2xl font-black uppercase">Ship i små biter</h3>
-            <p className="mt-2 font-semibold">Løpende leveranser som kan brukes – ikke PowerPoint.</p>
+            <h3 className="text-2xl font-black uppercase">Ut i markedet</h3>
+            <p className="mt-2 font-semibold">Produktet er klart lenge før skaperen er det, vi får det ut blant målgruppen kjapt.</p>
           </BrutalCard>
         </div>
       </section>
 
       {/* Principles */}
       <section id="principles" className="mx-auto max-w-6xl px-5 py-8">
-        <SectionHeader kicker="Prinsipper" title="Brutal klarhet" />
+        <SectionHeader kicker="Visjon og Mision" title="Hva skjer videre?" />
         <div className="grid md:grid-cols-2 gap-5">
           <BrutalCard>
             <ul className="space-y-2 font-semibold">
-              <li>• Skarpe rammer (farger, språk, scope)</li>
-              <li>• Automatiser alt som koster tid</li>
-              <li>• Data {'\u003E'} magefølelse</li>
-              <li>• Bygg før vi snakker</li>
+              <li>• Lorem ipsum dolor est, supera dior.</li>
+              <li>• Lorem ipsum dolor, supera dior.</li>
+              <li>• Lorem dolor est, supera dior.</li>
+              <li>• Lorem ipsum dolor est, dior.</li>
             </ul>
           </BrutalCard>
           <BrutalCard>
             <ul className="space-y-2 font-semibold">
-              <li>• Liten kjerne, høyt eierskap</li>
-              <li>• Offensivt UI (stor typografi, 45° skygger)</li>
-              <li>• Ingen gradienter – tynne, svarte outlines</li>
-              <li>• Rastløse i praksis</li>
+              <li>Lorem ipsum dolor est, supera dior. Ipsum dolor est, supera.</li>
+              <li>Lorem ipsum dolor est, supera dior. Lorem ipsum dolor est, supera dior. Lorem ipsum dolor est, supera dior.</li>
+            </ul>
+          </BrutalCard>
+        </div>
+      </section>
+
+       {/* Cases */}
+      <section id="cases" className="mx-auto max-w-6xl px-5 py-8">
+        <SectionHeader kicker="Rastlaus Lab" title="Tinga vi lager" />
+        <div className="grid md:grid-cols-2 gap-5">
+          <BrutalCard>
+            <ul className="space-y-2 font-semibold">
+              <li>Lorem ipsum dolor est, supera dior.</li>
+              <li>Lorem ipsum dolor, supera dior.</li>
+              <li>Lorem dolor est, supera dior.</li>
+              <li>Lorem ipsum dolor est, dior.</li>
+            </ul>
+          </BrutalCard>
+          <BrutalCard>
+            <ul className="space-y-2 font-semibold">
+              <li>Lorem ipsum dolor est, supera dior. Ipsum dolor est, supera.</li>
+              <li>Lorem ipsum dolor est, supera dior. Lorem ipsum dolor est, supera dior. Lorem ipsum dolor est, supera dior.</li>
             </ul>
           </BrutalCard>
         </div>
@@ -314,10 +330,10 @@ export default function RastlausLanding() {
       <section id="team" className="mx-auto max-w-6xl px-5 py-8">
         <SectionHeader kicker="Team" title="Den lille, raske gjengen" />
         <div className="grid md:grid-cols-2 gap-5">
-          <TeamCard name="Marit" role="UX Lead" Icon={IconWoman} />
-          <TeamCard name="Henriette" role="Business Dev" Icon={IconPersonaA} />
-          <TeamCard name="Mindaugas" role="UI Lead" Icon={IconPersonaB} />
-          <TeamCard name="Hassan" role="Tech Lead" Icon={IconDoctor} />
+          <TeamCard name="Reidun Rabagast" role="UX Lead" Icon={IconWoman} />
+          <TeamCard name="Ragna Rastlaus" role="Business Dev" Icon={IconPersonaA} />
+          <TeamCard name="Melvin Rabagast" role="UI Lead" Icon={IconPersonaB} />
+          <TeamCard name="Lasse Rastlaus" role="Tech Lead" Icon={IconDoctor} />
         </div>
       </section>
 
@@ -325,21 +341,21 @@ export default function RastlausLanding() {
       <section className="mx-auto max-w-6xl px-5 pb-16">
         <BrutalCard className="grid md:grid-cols-3 gap-6 items-center" style={{ background: C.paper }}>
           <div className="md:col-span-2">
-            <h3 className="text-3xl md:text-4xl font-black uppercase leading-tight">Klar for å bygge noe som burde finnes?</h3>
-            <p className="mt-2 font-semibold">Vi jakter små, lønnsomme produkter – med store streker.</p>
+            <h3 className="text-3xl md:text-4xl font-black uppercase leading-tight">Er du også Rastlaus?</h3>
+            <p className="mt-2 font-semibold">Vi liker en utfordring, så om du har en idé, eller om du vil bli med, </p>
           </div>
           <div className="flex md:justify-end gap-3">
-            <BrutalButton color={C.magenta}>Pitch en idé</BrutalButton>
-            <BrutalButton color={C.neon}>Kontakt oss</BrutalButton>
+            <BrutalButton color={C.magenta}>bygge</BrutalButton>
+            <BrutalButton color={C.neon}>investere</BrutalButton>
           </div>
         </BrutalCard>
       </section>
+
 
       <footer className="" style={{ borderColor: C.ink, borderStyle: 'solid', borderWidth: BORDER_W }}>
         <div className="mx-auto max-w-6xl px-5 py-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-3">
           <div className="flex items-center gap-2">
             <Monogram size={28} />
-            <span className="font-black uppercase tracking-widest">Rastlaus</span>
           </div>
           <div className="text-sm font-semibold opacity-80">© {new Date().getFullYear()} Rastlaus — Make. Break. Ship.</div>
         </div>
