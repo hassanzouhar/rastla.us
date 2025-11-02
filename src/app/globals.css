@@ -1,6 +1,14 @@
 @import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-:root {
+:root { 
+  --font-inter: Inter, system-ui, sans-serif; 
+  --font-bricolage: "Bricolage Grotesque", Inter, system-ui, sans-serif;
+
+html { font-family: var(--font-inter); }
+  
   --background: #ffffff;
   --foreground: #171717;
 }
