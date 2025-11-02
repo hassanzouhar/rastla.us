@@ -22,7 +22,7 @@ const SHADOW_OFFSET = 6; // tighter brutal shadow
 const shadow45 = `${SHADOW_OFFSET}px ${SHADOW_OFFSET}px 0 ${C.ink}`;
 
 // --- PAPER BACKGROUND --------------------------------------------------
-const Paper = ({ children }) => (
+const Paper = ({ children }: { children: React.ReactNode }) => (
   <div className="min-h-screen w-full relative" style={{ background: "linear-gradient(180deg,#FBFBF7 0%,#F7F5EF 100%)" }}>
     {/* subtle paper grain */}
     <div className="pointer-events-none absolute inset-0" style={{
@@ -38,7 +38,7 @@ const Paper = ({ children }) => (
 );
 
 // --- PRIMITIVES --------------------------------------------------------
-const BrutalCard = ({ className = "", style, children }) => (
+const BrutalCard = ({ className = "", style, children }: { className?: string; style?: React.CSSProperties; children: React.ReactNode }) => (
   <div
     className={`bg-white rounded-xl p-5 ${className}`}
     style={{ boxShadow: shadow45, borderColor: C.ink, borderStyle: "solid", borderWidth: BORDER_W, ...style }}
@@ -47,7 +47,7 @@ const BrutalCard = ({ className = "", style, children }) => (
   </div>
 );
 
-const BrutalButton = ({ children, color = C.neon, href = "#", className = "" }) => (
+const BrutalButton = ({ children, color = C.neon, href = "#", className = "" }: { children: React.ReactNode; color?: string; href?: string; className?: string }) => (
   <a
     href={href}
     className={`inline-block uppercase font-extrabold tracking-wide px-4 py-2 rounded-xl ${className}`}
@@ -58,7 +58,7 @@ const BrutalButton = ({ children, color = C.neon, href = "#", className = "" }) 
 );
 
 // --- LOGO (R/ black with white stroke, no background) -----------------
-const Monogram = ({ size = 48 }) => (
+const Monogram = ({ size = 48 }: { size?: number }) => (
   <svg width={size} height={size} viewBox="0 0 100 100" aria-label="Rastlaus monogram R/">
     <text
       x="8" y="76"
@@ -76,7 +76,7 @@ const Monogram = ({ size = 48 }) => (
 );
 
 // --- INLINE ICONS (styled to match black-outline, simple) --------------
-const IconWoman = ({ size = 28, strokeWidth = 2 }) => (
+const IconWoman = ({ size = 28, strokeWidth = 2 }: { size?: number; strokeWidth?: number }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={strokeWidth} strokeLinecap="round" strokeLinejoin="round">
     <circle cx="12" cy="8" r="4"/>
     <path d="M4 22c0-4 4-6 8-6s8 2 8 6"/>
@@ -84,7 +84,7 @@ const IconWoman = ({ size = 28, strokeWidth = 2 }) => (
     <path d="M16 10c2 0 3-2 3-3"/>
   </svg>
 );
-const IconDoctor = ({ size = 28, strokeWidth = 2 }) => (
+const IconDoctor = ({ size = 28, strokeWidth = 2 }: { size?: number; strokeWidth?: number }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={strokeWidth} strokeLinecap="round" strokeLinejoin="round">
     <circle cx="12" cy="7.5" r="3.5"/>
     <path d="M5 21c0-3.5 3.5-5.5 7-5.5S19 17.5 19 21"/>
@@ -94,14 +94,14 @@ const IconDoctor = ({ size = 28, strokeWidth = 2 }) => (
     <path d="M20 13a2 2 0 1 1-2 2"/>
   </svg>
 );
-const IconPersonaA = ({ size = 28, strokeWidth = 2 }) => (
+const IconPersonaA = ({ size = 28, strokeWidth = 2 }: { size?: number; strokeWidth?: number }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={strokeWidth} strokeLinecap="round" strokeLinejoin="round">
     <circle cx="12" cy="8" r="4"/>
     <path d="M3.5 21c1.5-3.2 4.5-4.8 8.5-4.8s7 1.6 8.5 4.8"/>
     <path d="M9 9h6M10 11h4"/>
   </svg>
 );
-const IconPersonaB = ({ size = 28, strokeWidth = 2 }) => (
+const IconPersonaB = ({ size = 28, strokeWidth = 2 }: { size?: number; strokeWidth?: number }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={strokeWidth} strokeLinecap="round" strokeLinejoin="round">
     <circle cx="12" cy="8" r="4"/>
     <path d="M4 21c0-4.5 3-6.5 8-6.5s8 2 8 6.5"/>
@@ -112,7 +112,7 @@ const IconPersonaB = ({ size = 28, strokeWidth = 2 }) => (
 );
 
 // --- SECTION HEADER ----------------------------------------------------
-const SectionHeader = ({ kicker, title, badge }) => (
+const SectionHeader = ({ kicker, title, badge }: { kicker?: string; title: string; badge?: string }) => (
   <div className="mb-6">
     {kicker && (
       <div className="uppercase text-sm font-black tracking-widest" style={{ color: C.ink }}>{kicker}</div>
@@ -126,7 +126,7 @@ const SectionHeader = ({ kicker, title, badge }) => (
 );
 
 // --- TEAM CARD (now supports icon) ------------------------------------
-const TeamCard = ({ name, role, Icon = IconPersonaA }) => (
+const TeamCard = ({ name, role, Icon = IconPersonaA }: { name: string; role: string; Icon?: React.ComponentType<{ size?: number; strokeWidth?: number }> }) => (
   <BrutalCard className="flex items-center gap-4">
     <div className="shrink-0">
       <div className="grid place-items-center h-14 w-14 rounded-xl bg-white" style={{ borderColor: C.ink, borderStyle: "solid", borderWidth: BORDER_W, boxShadow: shadow45, color: C.ink }}>
