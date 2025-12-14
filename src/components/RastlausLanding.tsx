@@ -9,7 +9,6 @@ import { SectionHeader } from "./ui/SectionHeader";
 import { Monogram } from "./icons/Monogram";
 import { IconWoman, IconDoctor, IconPersonaA, IconPersonaB } from "./icons/TeamIcons";
 import { TeamCard } from "./TeamCard";
-import { StackedBlocks } from "./StackedBlocks";
 import { NavBar } from "./NavBar";
 
 // --- DEV SMOKE TESTS ---------------------------------------------------
@@ -47,7 +46,7 @@ export default function RastlausLanding() {
       <NavBar />
 
       {/* Hero */}
-      <section id="main-content" className="mx-auto max-w-6xl px-5 pt-20 pb-6 grid md:grid-cols-2 gap-6 items-center">
+      <section id="main-content" className="mx-auto max-w-6xl px-5 pt-20 pb-6">
         <div>
           <h1 className="text-5xl md:text-7xl font-black uppercase leading-[0.9]">Make. Break. Ship.</h1>
           <p className="mt-3 text-xl md:text-2xl font-bold max-w-xl">
@@ -58,7 +57,6 @@ export default function RastlausLanding() {
             <BrutalButton color={C.blue} href="#team">Kontakt</BrutalButton>
           </div>
         </div>
-        <StackedBlocks />
       </section>
 
       {/* What we do */}
